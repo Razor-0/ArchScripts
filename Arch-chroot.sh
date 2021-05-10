@@ -69,6 +69,11 @@ btrfs su set-default 256 /
 mkinitcpio -p linux-lts
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
+
 sed -i 's/,subvolid=256,subvol=\/@//' /etc/fstab
+printf '/dev/zram0	none	swap	defaults,pri=400	0 0' >> /etc/fstab
+printf '/dev/zram1	none	swap	defaults,pri=400	0 0' >> /etc/fstab
+printf '/dev/zram2	none	swap	defaults,pri=400	0 0' >> /etc/fstab
+printf '/dev/zram3	none	swap	defaults,pri=400	0 0' >> /etc/fstab
 
 printf 'Exit after checking everything finished correctly'
