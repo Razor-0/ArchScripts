@@ -12,6 +12,7 @@ cryptsetup luksFormat --type luks2 --use-urandom -h sha512 -i 1000 /dev/vgroot/b
 cryptsetup open /dev/vgroot/btrfs root
 mkfs.vfat -F12 /dev/sda1
 mkfs.vfat -F32 /dev/mapper/esp
+fatlabel /dev/mapper/esp 'Crypt ESP'
 mkfs.btrfs -L 'Crypt Btrfs' /dev/mapper/root
 
 read -n 1 -s -r -p "Press any key to continue if partitions were created correctly"
@@ -103,4 +104,5 @@ read -n 1 -s -r -p "Press any key to continue if everything is mounted correctly
 pacstrap /mnt base linux-lts linux-firmware nano intel-ucode reflector
 genfstab -U /mnt >> /mnt/etc/fstab
 
-echo -e 'Nd we are done! \nEnter Chroot and continue with the Arch-chroot script!'
+echo -e 'Nd we are done here! \nEntering Chroot, git clone the Arch-chroot script and continue!'
+arch-chroot /mnt

@@ -30,7 +30,7 @@ read -n 1 -s -r -p "Press any key to continue if everything installed correctly"
 sed -i '7s/.*/MODULES=(crc32c-intel btrfs)/' /etc/mkinitcpio.conf
 sed -i '14s/.*/BINARIES=(dosfsck btrfsck)/' /etc/mkinitcpio.conf
 sed -i '19s/.*/FILES=(\/root\/.keys\/espkey.bin \/root\/.keys\/rootkey.bin)/' /etc/mkinitcpio.conf
-sed -i '52s/.*/HOOKS=(base udev autodetect modconf block lvm2 encryptesp encrypt keyboard keymap usr fsck resume shutdown)' /etc/mkinitcpio.conf
+sed -i '52s/.*/HOOKS=(base udev autodetect modconf block lvm2 encryptesp encrypt keyboard keymap usr fsck resume shutdown)/' /etc/mkinitcpio.conf
 sed -i '57s/.//' /etc/mkinitcpio.conf
 
 cp /usr/lib/initcpio/install/encrypt /etc/initcpio/install/encryptesp
