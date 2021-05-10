@@ -7,11 +7,11 @@ pvcreate /dev/sda3
 vgcreate vgroot /dev/sda3
 lvcreate -l 100%FREE -n btrfs vgroot
 
-echo "PASSWORD" | cryptsetup -q luksFormat --type luks1 --use-urandom -h sha1 -i 1000 /dev/sda2 -
-echo "PASSWORD" | cryptsetup luksOpen /dev/sda2 esp -
+echo "PASSWORD" | cryptsetup -q luksFormat --type luks1 --use-urandom -h sha1 -i 1000 /dev/sda2
+echo "PASSWORD" | cryptsetup luksOpen /dev/sda2 esp
 
-echo "PASSWORD" | cryptsetup -q luksFormat --type luks2 --use-urandom -h sha512 -i 1000 /dev/vgroot/btrfs -
-echo "PASSWORD" | cryptsetup luksOpen /dev/vgroot/btrfs root -
+echo "PASSWORD" | cryptsetup -q luksFormat --type luks2 --use-urandom -h sha512 -i 1000 /dev/vgroot/btrfs
+echo "PASSWORD" | cryptsetup luksOpen /dev/vgroot/btrfs root
 
 mkfs.vfat -F12 /dev/sda1
 mkfs.vfat -F32 /dev/mapper/esp
