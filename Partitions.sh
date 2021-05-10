@@ -89,4 +89,7 @@ mkswap /mnt/swap/swapfile
 swapon /mnt/swap/swapfile
 lsblk -f
 
-echo -e 'Nd we are done! \nPlease make sure everything has been created properly!'
+pacstrap /mnt base linux-lts linux-firmware nano intel-ucode reflector
+genfstab -U /mnt >> /mnt/etc/fstab
+
+echo -e 'Nd we are done! \nPlease make sure everything has been created and installed properly!'
