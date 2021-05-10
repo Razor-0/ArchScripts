@@ -6,16 +6,16 @@ locale-gen
 sed -i '92s/.//' /etc/pacman.conf
 sed -i '93s/.//' /etc/pacman.conf
 reflector --country Hungary --protocol https --age 6 --sort rate --verbose --save /etc/pacman.d/mirrorlist
-echo "lenarch" >> /etc/hostname
-echo "127.0.0.1	localhost" >> /etc/hosts
-echo "::1		localhost" >> /etc/hosts
-echo "127.0.1.1	lenarch.localdomain	lenarch" >> /etc/hosts
-echo "LANG=en_GB.UTF-8" >> /etc/locale.conf
-echo "KEYMAP=hu" >> /etc/vconsole.conf
-echo "permit persist razor as root" >> /etc/doas.conf
-echo root:Hpp_73923 | chpasswd
+printf 'lenarch' >> /etc/hostname
+printf '127.0.0.1	localhost' >> /etc/hosts
+printf '::1		localhost' >> /etc/hosts
+printf '127.0.1.1	lenarch.localdomain	lenarch' >> /etc/hosts
+printf 'LANG=en_GB.UTF-8' >> /etc/locale.conf
+printf 'KEYMAP=hu' >> /etc/vconsole.conf
+printf 'permit persist razor as root' >> /etc/doas.conf
+printf root:Hpp_73923 | chpasswd
 useradd -m -g users -G wheel razor
-echo razor:hpp73923 | chpasswd
+printf razor:hpp73923 | chpasswd
 
 pacman -Syyu
 pacman -S grub efibootmgr os-prober btrfs-progs ntfs-3g dosfstools mtools linux-lts-headers base-devel doas xdg-user-dirs alsa-utils xdg-utils neofetch networkmanager network-manager-applet wpa_supplicant bluez bluez-utils tlp htop curl wget sh git acpi acpi_call-lts acpid nfs-utils openssh rsync snapper dialog screen tree
@@ -33,12 +33,12 @@ sed -i '19s/.*/FILES=(\/root\/.keys\/espkey.bin \/root\/.keys\/rootkey.bin)/' /e
 sed -i '52s/.*/HOOKS=(base udev autodetect modconf block lvm2 encryptesp encrypt keyboard keymap usr fsck resume shutdown)/' /etc/mkinitcpio.conf
 sed -i '57s/.//' /etc/mkinitcpio.conf
 
-echo zram >> /etc/modules-load.d/zram.conf
-echo 'options zram num_devices=4' >> /etc/modprobe.d/zram.conf
-echo 'KERNEL=="zram0", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram0", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
-echo 'KERNEL=="zram1", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram1", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
-echo 'KERNEL=="zram2", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram2", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
-echo 'KERNEL=="zram3", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram3", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
+printf 'zram' >> /etc/modules-load.d/zram.conf
+printf 'options zram num_devices=4' >> /etc/modprobe.d/zram.conf
+printf 'KERNEL=="zram0", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram0", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
+printf 'KERNEL=="zram1", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram1", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
+printf 'KERNEL=="zram2", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram2", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
+printf 'KERNEL=="zram3", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram3", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
 
 cp /usr/lib/initcpio/install/encrypt /etc/initcpio/install/encryptesp
 cp /usr/lib/initcpio/hooks/encrypt /etc/initcpio/hooks/encryptesp
