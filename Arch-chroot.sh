@@ -57,9 +57,13 @@ BTRFS="$(blkid -s UUID -o value /dev/mapper/vgroot-btrfs)"
 
 sed -i '66,78 {s/^/#/}' /etc/grub.d/10_linux
 sed -i '4s/5/3/' /etc/default/grub
+sed -i '54s/.//' /etc/default/grub
+sed -i '/above./a GRUB_DEFAULT=saved' /etc/default/grub
 echo '$ESP','$BTRFS' sed -i "6s/.*/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 cryptesp=UUID=$ESP cryptespkey=rootfs:\/root\/.keys\/espkey.bin cryptdevice=UUID=$BTRFS cryptkey=rootfs:\/root\/.keys\/rootkey.bin root=\/dev\/mapper\/root rw resume=\/dev\/mapper\/root resume_offset=\"/' /etc/default/grub
 sed -i '13s/.//" /etc/default/grub
 btrfs su set-default 256 /
 mkinitcpio -p linux-lts
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
+grub-mkconfig -o /boot/grub/grub.cfg
 
 printf 'Edit grub-config and generate it, edit fstab and visduo then exit'
