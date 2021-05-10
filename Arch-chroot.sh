@@ -12,7 +12,7 @@ printf '::1		localhost' >> /etc/hosts
 printf '127.0.1.1	lenarch.localdomain	lenarch' >> /etc/hosts
 printf 'LANG=en_GB.UTF-8' >> /etc/locale.conf
 printf 'KEYMAP=hu' >> /etc/vconsole.conf
-printf 'permit persist razor as root' >> /etc/doas.conf
+printf 'permit	persist	razor	as	root' >> /etc/doas.conf
 printf root:PASSWORD | chpasswd
 useradd -m -g users -G wheel razor
 printf razor:PASSWORD | chpasswd
