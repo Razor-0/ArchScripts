@@ -92,7 +92,13 @@ mkswap /mnt/swap/swapfile
 swapon /mnt/swap/swapfile
 lsblk -f
 
-read -n 1 -s -r -p "Press any key to continue if everything is set correctly"
+read -n 1 -s -r -p "Press any key to continue if the swap was created properly"
+
+clear
+btrfs su li /mnt
+findmnt -nt btrfs
+
+read -n 1 -s -r -p "Press any key to continue if everything is mounted correctly"
 
 pacstrap /mnt base linux-lts linux-firmware nano intel-ucode reflector
 genfstab -U /mnt >> /mnt/etc/fstab
