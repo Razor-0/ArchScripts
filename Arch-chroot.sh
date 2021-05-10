@@ -70,9 +70,9 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 sed -i 's/,subvolid=256,subvol=\/@//' /etc/fstab
 echo '/dev/zram0		none		swap		defaults,pri=400	0 0' >> /etc/fstab
-echo '\n' >> /etc/fstab
+echo >> /etc/fstab
 echo '/dev/zram1		none		swap		defaults,pri=400	0 0' >> /etc/fstab
-echo '\n' >> /etc/fstab
+echo >> /etc/fstab
 echo '/dev/zram2		none		swap		defaults,pri=400	0 0' >> /etc/fstab
-echo '\n' >> /etc/fstab
+echo >> /etc/fstab
 echo '/dev/zram3		none		swap		defaults,pri=400	0 0' >> /etc/fstab
