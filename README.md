@@ -1,5 +1,5 @@
 # ArchScripts
- My stupidly extensive scripts to install Arch with LVM, LuKs and BTRFS Snapshots.
+ My stupidly extensive shell scripts to install Arch with LVM, LuKs and BTRFS Snapshots.
  This is mainly for me and my specific needs but feel free to use and edit as you need.
  It takes a twist on OpenSUSE's subvolume layout to enable proper bootable snapshots on Arch.
  LVM is setup for easier resizing and modifying of the root partititon as needed.
