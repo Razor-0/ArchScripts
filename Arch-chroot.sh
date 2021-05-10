@@ -76,3 +76,5 @@ echo >> /etc/fstab
 echo '/dev/zram2		none		swap		defaults,pri=400	0 0' >> /etc/fstab
 echo >> /etc/fstab
 echo '/dev/zram3		none		swap		defaults,pri=400	0 0' >> /etc/fstab
+
+exit
