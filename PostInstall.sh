@@ -1,3 +1,6 @@
+#!/bin/bash
+set -eu
+
 sudo umount /.snapshots
 sudo umount /home/.snapshots
 sudo rm -r /.snapshots

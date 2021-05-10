@@ -1,3 +1,6 @@
+#!/bin/bash
+set -eu
+
 ln -sf /usr/share/zoneinfo/Europe/Budapest /etc/localtime
 hwclock --systohc --utc
 timedatectl set-ntp true
