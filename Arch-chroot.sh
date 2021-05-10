@@ -62,4 +62,4 @@ btrfs su set-default 256 /
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB --removable
 mkinitcpio -p linux-lts
 
-echo -e 'Edid grub config and generate it, edit fstab and visduo then exit'
+printf -e 'Edid grub config and generate it, edit fstab and visduo then exit'
