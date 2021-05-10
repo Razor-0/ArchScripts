@@ -20,7 +20,7 @@ printf razor:PASSWORD | chpasswd
 read -n 1 -s -r -p "Press any key to continue"
 
 pacman -Syyu --noconfirm
-pacman -S --noconfirm grub efibootmgr os-prober btrfs-progs ntfs-3g dosfstools mtools linux-lts-headers base-devel doas xdg-user-dirs alsa-utils xdg-utils neofetch networkmanager network-manager-applet wpa_supplicant bluez bluez-utils tlp htop curl wget sh git acpi acpi_call-lts acpid nfs-utils openssh rsync snapper dialog screen tree lvm2
+pacman -S --noconfirm grub efibootmgr os-prober btrfs-progs ntfs-3g dosfstools mtools linux-lts-headers base-devel doas xdg-user-dirs alsa-utils xdg-utils neofetch networkmanager network-manager-applet wpa_supplicant bluez bluez-utils tlp htop curl wget sh git acpi acpi_call-lts acpid nfs-utils openssh rsync snapper dialog screen tree lvm2 micro xclip
 systemctl enable NetworkManager
 systemctl enable bluetooth
 systemctl enable tlp
@@ -56,7 +56,7 @@ printf "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/vgroot/btrfs /root/.keys/
 
 read -n 1 -s -r -p "Press any key to continue"
 
-ESP="$(blkid -s UUID -o value /dev/mapper/esp)"
+ESP="$(blkid -s UUID -o value /dev/sda2)"
 BTRFS="$(blkid -s UUID -o value /dev/mapper/vgroot-btrfs)"
 
 sed -i '66,78 {s/^/#/}' /etc/grub.d/10_linux
@@ -69,5 +69,6 @@ btrfs su set-default 256 /
 mkinitcpio -p linux-lts
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
+sed -i 's/,subvolid=256,subvol=\/@//' /etc/fstab
 
 printf 'Exit after checking everything finished correctly'
