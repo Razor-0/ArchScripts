@@ -76,5 +76,17 @@ mount /dev/mapper/esp /mnt/boot
 mkdir /mnt/boot/efi
 mount /dev/sda1 /mnt/boot/efi
 
+chattr +C /mnt/var/lib/libvirt/images
+chattr +C /mnt/var/lib/mariadb
+chattr +C /mnt/var/lib/mysql
+chattr +C /mnt/var/lib/pgqsl
+
+truncate -s 0 /mnt/swap/swapfile
+chattr +C /mnt/swap/swapfile
+dd if=/dev/zero of=/mnt/swap/swapfile bs=1M count=6144 status=progress
+chmod 600 /mnt/swap/swapfile
+mkswap /mnt/swap/swapfile
+swapon /mnt/swap/swapfile
+
 echo -e 'Nd we are done! \nPlease make sure everything has been created properly!'
 lsblk
