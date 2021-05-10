@@ -89,7 +89,7 @@ chattr +C /mnt/swap/swapfile
 dd if=/dev/zero of=/mnt/swap/swapfile bs=1M count=6144 status=progress
 chmod 600 /mnt/swap/swapfile
 mkswap /mnt/swap/swapfile
-swapon /mnt/swap/swapfile
+swapon -p 4 /mnt/swap/swapfile
 
 pacstrap /mnt base linux-lts linux-firmware nano intel-ucode reflector git sh curl wget
 genfstab -U /mnt >> /mnt/etc/fstab

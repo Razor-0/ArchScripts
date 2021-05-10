@@ -33,6 +33,13 @@ sed -i '19s/.*/FILES=(\/root\/.keys\/espkey.bin \/root\/.keys\/rootkey.bin)/' /e
 sed -i '52s/.*/HOOKS=(base udev autodetect modconf block lvm2 encryptesp encrypt keyboard keymap usr fsck resume shutdown)/' /etc/mkinitcpio.conf
 sed -i '57s/.//' /etc/mkinitcpio.conf
 
+echo zram >> /etc/modules-load.d/zram.conf
+echo 'options zram num_devices=4' >> /etc/modprobe.d/zram.conf
+echo 'KERNEL=="zram0", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram0", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
+echo 'KERNEL=="zram1", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram1", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
+echo 'KERNEL=="zram2", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram2", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
+echo 'KERNEL=="zram3", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram3", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
+
 cp /usr/lib/initcpio/install/encrypt /etc/initcpio/install/encryptesp
 cp /usr/lib/initcpio/hooks/encrypt /etc/initcpio/hooks/encryptesp
 sed -i 's/cryptdevice/cryptesp/' /etc/initcpio/hooks/encryptesp
