@@ -54,7 +54,7 @@ printf "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/vgroot/btrfs /root/.keys/
 
 sed -i '66,78 {s/^/#/}' /etc/grub.d/10_linux
 sed -i '4s/5/3/' /etc/default/grub
-sed -i '6s/.*/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 encryptesp=UUID= encryptespkey=rootfs:\/root\/.keys\/espkey.bin cryptdevice=UUID= cryptkey=rootfs:\/root\/.keys\/rootkey.bin root=\/dev\/mapper\/root rw resume=\/dev\/mapper\/root resume_offset=\"/'
+sed -i '6s/.*/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 encryptesp=UUID= encryptespkey=rootfs:\/root\/.keys\/espkey.bin cryptdevice=UUID= cryptkey=rootfs:\/root\/.keys\/rootkey.bin root=\/dev\/mapper\/root rw resume=\/dev\/mapper\/root resume_offset=\"/' /etc/default/grub
 sed -i '13s/.//' /etc/default/grub
 btrfs su set-default 256 /
 mkinitcpio -p linux-lts
