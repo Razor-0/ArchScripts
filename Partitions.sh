@@ -18,6 +18,8 @@ mkfs.vfat -F32 /dev/mapper/esp
 fatlabel /dev/mapper/esp 'Crypt ESP'
 mkfs.btrfs -L 'Crypt Btrfs' /dev/mapper/root
 
+read -n 1 -s -r -p "Press any key to continue"
+
 mount /dev/mapper/root /mnt
 btrfs su cr /mnt/@
 btrfs su cr /mnt/@/home
@@ -90,6 +92,10 @@ dd if=/dev/zero of=/mnt/swap/swapfile bs=1M count=6144 status=progress
 chmod 600 /mnt/swap/swapfile
 mkswap /mnt/swap/swapfile
 swapon -p 4 /mnt/swap/swapfile
+lsblk -f
+findmnt -nt btrfs
+
+read -n 1 -s -r -p "Press any key to continue"
 
 pacstrap /mnt base linux-lts linux-firmware nano intel-ucode reflector git sh curl wget
 genfstab -U /mnt >> /mnt/etc/fstab
