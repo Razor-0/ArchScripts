@@ -78,6 +78,9 @@ mount -o defaults,discard,noatime,compress=zstd:3,space_cache=v2,subvol=@/snapsh
 mount /dev/mapper/esp /mnt/boot
 mkdir /mnt/boot/efi
 mount /dev/sda1 /mnt/boot/efi
+mount -o defaults /dev/sda4 /mnt/.win/sdd
+mount -o defaults /dev/sdb1 /mnt/.win/hdd
+mount -o defaults /dev/sdc1 /mnt/.win/ehdd
 
 chattr +C /mnt/var/lib/libvirt/images
 chattr +C /mnt/var/lib/mariadb
