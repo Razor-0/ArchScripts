@@ -88,8 +88,7 @@ chmod 600 /mnt/swap/swapfile
 mkswap /mnt/swap/swapfile
 swapon /mnt/swap/swapfile
 
-pacstrap /mnt base linux-lts linux-firmware nano intel-ucode reflector git sh
+pacstrap /mnt base linux-lts linux-firmware nano intel-ucode reflector git sh curl wget
 genfstab -U /mnt >> /mnt/etc/fstab
 
-echo -e 'Nd we are done here! \nEntering Chroot, git clone the Arch-chroot script and continue!'
 arch-chroot /mnt
