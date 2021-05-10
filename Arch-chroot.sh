@@ -24,4 +24,24 @@ systemctl enable tlp
 systemctl enable reflector.timer
 systemctl enable acpid
 
-echo -e 'Edit grub.d, mkinitcpio, default grub and gen config then exit'
+sed -i '7s/.*/MODULES=(crc32c-intel btrfs)/' /etc/mkinitcpio.conf
+sed -i '14s/.*/BINARIES=(dosfsck btrfsck)/' /etc/mkinitcpio.conf
+sed -i '19s/.*/FILES=(\/root\/.keys\/espkey.bin \/root\/.keys\/rootkey.bin)/' /etc/mkinitcpio.conf
+sed -i '52s/.*/HOOKS=(base udev autodetect modconf block lvm2 encryptesp encrypt keyboard keymap usr fsck resume shutdown)' /etc/mkinitcpio.conf
+sed -i '57s/.//' /etc/mkinitcpio.conf
+
+cp /usr/lib/initcpio/install/encrypt /etc/initcpio/install/encryptesp
+cp /usr/lib/initcpio/hooks/encrypt /etc/initcpio/hooks/encryptesp
+sed -i 's/cryptdevice/cryptesp/' /etc/initcpio/hooks/encryptesp
+sed -i 's/cryptkey/cryptespkey/' /etc/initcpio/hooks/encryptesp
+
+mkdir /root/.keys
+chmod 700 /root/.keys
+head -c 64 /dev/urandom >> /root/.keys/espkey.bin
+head -c 64 /dev/urandom >> /root/.keys/rootkey.bin
+chmod 600 /root/.keys/espkey.bin
+chmod 600 /root/.keys/rootkey.bin
+cryptsetup -v luksAddKey -i 1 /dev/sda2 /root/.keys/espkey.bin
+cryptsetup -v luksAddKey -i 1 /dev/vgroot/btrfs /root/.keys/rootkey.bin
+
+echo -e 'Edit grub.d, default grub and gen config then exit'
