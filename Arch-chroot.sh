@@ -17,8 +17,6 @@ printf root:PASSWORD | chpasswd
 useradd -m -g users -G wheel razor
 printf razor:PASSWORD | chpasswd
 
-read -n 1 -s -r -p "Press any key to continue"
-
 pacman -Syyu --noconfirm
 pacman -S --noconfirm grub efibootmgr os-prober btrfs-progs ntfs-3g dosfstools mtools linux-lts-headers base-devel doas xdg-user-dirs alsa-utils xdg-utils neofetch networkmanager network-manager-applet wpa_supplicant bluez bluez-utils tlp htop curl wget sh git acpi acpi_call-lts acpid nfs-utils openssh rsync snapper dialog screen tree lvm2 micro xclip
 systemctl enable NetworkManager
