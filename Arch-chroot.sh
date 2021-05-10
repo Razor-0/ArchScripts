@@ -35,10 +35,10 @@ sed -i '57s/.//' /etc/mkinitcpio.conf
 
 printf 'zram' >> /etc/modules-load.d/zram.conf
 printf 'options zram num_devices=4' >> /etc/modprobe.d/zram.conf
-printf 'KERNEL=="zram0", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram0", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
-printf 'KERNEL=="zram1", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram1", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
-printf 'KERNEL=="zram2", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram2", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
-printf 'KERNEL=="zram3", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram3", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
+printf 'KERNEL=="zram0", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram0", TAG+="systemd"\n' >> /etc/udev/rules.d/99-zram.rules
+printf 'KERNEL=="zram1", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram1", TAG+="systemd"\n' >> /etc/udev/rules.d/99-zram.rules
+printf 'KERNEL=="zram2", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram2", TAG+="systemd"\n' >> /etc/udev/rules.d/99-zram.rules
+printf 'KERNEL=="zram3", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram3", TAG+="systemd"\n' >> /etc/udev/rules.d/99-zram.rules
 
 cp /usr/lib/initcpio/install/encrypt /etc/initcpio/install/encryptesp
 cp /usr/lib/initcpio/hooks/encrypt /etc/initcpio/hooks/encryptesp
@@ -71,9 +71,9 @@ grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
 
 sed -i 's/,subvolid=256,subvol=\/@//' /etc/fstab
-printf '/dev/zram0	none	swap	defaults,pri=400	0 0' >> /etc/fstab
-printf '/dev/zram1	none	swap	defaults,pri=400	0 0' >> /etc/fstab
-printf '/dev/zram2	none	swap	defaults,pri=400	0 0' >> /etc/fstab
-printf '/dev/zram3	none	swap	defaults,pri=400	0 0' >> /etc/fstab
+printf '/dev/zram0	none	swap	defaults,pri=400	0 0\n' >> /etc/fstab
+printf '/dev/zram1	none	swap	defaults,pri=400	0 0\n' >> /etc/fstab
+printf '/dev/zram2	none	swap	defaults,pri=400	0 0\n' >> /etc/fstab
+printf '/dev/zram3	none	swap	defaults,pri=400	0 0\n' >> /etc/fstab
 
 printf 'Exit after checking everything finished correctly'
