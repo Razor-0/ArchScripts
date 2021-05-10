@@ -61,8 +61,8 @@ sed -i '54s/.//' /etc/default/grub
 sed -i '/above./a GRUB_DEFAULT=saved' /etc/default/grub
 printf '$ESP','$BTRFS' | sed -i "6s/.*/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 cryptesp=UUID=$ESP:esp cryptespkey=rootfs:\/root\/.keys\/espkey.bin cryptdevice=UUID=$BTRFS:root cryptkey=rootfs:\/root\/.keys\/rootkey.bin root=\/dev\/mapper\/root rw resume=\/dev\/mapper\/root resume_offset=\"/" /etc/default/grub
 sed -i '13s/.//' /etc/default/grub
-sed -i '/root ALL=(ALL) ALL/a razor ALL=(ALL) ALL' /etc/default/grub
-sed -i '83s/..//' /etc/default/grub
+sed -i '/root ALL=(ALL) ALL/a razor ALL=(ALL) ALL' /etc/sudoers
+sed -i '83s/..//' /etc/sudoers
 btrfs su set-default 256 /
 mkinitcpio -p linux-lts
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
