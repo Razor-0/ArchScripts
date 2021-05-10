@@ -15,8 +15,6 @@ mkfs.vfat -F32 /dev/mapper/esp
 fatlabel /dev/mapper/esp 'Crypt ESP'
 mkfs.btrfs -L 'Crypt Btrfs' /dev/mapper/root
 
-read -n 1 -s -r -p "Press any key to continue if partitions were created correctly"
-
 mount /dev/mapper/root /mnt
 btrfs su cr /mnt/@
 btrfs su cr /mnt/@/home
@@ -46,8 +44,6 @@ btrfs su cr /mnt/@/var/lib/mysql
 btrfs su cr /mnt/@/var/lib/pgqsl
 btrfs su cr /mnt/@/usr/local
 umount /mnt
-
-read -n 1 -s -r -p "Press any key to continue if subvolumes were created properly"
 
 mount -o defaults,discard,noatime,compress=zstd:3,space_cache=v2,subvol=@ /dev/mapper/root /mnt
 mkdir -p /mnt/{boot,.snapshots,.win}
@@ -91,9 +87,6 @@ dd if=/dev/zero of=/mnt/swap/swapfile bs=1M count=6144 status=progress
 chmod 600 /mnt/swap/swapfile
 mkswap /mnt/swap/swapfile
 swapon /mnt/swap/swapfile
-lsblk -f
-
-read -n 1 -s -r -p "Press any key to continue if the swap was created properly"
 
 clear
 btrfs su li /mnt
