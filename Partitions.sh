@@ -89,4 +89,4 @@ mkswap /mnt/swap/swapfile
 swapon /mnt/swap/swapfile
 
 echo -e 'Nd we are done! \nPlease make sure everything has been created properly!'
-lsblk
+lsblk -f
