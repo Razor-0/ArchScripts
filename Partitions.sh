@@ -8,12 +8,12 @@ vgcreate vgroot /dev/sda3
 lvcreate -l 100%FREE -n btrfs vgroot
 
 cryptsetup -q luksFormat --type luks1 --use-urandom -h sha1 -i 1000 /dev/sda2
-printf "123" | cryptsetup luksFormat --type luks1 --use-urandom -h sha1 -i 1000 /dev/sda2
+printf "123" | cryptsetup -q luksFormat --type luks1 --use-urandom -h sha1 -i 1000 /dev/sda2
 cryptsetup open /dev/sda2 esp
 printf "123" | cryptsetup open /dev/sda2 esp
 
 cryptsetup -q luksFormat --type luks2 --use-urandom -h sha512 -i 1000 /dev/vgroot/btrfs
-printf "123" | cryptsetup luksFormat --type luks2 --use-urandom -h sha512 -i 1000 /dev/vgroot/btrfs
+printf "123" | cryptsetup -q luksFormat --type luks2 --use-urandom -h sha512 -i 1000 /dev/vgroot/btrfs
 cryptsetup open /dev/vgroot/btrfs root
 printf "123" | cryptsetup open /dev/vgroot/btrfs
 
