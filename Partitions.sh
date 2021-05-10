@@ -88,12 +88,6 @@ chmod 600 /mnt/swap/swapfile
 mkswap /mnt/swap/swapfile
 swapon /mnt/swap/swapfile
 
-clear
-btrfs su li /mnt
-findmnt -nt btrfs
-
-read -n 1 -s -r -p "Press any key to continue if everything is mounted correctly"
-
 pacstrap /mnt base linux-lts linux-firmware nano intel-ucode reflector git sh
 genfstab -U /mnt >> /mnt/etc/fstab
 
