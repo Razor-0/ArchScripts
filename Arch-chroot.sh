@@ -50,7 +50,7 @@ head -c 64 /dev/urandom >> /root/.keys/rootkey.bin
 chmod 600 /root/.keys/espkey.bin
 chmod 600 /root/.keys/rootkey.bin
 printf "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/sda2 /root/.keys/espkey.bin
-printf "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/vgroot/btrfs /root/.keys/rootkey.bin
+printf "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/mapper/vgroot-btrfs /root/.keys/rootkey.bin
 
 ESP="$(blkid -s UUID -o value /dev/sda2)"
 BTRFS="$(blkid -s UUID -o value /dev/mapper/vgroot-btrfs)"
@@ -59,7 +59,7 @@ sed -i '66,78 {s/^/#/}' /etc/grub.d/10_linux
 sed -i '4s/5/3/' /etc/default/grub
 sed -i '54s/.//' /etc/default/grub
 sed -i '/above./a GRUB_DEFAULT=saved' /etc/default/grub
-printf '$ESP','$BTRFS' | sed -i "6s/.*/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 cryptesp=UUID=$ESP cryptespkey=rootfs:\/root\/.keys\/espkey.bin cryptdevice=UUID=$BTRFS cryptkey=rootfs:\/root\/.keys\/rootkey.bin root=\/dev\/mapper\/root rw resume=\/dev\/mapper\/root resume_offset=\"/" /etc/default/grub
+printf '$ESP','$BTRFS' | sed -i "6s/.*/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 cryptesp=UUID=$ESP:esp cryptespkey=rootfs:\/root\/.keys\/espkey.bin cryptdevice=UUID=$BTRFS:root cryptkey=rootfs:\/root\/.keys\/rootkey.bin root=\/dev\/mapper\/root rw resume=\/dev\/mapper\/root resume_offset=\"/" /etc/default/grub
 sed -i '13s/.//' /etc/default/grub
 btrfs su set-default 256 /
 mkinitcpio -p linux-lts
