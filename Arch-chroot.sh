@@ -52,8 +52,6 @@ chmod 600 /root/.keys/rootkey.bin
 printf "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/sda2 /root/.keys/espkey.bin
 printf "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/vgroot/btrfs /root/.keys/rootkey.bin
 
-read -n 1 -s -r -p "Press any key to continue"
-
 ESP="$(blkid -s UUID -o value /dev/sda2)"
 BTRFS="$(blkid -s UUID -o value /dev/mapper/vgroot-btrfs)"
 
@@ -76,5 +74,3 @@ printf '\n' >> /etc/fstab
 printf '/dev/zram2		none		swap		defaults,pri=400	0 0\n' >> /etc/fstab
 printf '\n' >> /etc/fstab
 printf '/dev/zram3		none		swap		defaults,pri=400	0 0\n' >> /etc/fstab
-
-printf 'Exit after checking everything finished correctly'
