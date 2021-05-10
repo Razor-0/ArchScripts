@@ -94,7 +94,7 @@ findmnt -nt btrfs
 
 read -n 1 -s -r -p "Press any key to continue if everything is mounted correctly"
 
-pacstrap /mnt base linux-lts linux-firmware nano intel-ucode reflector
+pacstrap /mnt base linux-lts linux-firmware nano intel-ucode reflector git sh
 genfstab -U /mnt >> /mnt/etc/fstab
 
 echo -e 'Nd we are done here! \nEntering Chroot, git clone the Arch-chroot script and continue!'
