@@ -1,2 +1,2 @@
 # ArchScripts
- My scripts to install arch with LVM, LuKs and BTRFS
+ My stupidly extensive scripts to install Arch with LVM, LuKs and BTRFS Snapshots.
