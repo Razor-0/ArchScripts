@@ -87,6 +87,6 @@ dd if=/dev/zero of=/mnt/swap/swapfile bs=1M count=6144 status=progress
 chmod 600 /mnt/swap/swapfile
 mkswap /mnt/swap/swapfile
 swapon /mnt/swap/swapfile
+lsblk -f
 
 echo -e 'Nd we are done! \nPlease make sure everything has been created properly!'
-lsblk -f
