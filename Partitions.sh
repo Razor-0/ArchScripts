@@ -14,6 +14,8 @@ mkfs.vfat -F12 /dev/sda1
 mkfs.vfat -F32 /dev/mapper/esp
 mkfs.btrfs -L 'Crypt Btrfs' /dev/mapper/root
 
+read -n 1 -s -r -p "Press any key to continue if partitions were created correctly"
+
 mount /dev/mapper/root /mnt
 btrfs su cr /mnt/@
 btrfs su cr /mnt/@/home
@@ -43,6 +45,8 @@ btrfs su cr /mnt/@/var/lib/mysql
 btrfs su cr /mnt/@/var/lib/pgqsl
 btrfs su cr /mnt/@/usr/local
 umount /mnt
+
+read -n 1 -s -r -p "Press any key to continue if subvolumes were created properly"
 
 mount -o defaults,discard,noatime,compress=zstd:3,space_cache=v2,subvol=@ /dev/mapper/root /mnt
 mkdir -p /mnt/{boot,.snapshots,.win}
@@ -88,7 +92,9 @@ mkswap /mnt/swap/swapfile
 swapon /mnt/swap/swapfile
 lsblk -f
 
+read -n 1 -s -r -p "Press any key to continue if everything is set correctly"
+
 pacstrap /mnt base linux-lts linux-firmware nano intel-ucode reflector
 genfstab -U /mnt >> /mnt/etc/fstab
 
-echo -e 'Nd we are done! \nPlease make sure everything has been created and installed properly!'
+echo -e 'Nd we are done! \nEnter Chroot and continue with the Arch-chroot script!'

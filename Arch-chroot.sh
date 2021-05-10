@@ -24,6 +24,8 @@ systemctl enable tlp
 systemctl enable reflector.timer
 systemctl enable acpid
 
+read -n 1 -s -r -p "Press any key to continue if everything installed correctly"
+
 sed -i '7s/.*/MODULES=(crc32c-intel btrfs)/' /etc/mkinitcpio.conf
 sed -i '14s/.*/BINARIES=(dosfsck btrfsck)/' /etc/mkinitcpio.conf
 sed -i '19s/.*/FILES=(\/root\/.keys\/espkey.bin \/root\/.keys\/rootkey.bin)/' /etc/mkinitcpio.conf
@@ -43,5 +45,7 @@ chmod 600 /root/.keys/espkey.bin
 chmod 600 /root/.keys/rootkey.bin
 cryptsetup -v luksAddKey -i 1 /dev/sda2 /root/.keys/espkey.bin
 cryptsetup -v luksAddKey -i 1 /dev/vgroot/btrfs /root/.keys/rootkey.bin
+
+mkinitcpio -p linux-lts
 
 echo -e 'Edit grub.d, default grub and gen config then exit'
