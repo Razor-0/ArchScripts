@@ -6,20 +6,22 @@ set -eu
 # dd if=/dev/mapper/tbw bs=1M status=progress | od | head
 # cryptsetup close tbw
 
-pvcreate /dev/sda3
-vgcreate vgroot /dev/sda3
+pvcreate /dev/sda2
+vgcreate vgroot /dev/sda2
 lvcreate -l 100%FREE -n btrfs vgroot
 
-echo "PASSWORD" | cryptsetup -q luksFormat --type luks1 --use-urandom -h sha1 -i 1000 /dev/sda2
-echo "PASSWORD" | cryptsetup luksOpen /dev/sda2 esp
+echo "PASSWORD" | cryptsetup -q luksFormat --type luks1 --use-urandom -h sha1 -i 1000 /dev/sda1
+echo "PASSWORD" | cryptsetup luksOpen /dev/sda1 esp
 
-echo "PASSWORD" | cryptsetup -q luksFormat --type luks2 --use-urandom -h sha512 -i 1000 /dev/vgroot/btrfs
-echo "PASSWORD" | cryptsetup luksOpen /dev/vgroot/btrfs root
+echo "PASSWORD" | cryptsetup -q luksFormat --type luks2 --use-urandom -h sha512 -i 1000 /dev/mapper/vgroot-btrfs
+echo "PASSWORD" | cryptsetup luksOpen /dev/mapper/vgroot-btrfs root
 
 mkfs.vfat -F12 /dev/sda1
 mkfs.vfat -F32 /dev/mapper/esp
 fatlabel /dev/mapper/esp 'Crypt ESP'
 mkfs.btrfs -L 'Crypt Btrfs' /dev/mapper/root
+mkfs.ntfs -Q /dev/sda3
+mkfs.ntfs -Q /dev/sda5
 
 mount /dev/mapper/root /mnt
 btrfs su cr /mnt/@
