@@ -66,10 +66,6 @@ echo '$ESP','$BTRFS' | sed -i "6s/.*/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 cry
 sed -i '13s/.//' /etc/default/grub
 sed -i '/root ALL=(ALL) ALL/a razor ALL=(ALL) ALL' /etc/sudoers
 sed -i '83s/# //' /etc/sudoers
-btrfs su set-default 256 /
-mkinitcpio -p linux-lts
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
-grub-mkconfig -o /boot/grub/grub.cfg
 
 sed -i 's/,subvolid=256,subvol=\/@//' /etc/fstab
 echo '/dev/zram0		none		swap		defaults,pri=400	0 0' >> /etc/fstab
@@ -80,4 +76,8 @@ echo '/dev/zram2		none		swap		defaults,pri=400	0 0' >> /etc/fstab
 echo >> /etc/fstab
 echo '/dev/zram3		none		swap		defaults,pri=400	0 0' >> /etc/fstab
 
-exit
+btrfs su set-default 256 /
+mkinitcpio -p linux-lts
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB --removable
+grub-mkconfig -o /boot/grub/grub.cfg
+neofetch
