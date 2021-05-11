@@ -16,7 +16,7 @@ echo "PASSWORD" | cryptsetup luksOpen /dev/sda1 esp
 echo "PASSWORD" | cryptsetup -q luksFormat --type luks2 --use-urandom -h sha512 -i 1000 /dev/mapper/vgroot-btrfs
 echo "PASSWORD" | cryptsetup luksOpen /dev/mapper/vgroot-btrfs root
 
-mkfs.vfat -F12 /dev/sda1
+mkfs.vfat -F12 /dev/sde1
 mkfs.vfat -F32 /dev/mapper/esp
 fatlabel /dev/mapper/esp 'Crypt ESP'
 mkfs.btrfs -L 'Crypt Btrfs' /dev/mapper/root
@@ -82,8 +82,8 @@ mount -o defaults,discard,noatime,compress=zstd:3,space_cache=v2,subvol=@/snapsh
 mount -o defaults,discard,noatime,compress=zstd:3,space_cache=v2,subvol=@/snapshots/root /dev/mapper/root /mnt/.snapshots
 mount /dev/mapper/esp /mnt/boot
 mkdir /mnt/boot/efi
-mount /dev/sda1 /mnt/boot/efi
-mount -o defaults /dev/sda4 /mnt/.win/sdd
+mount /dev/sde1 /mnt/boot/efi
+mount -o defaults /dev/sda5 /mnt/.win/ssd
 mount -o defaults /dev/sdb1 /mnt/.win/hdd
 mount -o defaults /dev/sdc1 /mnt/.win/ehdd
 
@@ -94,7 +94,7 @@ chattr +C /mnt/var/lib/pgqsl
 
 truncate -s 0 /mnt/swap/swapfile
 chattr +C /mnt/swap/swapfile
-dd if=/dev/zero of=/mnt/swap/swapfile bs=1M count=6144 status=progress
+dd if=/dev/zero of=/mnt/swap/swapfile bs=1M count=24576 status=progress
 chmod 600 /mnt/swap/swapfile
 mkswap /mnt/swap/swapfile
 swapon -p 4 /mnt/swap/swapfile
