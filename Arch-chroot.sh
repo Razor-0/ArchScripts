@@ -2,24 +2,25 @@
 set -eu
 
 ln -sf /usr/share/zoneinfo/Europe/Budapest /etc/localtime
-hwclock --systohc --utc
+hwclock --systohc --utc # remove --utc if you're not dualbooting or you use the DE's time sync
 timedatectl set-ntp true
-sed -i '160s/.//' /etc/locale.gen
+sed -i '160s/.//' /etc/locale.gen # change the 160 to your locale's line number
 locale-gen
-sed -i '92s/.//' /etc/pacman.conf
+sed -i '92s/.//' /etc/pacman.conf # comment this and the next command to not enable multilib
 sed -i '93s/.//' /etc/pacman.conf
 reflector --country Hungary --protocol https --age 6 --sort rate --verbose --save /etc/pacman.d/mirrorlist
-echo 'lenarch' >> /etc/hostname
+echo 'lenarch' >> /etc/hostname # edit lenarch to whatever name you want for your PC
 echo '127.0.0.1	localhost' >> /etc/hosts
 echo '::1		localhost' >> /etc/hosts
-echo '127.0.1.1	lenarch.localdomain	lenarch' >> /etc/hosts
-echo 'LANG=en_GB.UTF-8' >> /etc/locale.conf
-echo 'KEYMAP=hu' >> /etc/vconsole.conf
-echo 'permit persist razor as root' >> /etc/doas.conf
-echo root:PASSWORD | chpasswd
-useradd -m -g users -G wheel razor
-echo razor:PASSWORD | chpasswd
+echo '127.0.1.1	lenarch.localdomain	lenarch' >> /etc/hosts # change lenarch to the same name as your hostname
+echo 'LANG=en_GB.UTF-8' >> /etc/locale.conf # edit en_GB with your locale from the locale.gen part
+echo 'KEYMAP=hu' >> /etc/vconsole.conf # change hu to your keymap
+echo 'permit persist razor as root' >> /etc/doas.conf # change razor to your user or uncomment this and remove doas from the pacman part if you don't need doas
+echo root:PASSWORD | chpasswd # change PASSWORD with your root's password
+useradd -m -g users -G wheel razor # change razor to your own username
+echo razor:PASSWORD | chpasswd # same here for the user's PASSWORD
 
+# edit as you see fit alongside the systemctl commands
 pacman -Syyu --noconfirm
 pacman -S --noconfirm grub efibootmgr os-prober btrfs-progs ntfs-3g dosfstools mtools linux-lts-headers base-devel doas xdg-user-dirs alsa-utils xdg-utils neofetch networkmanager network-manager-applet wpa_supplicant bluez bluez-utils tlp htop curl wget sh git acpi acpi_call-lts acpid nfs-utils rsync snapper dialog screen tree lvm2 micro xclip
 systemctl enable NetworkManager
@@ -52,8 +53,8 @@ head -c 64 /dev/urandom >> /root/.keys/espkey.bin
 head -c 64 /dev/urandom >> /root/.keys/rootkey.bin
 chmod 600 /root/.keys/espkey.bin
 chmod 600 /root/.keys/rootkey.bin
-echo "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/sda1 /root/.keys/espkey.bin
-echo "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/mapper/vgroot-btrfs /root/.keys/rootkey.bin
+echo "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/sda1 /root/.keys/espkey.bin # edit PASSWORD
+echo "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/mapper/vgroot-btrfs /root/.keys/rootkey.bin # same here
 
 ESP="$(blkid -s UUID -o value /dev/sda1)"
 BTRFS="$(blkid -s UUID -o value /dev/mapper/vgroot-btrfs)"
@@ -62,9 +63,9 @@ sed -i '66,78 {s/^/#/}' /etc/grub.d/10_linux
 sed -i '4s/5/3/' /etc/default/grub
 sed -i '54s/.//' /etc/default/grub
 sed -i '/above./a GRUB_DEFAULT=saved' /etc/default/grub
-echo '$ESP','$BTRFS' | sed -i "6s/.*/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 cryptesp=UUID=$ESP:esp cryptespkey=rootfs:\/root\/.keys\/espkey.bin cryptdevice=UUID=$BTRFS:root cryptkey=rootfs:\/root\/.keys\/rootkey.bin root=\/dev\/mapper\/root rw resume=\/dev\/mapper\/root resume_offset=\"/" /etc/default/grub
+echo '$ESP','$BTRFS' | sed -i "6s/.*/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 cryptesp=UUID=$ESP:esp cryptespkey=rootfs:\/root\/.keys\/espkey.bin cryptdevice=UUID=$BTRFS:root cryptkey=rootfs:\/root\/.keys\/rootkey.bin root=\/dev\/mapper\/root rw resume=\/dev\/mapper\/root resume_offset=16400\"/" /etc/default/grub
 sed -i '13s/.//' /etc/default/grub
-sed -i '/root ALL=(ALL) ALL/a razor ALL=(ALL) ALL' /etc/sudoers
+sed -i '/root ALL=(ALL) ALL/a razor ALL=(ALL) ALL' /etc/sudoers # change razor with your username or comment out to use the wheel group only
 sed -i '83s/# //' /etc/sudoers
 
 sed -i 's/,subvolid=256,subvol=\/@//' /etc/fstab

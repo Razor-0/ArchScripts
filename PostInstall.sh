@@ -22,7 +22,7 @@ sudo systemctl enable --now snapper-boot.timer
 
 # install some neccessities and plasma DE
 sudo pacman -Syyu --noconfirm
-sudo pacman -S --noconfirm xorg xf86-video-intel xf86-input-synaptics nvidia nvidia-dkms plasma plasma-pa sddm pipewire pipewire-alsa pipewire-pulse pipewire-jack gst-plugin-pipewire pulseeffects pavucontrol konsole kate chromium dolphin dolphin-plugins packagekit-qt5 zsh zsh-autosuggestions zsh-syntax-highlighting openssh python python2 python3 python-pip speedtest-cli qemu qemu-arch-extra virt-manager android-tools vlc obs-studio code gtkmm fuse2 pcsclite libcanberra
+sudo pacman -S --noconfirm xorg xf86-video-intel xf86-input-synaptics nvidia nvidia-dkms plasma plasma-pa sddm pipewire pipewire-alsa pipewire-pulse pipewire-jack gst-plugin-pipewire pulseeffects pavucontrol konsole kate chromium dolphin dolphin-plugins packagekit-qt5 zsh zsh-autosuggestions zsh-syntax-highlighting openssh python python2 python3 python-pip speedtest-cli qemu qemu-arch-extra virt-manager android-tools vlc obs-studio code gtkmm fuse2 pcsclite libcanberra libreoffice-fresh libreoffice-fresh-en-gb libreoffice-fresh-hu libreoffice-fresh-de
 
 sudo systemctl enable sddm
 sudo systemctl enable sshd
