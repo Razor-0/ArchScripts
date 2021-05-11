@@ -85,7 +85,7 @@ mkdir /mnt/boot/efi
 mount /dev/sde1 /mnt/boot/efi
 mount -o defaults /dev/sda5 /mnt/.win/ssd
 mount -o defaults /dev/sdb1 /mnt/.win/hdd
-mount -o defaults /dev/sdc2 /mnt/.win/ehdd
+mount -o defaults /dev/sdc1 /mnt/.win/ehdd
 
 chattr +C /mnt/var/lib/libvirt/images
 chattr +C /mnt/var/lib/mariadb
