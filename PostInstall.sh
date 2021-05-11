@@ -33,7 +33,6 @@ cd $HOME/Downloads/install
 git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si --noconfirm PKGBUILD
-cd
 
 yay -S --answerclean all --noconfirm ttf-meslo-nerd-font-powerlevel10k snap-pac-grub
 
