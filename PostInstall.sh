@@ -31,3 +31,4 @@ makepkg -si --noconfirm PKGBUILD
 cd
 
 yay -S --answerclean all --noconfirm ttf-meslo-nerd-font-powerlevel10k snap-pac-grub
+neofetch
