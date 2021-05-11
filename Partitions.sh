@@ -1,10 +1,10 @@
 #!/bin/bash
 set -eu
 
-cryptsetup open --type plain -d /dev/urandom /dev/sda2 tbw
-dd if=/dev/zero of=/dev/mapper/tbw bs=1M status=progress
-dd if=/dev/mapper/tbw bs=1M status=progress | od | head
-cryptsetup close tbw
+#cryptsetup open --type plain -d /dev/urandom /dev/sda2 tbw
+#dd if=/dev/zero of=/dev/mapper/tbw bs=1M status=progress
+#dd if=/dev/mapper/tbw bs=1M status=progress | od | head
+#cryptsetup close tbw
 
 pvcreate /dev/sda2
 vgcreate vgroot /dev/sda2
@@ -85,7 +85,7 @@ mkdir /mnt/boot/efi
 mount /dev/sde1 /mnt/boot/efi
 mount -o defaults /dev/sda5 /mnt/.win/ssd
 mount -o defaults /dev/sdb1 /mnt/.win/hdd
-mount -o defaults /dev/sdc1 /mnt/.win/ehdd
+mount -o defaults /dev/sdc2 /mnt/.win/ehdd
 
 chattr +C /mnt/var/lib/libvirt/images
 chattr +C /mnt/var/lib/mariadb
