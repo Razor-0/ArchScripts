@@ -11,9 +11,8 @@ pvcreate /dev/sda2
 vgcreate vgroot /dev/sda2
 lvcreate -l 100%FREE -n btrfs vgroot
 
-# create LuKs boot and root on lvm
-# change the PASSWORD in all 4 lines, be sure to not set the same for the boot and root partition
-echo "PASSWORD" | cryptsetup -q luksFormat --type luks1 --use-urandom -h sha1 -i 1000 /dev/sda1
+# create LuKs boot and LuKs root on lvm
+echo "PASSWORD" | cryptsetup -q luksFormat --type luks1 --use-urandom -h sha1 -i 1000 /dev/sda1 # change the PASSWORD 2 by 2 in all 4 of these lines (first to create then to open said LuKs part)
 echo "PASSWORD" | cryptsetup luksOpen /dev/sda1 esp
 
 echo "PASSWORD" | cryptsetup -q luksFormat --type luks2 --use-urandom -h sha512 -i 1000 /dev/mapper/vgroot-btrfs

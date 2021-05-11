@@ -36,18 +36,6 @@ makepkg -si --noconfirm PKGBUILD
 
 yay -S --answerclean all --noconfirm ttf-meslo-nerd-font-powerlevel10k snap-pac-grub
 
-# install ohmyzsh for user
-# wget https://github.com/ChrisTitusTech/zsh/raw/master/.zshrc -O ~/.zshrc
-# mkdir -p "$HOME/.zsh"
-# wget https://github.com/ChrisTitusTech/zsh/raw/master/aliasrc -O ~/.zsh/aliasrc
-# git clone https://github.com/sindresorhus/pure.git "$HOME/.zsh/pure"
-# sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-
-# ohmyzsh pwrlvl10k theme and plugins
-# git clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
-# git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-# git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-
 # install updateable telegram desktop
 tgver=2.6.1
 
