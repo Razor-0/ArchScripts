@@ -6,16 +6,20 @@ set -eu
 #dd if=/dev/mapper/tbw bs=1M status=progress | od | head
 #cryptsetup close tbw
 
+# setup lvm for the root
 pvcreate /dev/sda2
 vgcreate vgroot /dev/sda2
 lvcreate -l 100%FREE -n btrfs vgroot
 
+# create LuKs boot and root on lvm
+# change the PASSWORD in all 4 lines, be sure to not set the same for the boot and root partition
 echo "PASSWORD" | cryptsetup -q luksFormat --type luks1 --use-urandom -h sha1 -i 1000 /dev/sda1
 echo "PASSWORD" | cryptsetup luksOpen /dev/sda1 esp
 
 echo "PASSWORD" | cryptsetup -q luksFormat --type luks2 --use-urandom -h sha512 -i 1000 /dev/mapper/vgroot-btrfs
 echo "PASSWORD" | cryptsetup luksOpen /dev/mapper/vgroot-btrfs root
 
+# formatting partitions with the following filesystems
 mkfs.vfat -F12 /dev/sde1
 mkfs.vfat -F32 /dev/mapper/esp
 fatlabel /dev/mapper/esp 'Crypt ESP'
@@ -23,6 +27,7 @@ mkfs.btrfs -L 'Crypt Btrfs' /dev/mapper/root
 mkfs.ntfs -Q /dev/sda3
 mkfs.ntfs -Q /dev/sda5
 
+# creating btrfs subvols for snapshots
 mount /dev/mapper/root /mnt
 btrfs su cr /mnt/@
 btrfs su cr /mnt/@/home
@@ -53,6 +58,7 @@ btrfs su cr /mnt/@/var/lib/pgqsl
 btrfs su cr /mnt/@/usr/local
 umount /mnt
 
+# mounting the subvolumes and partititons
 mount -o defaults,discard,noatime,compress=zstd:3,space_cache=v2,subvol=@ /dev/mapper/root /mnt
 mkdir -p /mnt/{boot,.snapshots,.win}
 mount -o defaults,discard,noatime,compress=zstd:3,space_cache=v2,subvol=@/home /dev/mapper/root /mnt/home
@@ -87,6 +93,7 @@ mount -o defaults /dev/sda5 /mnt/.win/ssd
 mount -o defaults /dev/sdb1 /mnt/.win/hdd
 mount -o defaults /dev/sdc2 /mnt/.win/ehdd
 
+# disabling cow for some folders and creating swap
 chattr +C /mnt/var/lib/libvirt/images
 chattr +C /mnt/var/lib/mariadb
 chattr +C /mnt/var/lib/mysql
@@ -94,12 +101,12 @@ chattr +C /mnt/var/lib/pgqsl
 
 truncate -s 0 /mnt/swap/swapfile
 chattr +C /mnt/swap/swapfile
-dd if=/dev/zero of=/mnt/swap/swapfile bs=1M count=24576 status=progress
+dd if=/dev/zero of=/mnt/swap/swapfile bs=1M count=24576 status=progress # edit count value to change swap's size
 chmod 600 /mnt/swap/swapfile
 mkswap /mnt/swap/swapfile
-swapon -p 4 /mnt/swap/swapfile
+swapon -p 4 /mnt/swap/swapfile # edit -p value to set different priority per requirements
 
+# installing base system and some neccessities
 pacstrap /mnt base linux-lts linux-firmware nano intel-ucode reflector git sh curl wget
 genfstab -U /mnt >> /mnt/etc/fstab
 lsblk -f
-arch-chroot /mnt
