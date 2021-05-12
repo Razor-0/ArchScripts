@@ -45,6 +45,6 @@ wget https://github.com/telegramdesktop/tdesktop/releases/download/v${tgver}/tse
 tar -xJvf tsetup.${tgver}.tar.xz
 sudo mv Telegram /opt/telegram
 sudo ln -sf /opt/telegram/Telegram /usr/bin/telegram
-cd $HOME
+cd
 
 neofetch
