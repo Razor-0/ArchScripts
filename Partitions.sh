@@ -1,11 +1,6 @@
 #!/bin/bash
 set -eu
 
-#cryptsetup open --type plain -d /dev/urandom /dev/sda2 tbw
-#dd if=/dev/zero of=/dev/mapper/tbw bs=1M status=progress
-#dd if=/dev/mapper/tbw bs=1M status=progress | od | head
-#cryptsetup close tbw
-
 # setup lvm for the root
 pvcreate /dev/sda2
 vgcreate vgroot /dev/sda2
