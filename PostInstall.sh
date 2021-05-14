@@ -50,4 +50,6 @@ cd
 sudo cp /etc/snap-pac/root.conf{.example,}
 sudo cp /etc/snap-pac/root.conf /etc/snap-pac/home.conf
 
+sudo pacman -S --noconfirm nvidia-dkms
+
 neofetch
