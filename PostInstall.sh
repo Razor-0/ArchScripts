@@ -22,7 +22,7 @@ sudo systemctl enable --now snapper-boot.timer
 
 # install some neccessities and plasma DE
 sudo pacman -Syyu --noconfirm
-sudo pacman -S --noconfirm xorg xf86-video-intel xf86-input-synaptics nvidia nvidia-dkms plasma plasma-pa sddm pipewire pipewire-alsa pipewire-pulse pipewire-jack gst-plugin-pipewire pulseeffects pavucontrol konsole kate chromium dolphin dolphin-plugins packagekit-qt5 zsh zsh-autosuggestions zsh-syntax-highlighting openssh python python2 python3 python-pip
+sudo pacman -S --noconfirm xorg xf86-video-intel xf86-input-synaptics nvidia plasma plasma-pa sddm pipewire pipewire-alsa pipewire-pulse pipewire-jack gst-plugin-pipewire pulseeffects pavucontrol konsole kate chromium dolphin dolphin-plugins packagekit-qt5 zsh zsh-autosuggestions zsh-syntax-highlighting openssh python python2 python3 python-pip
 
 sudo systemctl enable sddm
 sudo systemctl enable sshd
