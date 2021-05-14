@@ -83,7 +83,6 @@ mkdir /mnt/boot/efi
 mount /dev/sde1 /mnt/boot/efi
 mount -o defaults /dev/sda5 /mnt/.win/ssd
 mount -o defaults /dev/sdb1 /mnt/.win/hdd
-mount -o defaults /dev/sdc2 /mnt/.win/ehdd
 
 # disabling cow for some folders and creating swap
 chattr +C /mnt/var/lib/libvirt/images
@@ -99,6 +98,6 @@ mkswap /mnt/swap/swapfile
 swapon -p 40 /mnt/swap/swapfile # edit -p value to set different priority per requirements
 
 # installing base system and some neccessities
-pacstrap /mnt base linux-lts linux-firmware nano intel-ucode reflector git sh curl wget
+pacstrap /mnt base linux-zen linux-firmware nano intel-ucode reflector git sh curl wget
 genfstab -U /mnt >> /mnt/etc/fstab
 lsblk -f
