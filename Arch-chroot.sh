@@ -23,6 +23,7 @@ echo razor:PASSWORD | chpasswd # same here for the user's PASSWORD
 # edit as you see fit alongside the systemctl commands
 pacman -Syyu --noconfirm
 pacman -S --noconfirm grub efibootmgr os-prober btrfs-progs ntfs-3g dosfstools mtools linux-zen-headers base-devel doas xdg-user-dirs alsa-utils xdg-utils neofetch networkmanager network-manager-applet wpa_supplicant bluez bluez-utils tlp htop curl wget sh git acpi acpi_call-dkms acpid nfs-utils rsync snapper dialog screen tree lvm2 micro xclip
+
 systemctl enable NetworkManager
 systemctl enable bluetooth
 systemctl enable tlp
