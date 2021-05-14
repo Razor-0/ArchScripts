@@ -47,4 +47,7 @@ sudo mv Telegram /opt/telegram
 sudo ln -sf /opt/telegram/Telegram /usr/bin/telegram
 cd
 
+sudo cp /etc/snap-pac/root.conf{.example,}
+sudo cp /etc/snap-pac/root.conf /etc/snap-pac/home.conf
+
 neofetch
