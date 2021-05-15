@@ -56,10 +56,11 @@ sudo cp /etc/snap-pac/root.conf /etc/snap-pac/home.conf
 # install dkms for custom kernel support like zen
 sudo pacman -S --noconfirm nvidia-dkms
 
-# install ohmyzsh (props to Chris and sindresorhus)
+# install ohmyzsh configs (props to Chris and sindresorhus)
 wget https://github.com/ChrisTitusTech/zsh/raw/master/.zshrc -O ~/.zshrc
 mkdir -p "$HOME/.zsh"
 wget https://github.com/ChrisTitusTech/zsh/raw/master/aliasrc -O ~/.zsh/aliasrc
 git clone https://github.com/sindresorhus/pure.git "$HOME/.zsh/pure"
 
+# install and switch to ohmyzsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
