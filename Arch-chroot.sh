@@ -37,10 +37,6 @@ systemctl enable tlp
 systemctl enable reflector.timer
 systemctl enable acpid
 
-# create nocow directory for zram
-mkdir /dev/zramslots
-chattr +C /dev/zramslots
-
 # modify initcpio modules, binaries, hooks etc
 sed -i '7s/.*/MODULES=(crc32c-intel btrfs)/' /etc/mkinitcpio.conf
 sed -i '14s/.*/BINARIES=(dosfsck btrfsck)/' /etc/mkinitcpio.conf
@@ -51,10 +47,10 @@ sed -i '57s/.//' /etc/mkinitcpio.conf
 # enable 2GB zram pages per physical core on 4C/8T
 echo 'zram' >> /etc/modules-load.d/zram.conf
 echo 'options zram num_devices=4' >> /etc/modprobe.d/zram.conf
-echo 'KERNEL=="zram0", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zramslots/zram0", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
-echo 'KERNEL=="zram1", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zramslots/zram1", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
-echo 'KERNEL=="zram2", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zramslots/zram2", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
-echo 'KERNEL=="zram3", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zramslots/zram3", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
+echo 'KERNEL=="zram0", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram0", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
+echo 'KERNEL=="zram1", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram1", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
+echo 'KERNEL=="zram2", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram2", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
+echo 'KERNEL=="zram3", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram3", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
 
 # create hook to encrypt esp at boot
 cp /usr/lib/initcpio/install/encrypt /etc/initcpio/install/encryptesp
@@ -88,13 +84,13 @@ sed -i '83s/# //' /etc/sudoers
 
 # edit fstab for btrfs and add zram to automount
 sed -i 's/,subvolid=256,subvol=\/@//' /etc/fstab
-echo '/dev/zramslots/zram0		none		swap		defaults,pri=400	0 0' >> /etc/fstab
+echo '/dev/zram0		none		swap		defaults,pri=400	0 0' >> /etc/fstab
 echo >> /etc/fstab
-echo '/dev/zramslots/zram1		none		swap		defaults,pri=400	0 0' >> /etc/fstab
+echo '/dev/zram1		none		swap		defaults,pri=400	0 0' >> /etc/fstab
 echo >> /etc/fstab
-echo '/dev/zramslots/zram2		none		swap		defaults,pri=400	0 0' >> /etc/fstab
+echo '/dev/zram2		none		swap		defaults,pri=400	0 0' >> /etc/fstab
 echo >> /etc/fstab
-echo '/dev/zramslots/zram3		none		swap		defaults,pri=400	0 0' >> /etc/fstab
+echo '/dev/zram3		none		swap		defaults,pri=400	0 0' >> /etc/fstab
 
 # set default btrfs subvolume for snapper and install grub, gen init and grub config
 btrfs su set-default 256 /
