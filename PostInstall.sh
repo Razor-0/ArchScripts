@@ -23,7 +23,7 @@ sudo systemctl enable --now snapper-boot.timer
 
 # install some neccessities and plasma DE
 sudo pacman -Syyu --noconfirm
-sudo pacman -S --noconfirm xorg xf86-video-intel xf86-input-synaptics nvidia plasma plasma-pa sddm pipewire pipewire-alsa pipewire-pulse pipewire-jack gst-plugin-pipewire pulseeffects pavucontrol konsole kate chromium dolphin dolphin-plugins packagekit-qt5 zsh zsh-autosuggestions zsh-syntax-highlighting openssh
+sudo pacman -S --noconfirm xorg xf86-video-intel xf86-input-synaptics nvidia-lts nvidia-prime nvidia-settings nvidia-dkms plasma plasma-pa sddm pipewire pipewire-alsa pipewire-pulse pipewire-jack gst-plugin-pipewire pulseeffects pavucontrol konsole kate chromium dolphin dolphin-plugins packagekit-qt5 zsh zsh-autosuggestions zsh-syntax-highlighting openssh
 
 # enable display manager and ssh
 sudo systemctl enable sddm
@@ -52,9 +52,6 @@ cd
 # snap-pac home backup hook
 sudo cp /etc/snap-pac/root.conf{.example,}
 sudo cp /etc/snap-pac/root.conf /etc/snap-pac/home.conf
-
-# install dkms for custom kernel support like zen
-sudo pacman -S --noconfirm nvidia-dkms
 
 # install ohmyzsh configs (props to Chris and sindresorhus)
 wget https://github.com/ChrisTitusTech/zsh/raw/master/.zshrc -O ~/.zshrc

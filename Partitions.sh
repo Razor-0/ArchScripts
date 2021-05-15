@@ -84,12 +84,13 @@ mount /dev/sde1 /mnt/boot/efi
 mount -o defaults /dev/sda5 /mnt/.win/ssd
 mount -o defaults /dev/sdb1 /mnt/.win/hdd
 
-# disabling cow for some folders and creating swap
+# disabling cow for some folders for performance
 chattr +C /mnt/var/lib/libvirt/images
 chattr +C /mnt/var/lib/mariadb
 chattr +C /mnt/var/lib/mysql
 chattr +C /mnt/var/lib/pgqsl
 
+# creating and disabling cow on the swapfile
 truncate -s 0 /mnt/swap/swapfile
 chattr +C /mnt/swap/swapfile
 dd if=/dev/zero of=/mnt/swap/swapfile bs=1M count=24576 status=progress # edit count value to change swap's size

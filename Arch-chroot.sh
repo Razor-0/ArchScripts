@@ -7,9 +7,13 @@ hwclock --systohc --utc # remove --utc if you're not dualbooting or you use the 
 timedatectl set-ntp true
 sed -i '160s/.//' /etc/locale.gen # change the 160 to your locale's line number
 locale-gen
+
 sed -i '92s/.//' /etc/pacman.conf # comment this and the next command to not enable multilib
 sed -i '93s/.//' /etc/pacman.conf
+
+# edit this command to use the correct mirrorlist for your country
 reflector --country Hungary --protocol https --age 6 --sort rate --verbose --save /etc/pacman.d/mirrorlist
+
 echo 'lenarch' >> /etc/hostname # edit lenarch to whatever name you want for your PC
 echo '127.0.0.1	localhost' >> /etc/hosts
 echo '::1		localhost' >> /etc/hosts
@@ -17,6 +21,7 @@ echo '127.0.1.1	lenarch.localdomain	lenarch' >> /etc/hosts # change lenarch to t
 echo 'LANG=en_GB.UTF-8' >> /etc/locale.conf # edit en_GB with your locale from the locale.gen part
 echo 'KEYMAP=hu' >> /etc/vconsole.conf # change hu to your keymap
 echo 'permit persist razor as root' >> /etc/doas.conf # change razor to your user or uncomment this and remove doas from the pacman part if you don't need doas
+
 echo root:PASSWORD | chpasswd # change PASSWORD with your root's password
 useradd -m -g users -G wheel razor # change razor to your own username
 echo razor:PASSWORD | chpasswd # same here for the user's PASSWORD
