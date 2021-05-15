@@ -83,6 +83,8 @@ mkdir /mnt/boot/efi
 mount /dev/sde1 /mnt/boot/efi
 mount -o defaults /dev/sda5 /mnt/.win/ssd
 mount -o defaults /dev/sdb1 /mnt/.win/hdd
+chmod 750 /mnt/root
+chmod 1777 /mnt/var/tmp
 
 # disabling cow for some folders for performance
 chattr +C /mnt/var/lib/libvirt/images
