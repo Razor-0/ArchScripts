@@ -16,6 +16,7 @@ sudo mount -a
 sudo chmod 750 /.snapshots
 sudo chmod 750 /home/.snapshots
 
+# enable timeline and cleanup (please edit snapper configs to your specific needs)
 sudo systemctl enable --now snapper-timeline.timer
 sudo systemctl enable --now snapper-cleanup.timer
 sudo systemctl enable --now snapper-boot.timer
@@ -47,6 +48,7 @@ sudo mv Telegram /opt/telegram
 sudo ln -sf /opt/telegram/Telegram /usr/bin/telegram
 cd
 
+# snap-pac home backup hook
 sudo cp /etc/snap-pac/root.conf{.example,}
 sudo cp /etc/snap-pac/root.conf /etc/snap-pac/home.conf
 
