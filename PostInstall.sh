@@ -74,6 +74,6 @@ cd ttf-mswin10-arch
 sudo pacman -U ttf-ms-win10-* --noconfirm
 cd
 
-# install cowsay and lolcat (mainly to update latest snapshot)
-sudo pacman -S lolcat cowsay
+# install cowsay, lolcat and vscode (mainly to update latest snapshot)
+sudo pacman -S lolcat cowsay code
 neofetch
