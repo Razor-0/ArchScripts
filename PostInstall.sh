@@ -68,3 +68,4 @@ cd
 
 # install cowsay, lolcat and vscode (mainly to update latest snapshot)
 sudo pacman -S lolcat cowsay code
+neofetch
