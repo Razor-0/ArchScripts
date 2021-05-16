@@ -47,6 +47,7 @@ wget https://github.com/telegramdesktop/tdesktop/releases/download/v${tgver}/tse
 tar -xJvf tsetup.${tgver}.tar.xz
 sudo mv Telegram /opt/telegram
 sudo ln -sf /opt/telegram/Telegram /usr/bin/telegram
+cd
 
 # snap-pac home backup hook
 sudo cp /etc/snap-pac/root.conf{.example,}
@@ -57,14 +58,6 @@ wget https://github.com/ChrisTitusTech/zsh/raw/master/.zshrc -O ~/.zshrc
 mkdir -p "$HOME/.zsh"
 wget https://github.com/ChrisTitusTech/zsh/raw/master/aliasrc -O ~/.zsh/aliasrc
 git clone https://github.com/sindresorhus/pure.git "$HOME/.zsh/pure"
-
-# install win10 fonts like times new roman
-mkdir $HOME/Downloads/install/win10-fonts
-cd $HOME/Downloads/install/win10-fonts
-git clone https://github.com/fphoenix88888/ttf-mswin10-arch
-cd ttf-mswin10-arch
-sudo pacman -U ttf-ms-win10-* --noconfirm
-cd
 
 # install cowsay, lolcat and vscode (mainly to update latest snapshot)
 sudo pacman -S lolcat cowsay code
