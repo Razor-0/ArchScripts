@@ -28,7 +28,7 @@ echo razor:PASSWORD | chpasswd # same here for the user's PASSWORD
 
 # edit as you see fit alongside the systemctl commands
 pacman -Syyu --noconfirm
-pacman -S --noconfirm grub efibootmgr os-prober btrfs-progs ntfs-3g dosfstools mtools linux-zen-headers base-devel doas xdg-user-dirs alsa-utils xdg-utils neofetch networkmanager network-manager-applet wpa_supplicant bluez bluez-utils tlp htop curl wget sh git acpi acpi_call-dkms acpid nfs-utils rsync snapper dialog screen tree lvm2 micro xclip
+pacman -S --noconfirm grub efibootmgr os-prober btrfs-progs ntfs-3g dosfstools mtools linux-zen-headers base-devel doas xdg-user-dirs alsa-utils xdg-utils neofetch networkmanager network-manager-applet wpa_supplicant bluez bluez-utils tlp htop curl wget sh git acpi acpi_call-dkms acpid nfs-utils rsync snapper dialog screen tree lvm2 micro xclip linux-lts linux-lts-headers
 
 # enable neccessities like Network, BT etc at boot
 systemctl enable NetworkManager
@@ -95,6 +95,7 @@ echo '/dev/zram3		none		swap		defaults,pri=400	0 0' >> /etc/fstab
 # set default btrfs subvolume for snapper and install grub, gen init and grub config
 btrfs su set-default 256 /
 mkinitcpio -p linux-zen
+mkinitcpio -p linux-lts
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --removable
 grub-mkconfig -o /boot/grub/grub.cfg
 neofetch
