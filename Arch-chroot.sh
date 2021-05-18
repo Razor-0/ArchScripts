@@ -28,7 +28,7 @@ echo razor:PASSWORD | chpasswd # same here for the user's PASSWORD
 
 # edit as you see fit alongside the systemctl commands
 pacman -Syyu --noconfirm
-pacman -S --noconfirm xorg xf86-video-intel xf86-input-synaptics nvidia-lts nvidia-prime nvidia-settings plasma plasma-pa sddm pipewire pipewire-alsa pipewire-pulse pipewire-jack gst-plugin-pipewire pulseeffects pavucontrol konsole kate chromium dolphin dolphin-plugins packagekit-qt5 zsh zsh-autosuggestions zsh-syntax-highlighting openssh grub efibootmgr os-prober btrfs-progs ntfs-3g dosfstools mtools linux-zen-headers base-devel doas xdg-user-dirs alsa-utils xdg-utils neofetch networkmanager network-manager-applet wpa_supplicant bluez bluez-utils tlp htop curl wget sh git acpi acpi_call-dkms acpid nfs-utils rsync snapper dialog screen tree lvm2 micro xclip linux-lts linux-lts-headers
+pacman -S --noconfirm xorg xf86-video-intel xf86-input-synaptics nvidia-lts nvidia-prime nvidia-settings nvidia-dkms plasma plasma-pa sddm pipewire pipewire-alsa pipewire-pulse pipewire-jack gst-plugin-pipewire pulseeffects pavucontrol konsole kate chromium dolphin dolphin-plugins packagekit-qt5 openssh grub efibootmgr os-prober btrfs-progs ntfs-3g dosfstools mtools linux-zen-headers base-devel doas xdg-user-dirs alsa-utils xdg-utils neofetch networkmanager network-manager-applet wpa_supplicant bluez bluez-utils tlp htop curl wget sh git acpi acpi_call-dkms acpid nfs-utils rsync snapper dialog screen tree lvm2 micro xclip linux-lts linux-lts-headers
 
 # enable neccessities like Network, BT etc at boot
 systemctl enable sddm
@@ -40,7 +40,7 @@ systemctl enable reflector.timer
 systemctl enable acpid
 
 # modify initcpio modules, binaries, hooks etc
-sed -i '7s/.*/MODULES=(crc32c-intel btrfs)/' /etc/mkinitcpio.conf
+sed -i '7s/.*/MODULES=(i915 crc32c-intel btrfs)/' /etc/mkinitcpio.conf
 sed -i '14s/.*/BINARIES=(dosfsck btrfsck)/' /etc/mkinitcpio.conf
 sed -i '19s/.*/FILES=(\/root\/.keys\/espkey.bin \/root\/.keys\/rootkey.bin)/' /etc/mkinitcpio.conf
 sed -i '52s/.*/HOOKS=(base udev autodetect keyboard keymap modconf block lvm2 encryptesp encrypt usr fsck resume shutdown)/' /etc/mkinitcpio.conf

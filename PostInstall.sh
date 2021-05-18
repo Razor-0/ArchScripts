@@ -50,7 +50,3 @@ wget https://github.com/ChrisTitusTech/zsh/raw/master/.zshrc -O ~/.zshrc
 mkdir -p "$HOME/.zsh"
 wget https://github.com/ChrisTitusTech/zsh/raw/master/aliasrc -O ~/.zsh/aliasrc
 git clone https://github.com/sindresorhus/pure.git "$HOME/.zsh/pure"
-
-# install cowsay, lolcat and vscode (mainly to update latest snapshot)
-sudo pacman -S --noconfirm lolcat cowsay code
-neofetch
