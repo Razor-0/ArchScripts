@@ -28,11 +28,9 @@ echo razor:PASSWORD | chpasswd # same here for the user's PASSWORD
 
 # edit as you see fit alongside the systemctl commands
 pacman -Syyu --noconfirm
-pacman -S --noconfirm xorg xf86-video-intel xf86-input-synaptics nvidia-lts nvidia-prime nvidia-settings nvidia-dkms plasma plasma-pa sddm pipewire pipewire-alsa pipewire-pulse pipewire-jack gst-plugin-pipewire pulseeffects pavucontrol konsole kate chromium dolphin dolphin-plugins packagekit-qt5 openssh grub efibootmgr os-prober btrfs-progs ntfs-3g dosfstools mtools linux-zen-headers base-devel doas xdg-user-dirs alsa-utils xdg-utils neofetch networkmanager network-manager-applet wpa_supplicant bluez bluez-utils tlp htop curl wget sh git acpi acpi_call-dkms acpid nfs-utils rsync snapper dialog screen tree lvm2 micro xclip linux-lts linux-lts-headers
+pacman -S --noconfirm grub efibootmgr os-prober btrfs-progs ntfs-3g dosfstools mtools linux-zen-headers base-devel doas xdg-user-dirs alsa-utils xdg-utils neofetch networkmanager network-manager-applet wpa_supplicant bluez bluez-utils tlp htop curl wget sh git acpi acpi_call-dkms acpid nfs-utils rsync snapper dialog screen tree lvm2 linux-lts linux-lts-headers
 
 # enable neccessities like Network, BT etc at boot
-systemctl enable sddm
-systemctl enable sshd
 systemctl enable NetworkManager
 systemctl enable bluetooth
 systemctl enable tlp
