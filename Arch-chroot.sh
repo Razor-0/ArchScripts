@@ -38,7 +38,7 @@ systemctl enable reflector.timer
 systemctl enable acpid
 
 # modify initcpio modules, binaries, hooks etc
-sed -i '7s/.*/MODULES=(i915 crc32c-intel btrfs)/' /etc/mkinitcpio.conf
+sed -i '7s/.*/MODULES=(crc32c-intel btrfs)/' /etc/mkinitcpio.conf
 sed -i '14s/.*/BINARIES=(dosfsck btrfsck)/' /etc/mkinitcpio.conf
 sed -i '19s/.*/FILES=(\/root\/.keys\/espkey.bin \/root\/.keys\/rootkey.bin)/' /etc/mkinitcpio.conf
 sed -i '52s/.*/HOOKS=(base udev autodetect keyboard keymap modconf block lvm2 encryptesp encrypt usr fsck resume shutdown)/' /etc/mkinitcpio.conf
