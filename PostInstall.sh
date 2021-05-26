@@ -58,3 +58,5 @@ wget https://github.com/ChrisTitusTech/zsh/raw/master/.zshrc -O ~/.zshrc
 mkdir -p "$HOME/.zsh"
 wget https://github.com/ChrisTitusTech/zsh/raw/master/aliasrc -O ~/.zsh/aliasrc
 git clone https://github.com/sindresorhus/pure.git "$HOME/.zsh/pure"
+
+neofetch
