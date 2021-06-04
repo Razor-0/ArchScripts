@@ -8,8 +8,8 @@ timedatectl set-ntp true
 sed -i '160s/.//' /etc/locale.gen # change the 160 to your locale's line number
 locale-gen
 
-sed -i '92s/.//' /etc/pacman.conf # comment this and the next command to not enable multilib
-sed -i '93s/.//' /etc/pacman.conf
+sed -i '93s/.//' /etc/pacman.conf # comment this and the next command to not enable multilib
+sed -i '94s/.//' /etc/pacman.conf
 
 # edit this command to use the correct mirrorlist for your country
 reflector --country Hungary --protocol https --age 6 --sort rate --verbose --save /etc/pacman.d/mirrorlist
