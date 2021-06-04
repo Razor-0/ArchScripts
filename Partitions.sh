@@ -53,7 +53,7 @@ umount /mnt
 
 # mounting the subvolumes and partititons
 mount -o defaults,discard,noatime,compress=zstd:1,space_cache=v2,subvol=@ /dev/mapper/vgroot-btrfs /mnt
-mount -o defaults,discard,noatime,compress=zstd:1,space_cache=v2,subvol=@/home /dev/mapper/root /mnt/home
+mount -o defaults,discard,noatime,compress=zstd:1,space_cache=v2,subvol=@/home /dev/mapper/vgroot-btrfs /mnt/home
 mkdir -p /mnt/{boot,.snapshots,.win}
 mkdir /mnt/home/.snapshots
 mkdir -p /mnt/.win/{ssd,hdd,ehdd,usb,iso}
