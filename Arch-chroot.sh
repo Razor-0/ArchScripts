@@ -12,7 +12,7 @@ sed -i '93s/.//' /etc/pacman.conf # comment this and the next command to not ena
 sed -i '94s/.//' /etc/pacman.conf
 
 # edit this command to use the correct mirrorlist for your country
-reflector --country Hungary --protocol https --age 6 --sort rate --verbose --save /etc/pacman.d/mirrorlist
+reflector --country Hungary --protocol https --sort rate --verbose --save /etc/pacman.d/mirrorlist
 
 echo 'lenarch' >> /etc/hostname # edit lenarch to whatever name you want for your PC
 echo '127.0.0.1	localhost' >> /etc/hosts
