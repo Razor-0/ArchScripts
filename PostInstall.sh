@@ -3,7 +3,7 @@ set -eu
 
 # install desktop environment
 sudo pacman -Syyu --noconfirm
-sudo pacman -S --noconfirm xorg xf86-video-intel xf86-input-synaptics nvidia-lts nvidia-prime nvidia-settings nvidia-dkms plasma plasma-pa sddm pipewire pipewire-alsa pipewire-pulse pipewire-jack gst-plugin-pipewire pulseeffects pavucontrol konsole kate chromium dolphin dolphin-plugins packagekit-qt5 openssh micro xclip dialog screen tree doas wget curl sh rsync snapper neofetch
+sudo pacman -S --noconfirm xorg xf86-video-intel xf86-input-synaptics nvidia-lts nvidia-prime nvidia-settings nvidia-dkms plasma plasma-pa sddm pipewire pipewire-alsa pipewire-pulse pipewire-jack gst-plugin-pipewire pulseeffects pavucontrol konsole kate chromium dolphin dolphin-plugins packagekit-qt5 openssh micro xclip dialog screen tree doas wget curl sh rsync snapper neofetch zsh zsh-syntax-highlighting zsh-autosuggestions
 
 # enable display manager and ssh
 sudo systemctl enable sddm

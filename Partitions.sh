@@ -14,7 +14,7 @@ vgcreate vgroot /dev/mapper/root
 lvcreate -l 100%FREE -n btrfs vgroot
 
 # formatting partitions with the following filesystems
-mkfs.vfat -F12 /dev/sdd2
+mkfs.vfat -F12 /dev/sdc2
 mkfs.vfat -F32 /dev/mapper/esp
 fatlabel /dev/mapper/esp 'Crypt ESP'
 mkfs.btrfs -L 'Crypt Btrfs' /dev/mapper/vgroot-btrfs
@@ -80,7 +80,7 @@ mount -o defaults,discard,noatime,compress=zstd:1,space_cache=v2,subvol=@/snapsh
 mount -o defaults,discard,noatime,compress=zstd:1,space_cache=v2,subvol=@/snapshots/root /dev/mapper/vgroot-btrfs /mnt/.snapshots
 mount /dev/mapper/esp /mnt/boot
 mkdir /mnt/boot/efi
-mount /dev/sdd2 /mnt/boot/efi
+mount /dev/sdc2 /mnt/boot/efi
 mount -o defaults /dev/sda5 /mnt/.win/ssd
 mount -o defaults /dev/sdb1 /mnt/.win/hdd
 chmod 750 /mnt/root
