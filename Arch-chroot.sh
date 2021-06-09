@@ -79,8 +79,7 @@ sed -i '54s/.//' /etc/default/grub
 sed -i '/above./a GRUB_DEFAULT=saved' /etc/default/grub
 echo '$ESP','$BTRFS' | sed -i "6s/.*/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 cryptesp=UUID=$ESP:esp cryptespkey=rootfs:\/root\/.keys\/espkey.bin cryptdevice=UUID=$BTRFS:root cryptkey=rootfs:\/root\/.keys\/rootkey.bin root=\/dev\/mapper\/root rw resume=\/dev\/mapper\/root resume_offset=16400\"/" /etc/default/grub
 sed -i '13s/.//' /etc/default/grub
-sed -i '/root ALL=(ALL) ALL/a razor ALL=(ALL) ALL' /etc/sudoers # change razor with your username or comment out to use the wheel group only
-sed -i '83s/# //' /etc/sudoers
+echo "razor ALL=(ALL) ALL" >> /etc/sudoers.d/rootusers # change razor with your username
 
 # edit fstab for btrfs and add zram to automount
 sed -i 's/,subvolid=256,subvol=\/@//' /etc/fstab
@@ -96,5 +95,5 @@ echo '/dev/zram3		none		swap		defaults,pri=400	0 0' >> /etc/fstab
 btrfs su set-default 256 /
 mkinitcpio -p linux-zen
 mkinitcpio -p linux-lts
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --removable
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id='GRUB Bootloader'
 grub-mkconfig -o /boot/grub/grub.cfg
