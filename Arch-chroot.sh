@@ -75,10 +75,10 @@ BTRFS="$(blkid -s UUID -o value /dev/sda2)"
 # edit grub config and grubd to make btrfs decide the default subvolume
 sed -i '66,78 {s/^/#/}' /etc/grub.d/10_linux
 sed -i '4s/5/3/' /etc/default/grub
+sed -i '13s/.//' /etc/default/grub
 sed -i '54s/.//' /etc/default/grub
 sed -i '/above./a GRUB_DEFAULT=saved' /etc/default/grub
 echo '$ESP','$BTRFS' | sed -i "6s/.*/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 cryptesp=UUID=$ESP:esp cryptespkey=rootfs:\/root\/.keys\/espkey.bin cryptdevice=UUID=$BTRFS:root cryptkey=rootfs:\/root\/.keys\/rootkey.bin root=\/dev\/mapper\/root rw resume=\/dev\/mapper\/root resume_offset=16400\"/" /etc/default/grub
-sed -i '13s/.//' /etc/default/grub
 echo 'razor ALL=(ALL:ALL) ALL' | sudo EDITOR='tee -a' visudo /etc/sudoers.d/rootusers # change razor with your username
 
 # edit fstab for btrfs and add zram to automount
