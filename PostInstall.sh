@@ -47,11 +47,6 @@ wget https://github.com/telegramdesktop/tdesktop/releases/download/v${tgver}/tse
 tar -xJvf tsetup.${tgver}.tar.xz
 sudo mv Telegram /opt/telegram
 sudo ln -sf /opt/telegram/Telegram /usr/bin/telegram
-cd
-
-# snap-pac home backup hook
-sudo cp /etc/snap-pac/root.conf{.example,}
-sudo cp /etc/snap-pac/root.conf /etc/snap-pac/home.conf
 
 # clone ohmyzsh config files
 wget https://github.com/ChrisTitusTech/zsh/raw/master/.zshrc -O ~/.zshrc
