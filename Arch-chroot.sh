@@ -12,7 +12,7 @@ sed -i '93s/.//' /etc/pacman.conf # comment this and the next command to not ena
 sed -i '94s/.//' /etc/pacman.conf
 
 # edit this command to use the correct mirrorlist for your country
-reflector --latest 4 --protocol https --sort rate --verbose --save /etc/pacman.d/mirrorlist
+reflector --latest 3 --protocol https --sort rate --verbose --save /etc/pacman.d/mirrorlist
 
 echo 'lenarch' >> /etc/hostname # edit lenarch to whatever name you want for your PC
 echo '127.0.0.1	localhost' >> /etc/hosts
@@ -41,7 +41,7 @@ systemctl enable acpid
 sed -i '7s/.*/MODULES=(crc32c-intel btrfs)/' /etc/mkinitcpio.conf
 sed -i '14s/.*/BINARIES=(dosfsck btrfsck)/' /etc/mkinitcpio.conf
 sed -i '19s/.*/FILES=(\/root\/.keys\/espkey.bin \/root\/.keys\/rootkey.bin)/' /etc/mkinitcpio.conf
-sed -i '52s/.*/HOOKS=(base udev autodetect keyboard keymap modconf block encryptesp encrypt lvm2 usr fsck resume shutdown)/' /etc/mkinitcpio.conf
+sed -i '52s/.*/HOOKS=(base udev autodetect keyboard keymap modconf block lvm2 encryptesp encrypt usr fsck resume shutdown)/' /etc/mkinitcpio.conf
 sed -i '57s/.//' /etc/mkinitcpio.conf
 
 # enable 2GB zram pages per physical core on 4C/8T
