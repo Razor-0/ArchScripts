@@ -1,17 +1,17 @@
 #!/bin/bash
 set -eu
 
+# setup lvm for the root
+pvcreate /dev/sda2
+vgcreate vgroot /dev/sda2
+lvcreate -l 100%FREE -n btrfs vgroot
+
 # create LuKs boot and LuKs root
 echo "PASSWORD" | cryptsetup -q luksFormat --type luks1 --use-urandom -h sha1 -i 1000 /dev/sda1 # change the PASSWORD 2 by 2 in all 4 of these lines (first to create then to open said LuKs part)
 echo "PASSWORD" | cryptsetup luksOpen /dev/sda1 esp
 
-echo "PASSWORD" | cryptsetup -q luksFormat --type luks2 --use-urandom -h sha512 -i 1000 /dev/sda2
-echo "PASSWORD" | cryptsetup luksOpen /dev/sda2 root
-
-# setup lvm for the root
-pvcreate /dev/mapper/root
-vgcreate vgroot /dev/mapper/root
-lvcreate -l 100%FREE -n btrfs vgroot
+echo "PASSWORD" | cryptsetup -q luksFormat --type luks2 --use-urandom -h sha512 -i 1000 /dev/mapper/vgroot-btrfs
+echo "PASSWORD" | cryptsetup luksOpen /dev/mapper/vgroot-btrfs root
 
 # formatting partitions with the following filesystems
 mkfs.vfat -F12 /dev/sdc2
