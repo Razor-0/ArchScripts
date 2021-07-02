@@ -42,7 +42,7 @@ sed -i '7s/.*/MODULES=(crc32c-intel btrfs)/' /etc/mkinitcpio.conf
 sed -i '14s/.*/BINARIES=(dosfsck btrfsck)/' /etc/mkinitcpio.conf
 sed -i '19s/.*/FILES=(\/root\/.keys\/espkey.bin \/root\/.keys\/rootkey.bin)/' /etc/mkinitcpio.conf
 sed -i '52s/.*/HOOKS=(base udev autodetect keyboard keymap modconf block lvm2 encryptesp encrypt usr fsck resume shutdown)/' /etc/mkinitcpio.conf
-sed -i '57s/.//' /etc/mkinitcpio.conf
+sed -i '57s/#//' /etc/mkinitcpio.conf
 
 # enable 2GB zram pages per physical core on 4C/8T
 echo 'zram' >> /etc/modules-load.d/zram.conf
@@ -75,11 +75,11 @@ BTRFS="$(blkid -s UUID -o value /dev/mapper/vgroot-btrfs)"
 # edit grub config and grubd to make btrfs decide the default subvolume
 sed -i '66,78 {s/^/#/}' /etc/grub.d/10_linux
 sed -i '4s/5/3/' /etc/default/grub
-sed -i '13s/.//' /etc/default/grub
-sed -i '54s/.//' /etc/default/grub
+sed -i '13s/#//' /etc/default/grub
+sed -i '54s/#//' /etc/default/grub
 sed -i '/above./a GRUB_DEFAULT=saved' /etc/default/grub
 echo '$ESP','$BTRFS' | sed -i "6s/.*/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 cryptesp=UUID=$ESP:esp cryptespkey=rootfs:\/root\/.keys\/espkey.bin cryptdevice=UUID=$BTRFS:root cryptkey=rootfs:\/root\/.keys\/rootkey.bin root=\/dev\/mapper\/root rw resume=\/dev\/mapper\/root resume_offset=16400\"/" /etc/default/grub
-echo 'razor ALL=(ALL:ALL) ALL' | sudo EDITOR='tee -a' visudo /etc/sudoers.d/rootusers # change razor with your username
+echo 'razor ALL=(ALL) ALL' | sudo EDITOR='tee -a' visudo /etc/sudoers.d/rootusers # change razor with your username
 
 # edit fstab for btrfs and add zram to automount
 sed -i 's/,subvolid=256,subvol=\/@//' /etc/fstab
