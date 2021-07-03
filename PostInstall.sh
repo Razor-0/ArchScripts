@@ -3,7 +3,7 @@ set -eu
 
 # install desktop environment
 sudo pacman -Syyu --noconfirm
-sudo pacman -S --noconfirm xorg xf86-video-intel xf86-input-synaptics nvidia-lts nvidia-prime nvidia-settings nvidia-dkms plasma plasma-pa sddm pipewire pipewire-alsa pipewire-pulse pipewire-jack gst-plugin-pipewire pulseeffects pavucontrol konsole kate chromium dolphin dolphin-plugins packagekit-qt5 openssh micro xclip dialog screen tree doas wget curl sh rsync snapper neofetch zsh zsh-syntax-highlighting zsh-autosuggestions
+sudo pacman -S --noconfirm xorg xf86-video-intel xf86-input-synaptics nvidia-lts nvidia-prime nvidia-settings plasma plasma-pa sddm pipewire pipewire-alsa pipewire-pulse pipewire-jack gst-plugin-pipewire pulseeffects pavucontrol konsole kate chromium dolphin dolphin-plugins packagekit-qt5 openssh micro xclip dialog screen tree doas wget curl sh neofetch zsh zsh-syntax-highlighting zsh-autosuggestions snap-pac grub-btrfs
 
 # enable display manager and ssh
 sudo systemctl enable sddm
@@ -35,8 +35,7 @@ cd $HOME/Downloads/install
 git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si --noconfirm PKGBUILD
-
-yay -S --answerclean all --noconfirm ttf-meslo-nerd-font-powerlevel10k snap-pac-grub
+yay -S --answerclean all --noconfirm ttf-meslo-nerd-font-powerlevel10k
 
 # install updateable telegram desktop
 tgver=2.6.1
@@ -53,4 +52,6 @@ wget https://github.com/ChrisTitusTech/zsh/raw/master/.zshrc -O ~/.zshrc
 mkdir -p "$HOME/.zsh"
 wget https://github.com/ChrisTitusTech/zsh/raw/master/aliasrc -O ~/.zsh/aliasrc
 git clone https://github.com/sindresorhus/pure.git "$HOME/.zsh/pure"
+
+grub-mkconfig -o /boot/grub/grub.cfg
 neofetch

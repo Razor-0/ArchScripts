@@ -28,7 +28,7 @@ echo razor:PASSWORD | chpasswd # same here for the user's PASSWORD
 
 # edit as you see fit alongside the systemctl commands
 pacman -Syyu --noconfirm
-pacman -S --noconfirm grub efibootmgr os-prober btrfs-progs ntfs-3g dosfstools mtools linux-zen-headers base-devel xdg-user-dirs alsa-utils xdg-utils networkmanager network-manager-applet wpa_supplicant bluez bluez-utils tlp acpi acpi_call-dkms acpid nfs-utils lvm2 linux-lts linux-lts-headers
+pacman -S --noconfirm grub efibootmgr os-prober btrfs-progs ntfs-3g dosfstools mtools linux-zen-headers base-devel xdg-user-dirs alsa-utils xdg-utils networkmanager network-manager-applet wpa_supplicant bluez bluez-utils tlp acpi acpi_call-dkms acpid nfs-utils lvm2 linux-lts linux-lts-headers rsync snapper
 
 # enable neccessities like Network, BT etc at boot
 systemctl enable NetworkManager
