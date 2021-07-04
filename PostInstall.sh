@@ -1,14 +1,6 @@
 #!/bin/bash
 set -eu
 
-# install desktop environment
-sudo pacman -Syyu --noconfirm
-sudo pacman -S --noconfirm xorg xf86-video-intel xf86-input-synaptics nvidia-lts nvidia-prime nvidia-settings plasma plasma-pa sddm pipewire pipewire-alsa pipewire-pulse pipewire-jack gst-plugin-pipewire pulseeffects pavucontrol konsole kate chromium dolphin dolphin-plugins packagekit-qt5 openssh micro xclip dialog screen tree doas wget curl sh neofetch zsh zsh-syntax-highlighting zsh-autosuggestions snap-pac grub-btrfs
-
-# enable display manager and ssh
-sudo systemctl enable sddm
-sudo systemctl enable sshd
-
 # setup snapper for rollback snapshots
 sudo umount /.snapshots
 sudo umount /home/.snapshots
@@ -28,6 +20,14 @@ sudo chmod 750 /home/.snapshots
 sudo systemctl enable --now snapper-timeline.timer
 sudo systemctl enable --now snapper-cleanup.timer
 sudo systemctl enable --now snapper-boot.timer
+
+# install desktop environment
+sudo pacman -Syyu --noconfirm
+sudo pacman -S --noconfirm xorg xf86-video-intel xf86-input-synaptics nvidia-lts nvidia-prime nvidia-settings plasma plasma-pa sddm pipewire pipewire-alsa pipewire-pulse pipewire-jack gst-plugin-pipewire pulseeffects pavucontrol konsole kate chromium dolphin dolphin-plugins packagekit-qt5 openssh micro xclip dialog screen tree doas wget curl sh neofetch zsh zsh-syntax-highlighting zsh-autosuggestions snap-pac grub-btrfs
+
+# enable display manager and ssh
+sudo systemctl enable sddm
+sudo systemctl enable sshd
 
 # install yay aur helper, font for pwrlvl10k and snap-pac-grub
 mkdir $HOME/Downloads/install
@@ -53,5 +53,5 @@ mkdir -p "$HOME/.zsh"
 wget https://github.com/ChrisTitusTech/zsh/raw/master/aliasrc -O ~/.zsh/aliasrc
 git clone https://github.com/sindresorhus/pure.git "$HOME/.zsh/pure"
 
-grub-mkconfig -o /boot/grub/grub.cfg
+sudo grub-mkconfig -o /boot/grub/grub.cfg
 neofetch
