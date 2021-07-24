@@ -2,8 +2,8 @@
 set -eu
 
 # install and setup snapper for snapshot rollback
-sudo pacman -Syyu
-sudo pacman -S rsync snapper
+sudo pacman -Syyu --noconfirm
+sudo pacman -S --noconfirm rsync snapper
 sudo umount /.snapshots
 sudo umount /home/.snapshots
 sudo rm -r /.snapshots
