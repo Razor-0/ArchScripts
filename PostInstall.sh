@@ -1,6 +1,14 @@
 #!/bin/bash
 set -eu
 
+# install yay aur helper, font for pwrlvl10k and snap-pac-grub
+mkdir $HOME/Downloads/install
+cd $HOME/Downloads/install
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si --noconfirm PKGBUILD
+yay -S --answerclean all --noconfirm ttf-meslo-nerd-font-powerlevel10k snap-pac-grub
+
 # setup snapper for rollback snapshots
 sudo umount /.snapshots
 sudo umount /home/.snapshots
@@ -22,20 +30,11 @@ sudo systemctl enable --now snapper-cleanup.timer
 sudo systemctl enable --now snapper-boot.timer
 
 # install desktop environment
-sudo pacman -Syyu --noconfirm
-sudo pacman -S --noconfirm xorg xf86-video-intel xf86-input-synaptics nvidia-lts nvidia-prime nvidia-settings plasma plasma-pa sddm pipewire pipewire-alsa pipewire-pulse pipewire-jack gst-plugin-pipewire easyeffects pavucontrol konsole kate chromium dolphin dolphin-plugins packagekit-qt5 openssh micro xclip dialog screen tree doas wget curl sh neofetch zsh zsh-syntax-highlighting zsh-autosuggestions snap-pac grub-btrfs
+sudo pacman -S --noconfirm xorg xf86-video-intel xf86-input-synaptics nvidia-lts nvidia-prime nvidia-settings plasma plasma-pa sddm pipewire pipewire-alsa pipewire-pulse pipewire-jack gst-plugin-pipewire easyeffects pavucontrol konsole kate chromium dolphin dolphin-plugins packagekit-qt5 openssh micro xclip dialog screen tree doas wget curl sh neofetch zsh zsh-syntax-highlighting zsh-autosuggestions
 
 # enable display manager and ssh
 sudo systemctl enable sddm
 sudo systemctl enable sshd
-
-# install yay aur helper, font for pwrlvl10k and snap-pac-grub
-mkdir $HOME/Downloads/install
-cd $HOME/Downloads/install
-git clone https://aur.archlinux.org/yay.git
-cd yay
-makepkg -si --noconfirm PKGBUILD
-yay -S --answerclean all --noconfirm ttf-meslo-nerd-font-powerlevel10k
 
 # install updateable telegram desktop
 tgver=2.6.1
