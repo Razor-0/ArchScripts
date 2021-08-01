@@ -14,7 +14,7 @@ echo "PASSWORD" | cryptsetup -q luksFormat --type luks2 --use-urandom -h sha512 
 echo "PASSWORD" | cryptsetup luksOpen /dev/mapper/vgroot-btrfs root
 
 # formatting partitions with the following filesystems
-mkfs.vfat -F12 /dev/sdc2
+mkfs.vfat -F12 /dev/sdc1
 mkfs.vfat -F32 /dev/mapper/esp
 fatlabel /dev/mapper/esp 'Crypt ESP'
 mkfs.btrfs -L 'Crypt Btrfs' /dev/mapper/root
@@ -80,7 +80,7 @@ mount -o defaults,discard,noatime,compress=zstd:1,space_cache=v2,subvol=@/snapsh
 mount -o defaults,discard,noatime,compress=zstd:1,space_cache=v2,subvol=@/snapshots/root /dev/mapper/root /mnt/.snapshots
 mount /dev/mapper/esp /mnt/boot
 mkdir /mnt/boot/efi
-mount /dev/sdc2 /mnt/boot/efi
+mount /dev/sdc1 /mnt/boot/efi
 mount -o defaults /dev/sda5 /mnt/.win/ssd
 mount -o defaults /dev/sdb1 /mnt/.win/hdd
 chmod 750 /mnt/root
