@@ -1,15 +1,9 @@
 #!/bin/bash
 set -eu
 
-# install desktop environment and some stuff
-sudo pacman -Syyu --noconfirm
-sudo pacman -S --noconfirm xorg xf86-video-intel xf86-input-synaptics nvidia-lts nvidia-prime nvidia-settings plasma plasma-pa sddm pipewire pipewire-alsa pipewire-pulse pipewire-jack gst-plugin-pipewire easyeffects pavucontrol konsole kate chromium dolphin dolphin-plugins packagekit-qt5 openssh micro xclip dialog screen tree doas wget curl sh neofetch zsh zsh-syntax-highlighting zsh-autosuggestions
-
-# enable display manager and ssh
-sudo systemctl enable sddm
-sudo systemctl enable sshd
-
 # install and setup snapper for snapshot rollback
+sudo pacman -Syyu --noconfirm
+sudo pacman -S --noconfirm rsync snapper
 sudo umount /.snapshots
 sudo umount /home/.snapshots
 sudo rm -r /.snapshots
@@ -36,6 +30,14 @@ git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si --noconfirm PKGBUILD
 yay -S --answerclean all --noconfirm ttf-meslo-nerd-font-powerlevel10k snap-pac-grub
+
+# install desktop environment and some stuff
+sudo pacman -Syyu --noconfirm
+sudo pacman -S --noconfirm xorg xf86-video-intel xf86-input-synaptics nvidia-lts nvidia-prime nvidia-settings plasma plasma-pa sddm pipewire pipewire-alsa pipewire-pulse pipewire-jack gst-plugin-pipewire easyeffects pavucontrol konsole kate chromium dolphin dolphin-plugins packagekit-qt5 openssh micro xclip dialog screen tree doas wget curl sh neofetch zsh zsh-syntax-highlighting zsh-autosuggestions
+
+# enable display manager and ssh
+sudo systemctl enable sddm
+sudo systemctl enable sshd
 
 # install updateable telegram desktop
 tgver=2.6.1
