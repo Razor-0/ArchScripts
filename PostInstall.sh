@@ -2,6 +2,7 @@
 set -eu
 
 # install desktop environment and some stuff
+sudo pacman -Syyu --noconfirm
 sudo pacman -S --noconfirm xorg xf86-video-intel xf86-input-synaptics nvidia-lts nvidia-prime nvidia-settings plasma plasma-pa sddm pipewire pipewire-alsa pipewire-pulse pipewire-jack gst-plugin-pipewire easyeffects pavucontrol konsole kate chromium dolphin dolphin-plugins packagekit-qt5 openssh micro xclip dialog screen tree doas wget curl sh neofetch zsh zsh-syntax-highlighting zsh-autosuggestions
 
 # enable display manager and ssh
