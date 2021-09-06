@@ -69,7 +69,7 @@ echo "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/sda2 /root/.keys/espkey.bin
 echo "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/mapper/vgroot-btrfs /root/.keys/rootkey.bin # same here
 
 # set temp environment value to include in grub config
-ESP="$(blkid -s UUID -o value /dev/sda1)"
+ESP="$(blkid -s UUID -o value /dev/sda2)"
 BTRFS="$(blkid -s UUID -o value /dev/mapper/vgroot-btrfs)"
 
 # edit grub config and grubd to make btrfs decide the default subvolume
