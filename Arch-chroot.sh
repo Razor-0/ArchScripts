@@ -28,7 +28,7 @@ echo razor:PASSWORD | chpasswd # same here for the user's PASSWORD
 
 # edit as you see fit alongside the systemctl commands
 pacman -Syyu --noconfirm
-pacman -S --noconfirm grub efibootmgr os-prober btrfs-progs ntfs-3g dosfstools mtools linux-zen-headers base-devel xdg-user-dirs alsa-utils xdg-utils networkmanager network-manager-applet wpa_supplicant bluez bluez-utils tlp acpi acpi_call-dkms acpid nfs-utils lvm2 linux-lts linux-lts-headers
+pacman -S --noconfirm grub efibootmgr os-prober btrfs-progs ntfs-3g dosfstools mtools linux-zen-headers base-devel xdg-user-dirs alsa-utils xdg-utils networkmanager network-manager-applet wpa_supplicant bluez bluez-utils tlp acpi acpi_call-dkms acpid nfs-utils lvm2 linux-lts linux-lts-headers rsync snapper
 
 # enable neccessities like Network, BT etc at boot
 systemctl enable NetworkManager
@@ -41,7 +41,7 @@ systemctl enable acpid
 sed -i '7s/.*/MODULES=(crc32c-intel btrfs)/' /etc/mkinitcpio.conf
 sed -i '14s/.*/BINARIES=(dosfsck btrfsck)/' /etc/mkinitcpio.conf
 sed -i '19s/.*/FILES=(\/root\/.keys\/espkey.bin \/root\/.keys\/rootkey.bin)/' /etc/mkinitcpio.conf
-sed -i '52s/.*/HOOKS=(base udev autodetect keyboard keymap modconf block lvm2 encryptesp encrypt usr fsck resume shutdown)/' /etc/mkinitcpio.conf
+sed -i '52s/.*/HOOKS=(base udev autodetect keyboard keymap modconf block lvm2 encryptesp encrypt resume usr fsck shutdown)/' /etc/mkinitcpio.conf
 sed -i '57s/#//' /etc/mkinitcpio.conf
 
 # enable 2GB zram pages per physical core on 4C/8T
@@ -74,7 +74,7 @@ BTRFS="$(blkid -s UUID -o value /dev/mapper/vgroot-btrfs)"
 
 # edit grub config and grubd to make btrfs decide the default subvolume
 sed -i '66,78 {s/^/#/}' /etc/grub.d/10_linux
-sed -i '4s/5/3/' /etc/default/grub
+sed -i '4s/5/8/' /etc/default/grub
 sed -i '13s/#//' /etc/default/grub
 sed -i '54s/#//' /etc/default/grub
 sed -i '/above./a GRUB_DEFAULT=saved' /etc/default/grub
