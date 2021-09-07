@@ -18,7 +18,6 @@ mkfs.vfat -F32 /dev/sda1
 mkfs.vfat -F32 /dev/mapper/esp
 fatlabel /dev/mapper/esp 'Crypt ESP'
 mkfs.btrfs -L 'Crypt Btrfs' /dev/mapper/root
-mkfs.ntfs -Q /dev/sda3
 mkfs.ntfs -Q /dev/sda5
 
 # creating btrfs subvols for snapshots
