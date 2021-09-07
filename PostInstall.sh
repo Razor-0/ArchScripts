@@ -45,6 +45,7 @@ wget https://github.com/telegramdesktop/tdesktop/releases/download/v${tgver}/tse
 tar -xJvf tsetup.${tgver}.tar.xz
 sudo mv Telegram /opt/telegram
 sudo ln -sf /opt/telegram/Telegram /usr/bin/telegram
+rm -rf ~/Downloads/install
 
 # clone ohmyzsh config files
 wget https://github.com/ChrisTitusTech/zsh/raw/master/.zshrc -O ~/.zshrc
