@@ -95,5 +95,5 @@ echo '/dev/zram3		none		swap		defaults,pri=400	0 0' >> /etc/fstab
 btrfs su set-default 256 /
 mkinitcpio -p linux-zen
 mkinitcpio -p linux-lts
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id='GRUB Bootloader'
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id='GRUBloader'
 grub-mkconfig -o /boot/grub/grub.cfg
