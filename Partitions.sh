@@ -81,7 +81,7 @@ mount /dev/mapper/esp /mnt/boot
 mkdir /mnt/boot/efi
 mount /dev/sda1 /mnt/boot/efi
 mount -o defaults /dev/sda5 /mnt/.win/ssd
-mount -o defaults /dev/sdb1 /mnt/.win/hdd
+mount -o defaults /dev/sdb2 /mnt/.win/hdd
 chmod 750 /mnt/root
 chmod 1777 /mnt/var/tmp
 
