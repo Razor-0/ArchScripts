@@ -31,7 +31,7 @@ makepkg -si --noconfirm PKGBUILD
 yay -S --answerclean all --noconfirm ttf-meslo-nerd-font-powerlevel10k snap-pac-grub
 
 # install desktop environment and some stuff
-sudo pacman -S --noconfirm xorg xorg-server xf86-video-intel xf86-input-synaptics nvidia-lts nvidia-prime nvidia-settings plasma plasma-pa sddm konsole yakuake dolphin dolphin-plugins pipewire pipewire-pulse pipewire-alsa pipewire-jack gst-plugin-pipewire easyeffects pavucontrol kate chromium keepassxc packagekit-qt5 openssh micro xclip dialog screen tree doas wget curl sh neofetch zsh zsh-syntax-highlighting zsh-autosuggestions
+sudo pacman -S --noconfirm xorg xorg-server xf86-video-intel xf86-input-synaptics nvidia-lts nvidia-prime nvidia-settings plasma plasma-pa sddm konsole yakuake dolphin dolphin-plugins pipewire pipewire-pulse pipewire-alsa pipewire-jack gst-plugin-pipewire easyeffects pavucontrol kate chromium keepassxc libreoffice-fresh libreoffice-fresh-en-gb libreoffice-fresh-hu libreoffice-fresh-de packagekit-qt5 openssh micro xclip dialog screen tree doas wget curl sh neofetch zsh zsh-syntax-highlighting zsh-autosuggestions
 
 # enable display manager and ssh
 sudo systemctl enable sddm
