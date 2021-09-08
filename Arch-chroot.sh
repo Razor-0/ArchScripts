@@ -41,7 +41,7 @@ systemctl enable acpid
 sed -i '7s/.*/MODULES=(crc32c-intel btrfs)/' /etc/mkinitcpio.conf
 sed -i '14s/.*/BINARIES=(dosfsck btrfsck)/' /etc/mkinitcpio.conf
 sed -i '19s/.*/FILES=(\/root\/.keys\/espkey.bin \/root\/.keys\/rootkey.bin)/' /etc/mkinitcpio.conf
-sed -i '52s/.*/HOOKS=(base udev autodetect keyboard keymap modconf block lvm2 encryptesp encrypt resume usr fsck shutdown)/' /etc/mkinitcpio.conf
+sed -i '52s/.*/HOOKS=(base udev autodetect keyboard keymap modconf block encryptesp encrypt lvm2 resume usr fsck shutdown)/' /etc/mkinitcpio.conf
 sed -i '57s/#//' /etc/mkinitcpio.conf
 
 # enable 2GB zram pages per physical core on 4C/8T
