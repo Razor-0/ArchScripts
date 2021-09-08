@@ -70,7 +70,7 @@ echo "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/sda3 /root/.keys/rootkey.bi
 
 # set temp environment value to include in grub config
 ESP="$(blkid -s UUID -o value /dev/sda2)"
-BTRFS="$(blkid -s UUID -o value /dev/mapper/root)"
+BTRFS="$(blkid -s UUID -o value /dev/sda3)"
 
 # edit grub config and grubd to make btrfs decide the default subvolume
 sed -i '66,78 {s/^/#/}' /etc/grub.d/10_linux
