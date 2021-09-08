@@ -66,11 +66,11 @@ head -c 64 /dev/urandom >> /root/.keys/rootkey.bin
 chmod 600 /root/.keys/espkey.bin
 chmod 600 /root/.keys/rootkey.bin
 echo "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/sda2 /root/.keys/espkey.bin # edit PASSWORD
-echo "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/mapper/vgroot-btrfs /root/.keys/rootkey.bin # same here
+echo "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/sda3 /root/.keys/rootkey.bin # same here
 
 # set temp environment value to include in grub config
 ESP="$(blkid -s UUID -o value /dev/sda2)"
-BTRFS="$(blkid -s UUID -o value /dev/mapper/vgroot-btrfs)"
+BTRFS="$(blkid -s UUID -o value /dev/mapper/root)"
 
 # edit grub config and grubd to make btrfs decide the default subvolume
 sed -i '66,78 {s/^/#/}' /etc/grub.d/10_linux
