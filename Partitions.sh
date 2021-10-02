@@ -15,11 +15,12 @@ lvcreate -l 100%FREE -n btrfs vgroot
 
 # formatting partitions with the following filesystems
 mkfs.vfat -F32 /dev/sda1
-mkfs.vfat -F32 /dev/mapper/esp
-fatlabel /dev/mapper/esp 'Crypt ESP'
 fatlabel /dev/sda1 Bootloaders
-mkfs.btrfs -L 'Crypt Btrfs' /dev/mapper/vgroot-btrfs
-mkfs.ntfs -Q /dev/sda5
+mkfs.vfat -F32 /dev/mapper/esp
+fatlabel /dev/mapper/esp Kernels
+mkfs.btrfs -L 'Btrfs Root' /dev/mapper/vgroot-btrfs
+mkfs.ntfs -Q /dev/sda4
+mkfs.ntfs -Q /dev/sda6
 
 # creating btrfs subvols for snapshots
 mount /dev/mapper/vgroot-btrfs /mnt
@@ -81,7 +82,7 @@ mount -o defaults,discard,noatime,compress=zstd:1,space_cache=v2,subvol=@/snapsh
 mount /dev/mapper/esp /mnt/boot
 mkdir /mnt/boot/efi
 mount /dev/sda1 /mnt/boot/efi
-mount -o defaults /dev/sda5 /mnt/.win/ssd
+mount -o defaults /dev/sda6 /mnt/.win/ssd
 mount -o defaults /dev/sdb2 /mnt/.win/hdd
 chmod 750 /mnt/root
 chmod 1777 /mnt/var/tmp
