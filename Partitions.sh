@@ -82,7 +82,7 @@ mount -o defaults,discard,noatime,compress=zstd:1,space_cache=v2,subvol=@/snapsh
 mount /dev/mapper/esp /mnt/boot
 mkdir /mnt/boot/efi
 mount /dev/sda1 /mnt/boot/efi
-mount -o defaults /dev/sda6 /mnt/.win/ssd
+mount -o defaults,noauto /dev/sda6 /mnt/.win/ssd
 mount -o defaults /dev/sdb2 /mnt/.win/hdd
 chmod 750 /mnt/root
 chmod 1777 /mnt/var/tmp
