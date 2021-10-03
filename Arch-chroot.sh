@@ -7,7 +7,6 @@ hwclock --systohc --utc # remove --utc if you're not dualbooting or you use the 
 timedatectl set-ntp true
 sed -i '160s/#//' /etc/locale.gen # change the 160 to your locale's line number
 locale-gen
-
 sed -i '93s/#//' /etc/pacman.conf # comment this and the next command to not enable multilib
 sed -i '94s/#//' /etc/pacman.conf
 
@@ -20,7 +19,6 @@ echo '::1		localhost' >> /etc/hosts
 echo '127.0.1.1	lenarch.localdomain	lenarch' >> /etc/hosts # change lenarch to the same name as your hostname
 echo 'LANG=en_GB.UTF-8' >> /etc/locale.conf # edit en_GB with your locale from the locale.gen part
 echo 'KEYMAP=hu' >> /etc/vconsole.conf # change hu to your keymap
-echo 'permit persist razor as root' >> /etc/doas.conf # change razor to your user or uncomment this and remove doas from the pacman part if you don't need doas
 
 echo root:PASSWORD | chpasswd # change PASSWORD with your root's password
 useradd -m -g users -G wheel razor # change razor to your own username
@@ -79,6 +77,9 @@ sed -i '13s/#//' /etc/default/grub
 sed -i '54s/#//' /etc/default/grub
 sed -i '/above./a GRUB_DEFAULT=saved' /etc/default/grub
 echo '$ESP','$BTRFS' | sed -i "6s/.*/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 cryptesp=UUID=$ESP:esp cryptespkey=rootfs:\/root\/.keys\/espkey.bin cryptdevice=UUID=$BTRFS:root cryptkey=rootfs:\/root\/.keys\/rootkey.bin root=\/dev\/mapper\/vgroot-btrfs rw resume=\/dev\/mapper\/vgroot-btrfs resume_offset=16400\"/" /etc/default/grub
+
+# add sudo and doas privileges to the user
+echo 'permit persist razor as root' >> /etc/doas.conf # change razor to your user or uncomment this and remove doas from the pacman part if you don't need doas
 echo 'razor ALL=(ALL) ALL' | EDITOR=tee visudo /etc/sudoers.d/rootusers &> /dev/null # change razor with your username
 
 # edit fstab for btrfs and add zram to automount
