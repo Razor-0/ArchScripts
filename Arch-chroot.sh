@@ -3,7 +3,7 @@ set -eu
 
 # basic configurations for the system (edit as needed for locale, hostname etc)
 ln -sf /usr/share/zoneinfo/Europe/Budapest /etc/localtime
-hwclock --systohc --utc # remove --utc if you're not dualbooting or you use the DE's time sync
+hwclock --systohc
 timedatectl set-ntp true
 sed -i '160s/#//' /etc/locale.gen # change the 160 to your locale's line number
 locale-gen
@@ -80,7 +80,7 @@ echo '$ESP','$BTRFS' | sed -i "6s/.*/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 cry
 
 # add sudo and doas privileges to the user
 echo 'permit persist razor as root' >> /etc/doas.conf # change razor to your user or uncomment this and remove doas from the pacman part if you don't need doas
-echo 'razor ALL=(ALL) ALL' | EDITOR=tee visudo /etc/sudoers.d/rootusers &> /dev/null # change razor with your username
+echo 'razor ALL=(ALL) ALL' | EDITOR=tee visudo /etc/sudoers.d/rootusers # change razor with your username
 
 # edit fstab for btrfs and add zram to automount
 sed -i 's/,subvolid=256,subvol=\/@//' /etc/fstab
