@@ -3,7 +3,6 @@ set -eu
 
 # basic configurations for the system (edit as needed for locale, hostname etc)
 ln -sf /usr/share/zoneinfo/Europe/Budapest /etc/localtime
-timedatectl set-timezone UTC
 hwclock --systohc
 sed -i '160s/#//' /etc/locale.gen # change the 160 to your locale's line number
 locale-gen
