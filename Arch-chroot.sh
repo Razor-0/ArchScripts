@@ -89,7 +89,7 @@ echo 'permit persist razor as root' >> /etc/doas.conf # change razor to your use
 echo 'razor ALL=(ALL) ALL' | EDITOR=tee visudo /etc/sudoers.d/rootusers # change razor with your username
 
 # edit fstab for btrfs and add zram to automount
-sed -i 's/,subvolid=280,subvol=\/@.\/.snapshots\/1\/snapshot//' /etc/fstab
+sed -i 's/,subvolid=280,subvol=\/@\/.snapshots\/1\/snapshot//' /etc/fstab
 echo '/dev/zram0		none		swap		defaults,pri=32000	0 0' >> /etc/fstab
 echo >> /etc/fstab
 echo '/dev/zram1		none		swap		defaults,pri=16000	0 0' >> /etc/fstab
