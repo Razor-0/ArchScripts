@@ -56,10 +56,19 @@ echo '$DATE' | sed -i "5s//<date>$DATE</date>" /mnt/@/snapshots/root/1/info.xml
 echo '  <description>Original Root Filesystem</description>' >> /mnt/@/snapshots/root/1/info.xml
 echo '</snapshot>' >> /mnt/@/snapshots/root/1/info.xml
 btrfs su set-default $(btrfs su li /mnt | grep "@/snapshots/root/1/snapshot" | grep -oP'(?<=ID)[0-9]+') /mnt
+btrfs quota enable /mnt
+chattr +C /mnt/var/lib/libvirt/images
+chattr +C /mnt/var/lib/mariadb
+chattr +C /mnt/var/lib/mysql
+chattr +C /mnt/var/lib/pgqsl
+chattr +C /mnt/var/cache
+chattr +C /mnt/var/log
+chattr +C /mnt/var/spool
+chattr +C /mnt/var/tmp
 umount /mnt
 
 # mounting the subvolumes and partititons
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@ /dev/mapper/root /mnt
+mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2 /dev/mapper/root /mnt
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/home /dev/mapper/root /mnt/home
 mkdir /mnt/home/.snapshots
 mkdir -p /mnt/{.win,.snapshots}
@@ -92,12 +101,6 @@ mount -o defaults /dev/sda6 /mnt/.win/ssd
 mount -o defaults /dev/sdb2 /mnt/.win/hdd
 chmod 750 /mnt/root
 chmod 1777 /mnt/var/tmp
-
-# disabling cow for some folders for performance
-chattr +C /mnt/var/lib/libvirt/images
-chattr +C /mnt/var/lib/mariadb
-chattr +C /mnt/var/lib/mysql
-chattr +C /mnt/var/lib/pgqsl
 
 # creating and disabling cow on the swapfile
 truncate -s 0 /mnt/.swap/swapfile
