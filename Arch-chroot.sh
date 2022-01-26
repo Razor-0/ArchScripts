@@ -3,30 +3,28 @@ set -eu
 
 # basic configurations for the system (edit as needed for locale, hostname etc)
 ln -sf /usr/share/zoneinfo/Europe/Budapest /etc/localtime
+timedatectl set-timezone UTC
 hwclock --systohc
-timedatectl set-ntp true
 sed -i '160s/#//' /etc/locale.gen # change the 160 to your locale's line number
 locale-gen
 sed -i '93s/#//' /etc/pacman.conf # comment this and the next command to not enable multilib
 sed -i '94s/#//' /etc/pacman.conf
 
-# edit this command to use the correct mirrorlist for your country
-reflector --country Netherlands --latest 6 --protocol https --sort rate --verbose --save /etc/pacman.d/mirrorlist
-
 echo 'lenarch' >> /etc/hostname # edit lenarch to whatever name you want for your PC
 echo '127.0.0.1	localhost' >> /etc/hosts
 echo '::1		localhost' >> /etc/hosts
-echo '127.0.1.1	lenarch.localdomain	lenarch' >> /etc/hosts # change lenarch to the same name as your hostname
+echo '127.0.1.1	lenarch.localdomain lenarch' >> /etc/hosts # change lenarch to the same name as your hostname
 echo 'LANG=en_GB.UTF-8' >> /etc/locale.conf # edit en_GB with your locale from the locale.gen part
 echo 'KEYMAP=hu' >> /etc/vconsole.conf # change hu to your keymap
 
 echo root:PASSWORD | chpasswd # change PASSWORD with your root's password
-useradd -m -g users -G wheel razor # change razor to your own username
+useradd -m -G wheel -c "Kosa Mark" razor # change razor to your own username
 echo razor:PASSWORD | chpasswd # same here for the user's PASSWORD
 
 # edit as you see fit alongside the systemctl commands
+reflector --country Netherlands --latest 6 --protocol https --sort rate --verbose --save /etc/pacman.d/mirrorlist
 pacman -Syyu --noconfirm
-pacman -S --noconfirm grub efibootmgr os-prober btrfs-progs ntfs-3g dosfstools linux-zen-headers base-devel xdg-user-dirs alsa-utils xdg-utils networkmanager wpa_supplicant bluez bluez-utils tlp acpi acpi_call-dkms acpid nfs-utils lvm2 linux linux-headers rsync snapper doas git
+pacman -S --noconfirm grub efibootmgr os-prober btrfs-progs ntfs-3g dosfstools linux-zen-headers base-devel xdg-user-dirs alsa-utils xdg-utils networkmanager wpa_supplicant bluez bluez-utils tlp acpi acpi_call-dkms acpid rsync snapper doas git
 
 # enable neccessities like Network, BT etc at boot
 systemctl enable NetworkManager
@@ -35,11 +33,19 @@ systemctl enable tlp
 systemctl enable reflector.timer
 systemctl enable acpid
 
+umount /.snapshots
+rm -r /.snapshots
+snapper --no-dbus -c root create-config /
+btrfs su de /.snapshots
+mkdir /.snapshots
+mount -a
+chmod 750 /.snapshots
+
 # modify initcpio modules, binaries, hooks etc
 sed -i '7s/.*/MODULES=(crc32c-intel btrfs)/' /etc/mkinitcpio.conf
 sed -i '14s/.*/BINARIES=(dosfsck btrfsck)/' /etc/mkinitcpio.conf
 sed -i '19s/.*/FILES=(\/root\/.keys\/espkey.bin \/root\/.keys\/rootkey.bin)/' /etc/mkinitcpio.conf
-sed -i '52s/.*/HOOKS=(base udev autodetect keyboard keymap modconf block encryptesp encrypt lvm2 resume usr fsck shutdown)/' /etc/mkinitcpio.conf
+sed -i '52s/.*/HOOKS=(base udev autodetect keyboard keymap modconf block encryptesp encrypt resume usr fsck shutdown)/' /etc/mkinitcpio.conf
 sed -i '57s/#//' /etc/mkinitcpio.conf
 
 # enable 2GB zram pages per physical core on 4C/8T

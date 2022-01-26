@@ -116,6 +116,6 @@ mkswap /mnt/.swap/swapfile
 swapon -p 0 /mnt/.swap/swapfile # edit -p value to set different priority per requirements
 
 # installing base system and some neccessities
-pacstrap /mnt base linux-zen linux-firmware nano intel-ucode
+pacstrap /mnt base linux-zen linux-firmware nano intel-ucode reflector
 genfstab -U /mnt >> /mnt/etc/fstab
 lsblk -f
