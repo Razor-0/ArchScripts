@@ -3,10 +3,10 @@ set -eu
 
 # create LuKs boot and LuKs root
 # change the PASSWORD in all 4 of these lines (first to create then to open said LuKs part)
-echo "PASSWORD" | cryptsetup -q luksFormat --type luks2 --use-urandom -h sha2 -i 1000 /dev/sda2
+echo "PASSWORD" | cryptsetup -q luksFormat --type luks2 --use-urandom -h sha256 -i 2000 /dev/sda2
 echo "PASSWORD" | cryptsetup luksOpen /dev/sda2 boot
 
-echo "PASSWORD" | cryptsetup -q luksFormat --type luks2 --use-urandom -h sha512 -i 1000 /dev/sda3
+echo "PASSWORD" | cryptsetup -q luksFormat --type luks2 --use-urandom -h sha512 -i 2000 /dev/sda3
 echo "PASSWORD" | cryptsetup luksOpen /dev/sda3 root
 
 # formatting partitions with the following filesystems
