@@ -55,7 +55,7 @@ DATE="$(date +"%Y-%m-%d %H:%M:%S")"
 echo '$DATE' | sed -i "5s//<date>$DATE<\/date>/" /mnt/@/snapshots/root/1/info.xml
 echo '  <description>Original Root Filesystem</description>' >> /mnt/@/snapshots/root/1/info.xml
 echo '</snapshot>' >> /mnt/@/snapshots/root/1/info.xml
-btrfs su set-default $(btrfs su li /mnt | grep "@/snapshots/root/1/snapshot" | grep -oP'(?<=ID)[0-9]+') /mnt
+btrfs su set-default $(btrfs su li /mnt | grep "@/snapshots/root/1/snapshot" | grep -oP '(?<=ID )[0-9]+') /mnt
 btrfs quota enable /mnt
 umount /mnt
 
