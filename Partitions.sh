@@ -1,17 +1,13 @@
 #!/bin/bash
 set -eu
 
-# create LuKs boot and LuKs root on LVM
-echo "PASSWORD" | cryptsetup -q luksFormat --type luks1 --use-urandom -h sha1 -i 1000 /dev/sda2 # change the PASSWORD 2 by 2 in all 4 of these lines (first to create then to open said LuKs part)
+# create LuKs boot and LuKs root
+# change the PASSWORD in all 4 of these lines (first to create then to open said LuKs part)
+echo "PASSWORD" | cryptsetup -q luksFormat --type luks1 --use-urandom -h sha1 -i 1000 /dev/sda2
 echo "PASSWORD" | cryptsetup luksOpen /dev/sda2 esp
 
 echo "PASSWORD" | cryptsetup -q luksFormat --type luks2 --use-urandom -h sha512 -i 1000 /dev/sda3
 echo "PASSWORD" | cryptsetup luksOpen /dev/sda3 root
-
-# setup lvm for the root
-pvcreate /dev/mapper/root
-vgcreate vgroot /dev/mapper/root
-lvcreate -l 100%FREE -n btrfs vgroot
 
 # formatting partitions with the following filesystems
 mkfs.vfat -F32 /dev/sda1
