@@ -44,8 +44,8 @@ btrfs su cr /mnt/@/var/lib/mariadb
 btrfs su cr /mnt/@/var/lib/mysql
 btrfs su cr /mnt/@/var/lib/pgqsl
 btrfs su cr /mnt/@/usr/local
-btrfs su cr /mnt/@/.snapshots/1/snapshot
 btrfs su cr /mnt/@/.windows
+btrfs su cr /mnt/@/.snapshots/1/snapshot
 echo '<?xml version="1."?>' >> /mnt/@/.snapshots/1/info.xml
 echo '<snapshot>' >> /mnt/@/.snapshots/1/info.xml
 echo '  <type>single</type>' >> /mnt/@/.snapshots/1/info.xml
