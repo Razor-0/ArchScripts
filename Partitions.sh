@@ -28,6 +28,9 @@ btrfs su cr /mnt/@/snapshots/root
 btrfs su cr /mnt/@/snapshots/home
 mkdir -p /mnt/@/var/lib/libvirt
 mkdir /mnt/@/usr
+mkdir /mnt/@/boot
+mkdir /mnt/@/snapshots/root/1
+btrfs su cr /mnt/@/boot/grub
 btrfs su cr /mnt/@/var/cache
 btrfs su cr /mnt/@/var/crash
 btrfs su cr /mnt/@/var/log
@@ -43,13 +46,23 @@ btrfs su cr /mnt/@/var/lib/mariadb
 btrfs su cr /mnt/@/var/lib/mysql
 btrfs su cr /mnt/@/var/lib/pgqsl
 btrfs su cr /mnt/@/usr/local
+btrfs su cr /mnt/@/snapshots/root/1/snapshot
+echo '<?xml version="1."?>' >> /mnt/@/snapshots/root/1/info.xml
+echo '<snapshot>' >> /mnt/@/snapshots/root/1/info.xml
+echo '  <type>single</type>' >> /mnt/@/snapshots/root/1/info.xml
+echo '  <num>1</num>' >> /mnt/@/snapshots/root/1/info.xml
+$DATE="$(date +"%Y-%m-%d %H:%M:%S")"
+echo '$DATE' | sed -i "5s//<date>$DATE</date>" /mnt/@/snapshots/root/1/info.xml
+echo '  <description>Original Root Filesystem</description>' >> /mnt/@/snapshots/root/1/info.xml
+echo '</snapshot>' >> /mnt/@/snapshots/root/1/info.xml
+btrfs su set-default $(btrfs su li /mnt | grep "@/snapshots/root/1/snapshot" | grep -oP'(?<=ID)[0-9]+') /mnt
 umount /mnt
 
 # mounting the subvolumes and partititons
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@ /dev/mapper/root /mnt
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/home /dev/mapper/root /mnt/home
 mkdir /mnt/home/.snapshots
-mkdir -p /mnt/{boot,.win,.snapshots}
+mkdir -p /mnt/{.win,.snapshots}
 mkdir -p /mnt/.win/{ssd,hdd,ehdd,usb,iso}
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/root /dev/mapper/root /mnt/root
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/opt /dev/mapper/root /mnt/opt
