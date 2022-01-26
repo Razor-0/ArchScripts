@@ -23,13 +23,11 @@ btrfs su cr /mnt/@/root
 btrfs su cr /mnt/@/opt
 btrfs su cr /mnt/@/srv
 btrfs su cr /mnt/@/swap
-btrfs su cr /mnt/@/snapshots
-btrfs su cr /mnt/@/snapshots/root
-btrfs su cr /mnt/@/snapshots/home
+btrfs su cr /mnt/@/.snapshots
 mkdir -p /mnt/@/var/lib/libvirt
 mkdir /mnt/@/usr
 mkdir /mnt/@/boot
-mkdir /mnt/@/snapshots/root/1
+mkdir /mnt/@/.snapshots/1
 btrfs su cr /mnt/@/boot/grub
 btrfs su cr /mnt/@/var/cache
 btrfs su cr /mnt/@/var/crash
@@ -46,16 +44,16 @@ btrfs su cr /mnt/@/var/lib/mariadb
 btrfs su cr /mnt/@/var/lib/mysql
 btrfs su cr /mnt/@/var/lib/pgqsl
 btrfs su cr /mnt/@/usr/local
-btrfs su cr /mnt/@/snapshots/root/1/snapshot
-echo '<?xml version="1."?>' >> /mnt/@/snapshots/root/1/info.xml
-echo '<snapshot>' >> /mnt/@/snapshots/root/1/info.xml
-echo '  <type>single</type>' >> /mnt/@/snapshots/root/1/info.xml
-echo '  <num>1</num>' >> /mnt/@/snapshots/root/1/info.xml
+btrfs su cr /mnt/@/.snapshots/1/snapshot
+echo '<?xml version="1."?>' >> /mnt/@/.snapshots/1/info.xml
+echo '<snapshot>' >> /mnt/@/.snapshots/1/info.xml
+echo '  <type>single</type>' >> /mnt/@/.snapshots/1/info.xml
+echo '  <num>1</num>' >> /mnt/@/.snapshots/1/info.xml
 DATE="$(date +"%Y-%m-%d %H:%M:%S")"
-echo '$DATE' | sed -i "5s//<date>$DATE<\/date>/" /mnt/@/snapshots/root/1/info.xml
-echo '  <description>Original Root Filesystem</description>' >> /mnt/@/snapshots/root/1/info.xml
-echo '</snapshot>' >> /mnt/@/snapshots/root/1/info.xml
-btrfs su set-default $(btrfs su li /mnt | grep "@/snapshots/root/1/snapshot" | grep -oP '(?<=ID )[0-9]+') /mnt
+echo '$DATE' | sed -i "5s//<date>$DATE<\/date>/" /mnt/@/.snapshots/1/info.xml
+echo '  <description>Original Root Filesystem</description>' >> /mnt/@/.snapshots/1/info.xml
+echo '</snapshot>' >> /mnt/@/.snapshots/1/info.xml
+btrfs su set-default $(btrfs su li /mnt | grep "@/.snapshots/1/snapshot" | grep -oP '(?<=ID )[0-9]+') /mnt
 btrfs quota enable /mnt
 umount /mnt
 
@@ -63,10 +61,8 @@ umount /mnt
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2 /dev/mapper/root /mnt
 mkdir -p /mnt/var/{cache,crash,log,opt,spool,tmp,lib}
 mkdir -p /mnt/var/lib/{libvirt/images,machines,portables,mailman,named,mariadb,mysql,pgqsl}
-mkdir -p /mnt/{boot,.win,.snapshots,home,srv,opt,.swap,root,usr}
+mkdir -p /mnt/{boot,.win,.snapshots,home,srv,opt,.swap,root,usr/local}
 mkdir -p /mnt/.win/{ssd,hdd,ehdd,usb,iso}
-mkdir /mnt/home/.snapshots
-mkdir /mnt/usr/local
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/home /dev/mapper/root /mnt/home
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/root /dev/mapper/root /mnt/root
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/opt /dev/mapper/root /mnt/opt
@@ -87,8 +83,7 @@ mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,noda
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,nodatacow,subvol=@/var/lib/mysql /dev/mapper/root /mnt/var/lib/mysql
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,nodatacow,subvol=@/var/lib/pgqsl /dev/mapper/root /mnt/var/lib/pgqsl
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/usr/local /dev/mapper/root /mnt/usr/local
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/snapshots/root /dev/mapper/root /mnt/.snapshots
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/snapshots/home /dev/mapper/root /mnt/home/.snapshots
+mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/.snapshots /dev/mapper/root /mnt/.snapshots
 mount /dev/mapper/boot /mnt/boot
 mkdir /mnt/boot/efi
 mount /dev/sda1 /mnt/boot/efi
