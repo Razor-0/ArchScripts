@@ -66,8 +66,8 @@ mkdir -p /mnt/{boot,.windows,.snapshots,home,srv,opt,.swap,root,usr/local}
 mount /dev/mapper/boot /mnt/boot
 mkdir -p /mnt/boot/{efi,grub}
 mount /dev/sda1 /mnt/boot/efi
-mount -o default,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/boot/grub /dev/mapper/root /mnt/boot/grub
-mount -o default,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/.windows /dev/mapper/root /mnt/.windows
+mount -o default,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,nodatacow,subvol=@/boot/grub /dev/mapper/root /mnt/boot/grub
+mount -o default,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,nodatacow,subvol=@/.windows /dev/mapper/root /mnt/.windows
 mkdir -p /mnt/.windows/{ssd,hdd,ehdd,usb,iso}
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/home /dev/mapper/root /mnt/home
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/root /dev/mapper/root /mnt/root
@@ -104,6 +104,8 @@ chattr +C /mnt/var/cache
 chattr +C /mnt/var/log
 chattr +C /mnt/var/spool
 chattr +C /mnt/var/tmp
+chattr +C /mnt/boot/grub
+chattr +C /mnt/.windows
 
 # creating and disabling cow on the swapfile
 truncate -s 0 /mnt/.swap/swapfile
