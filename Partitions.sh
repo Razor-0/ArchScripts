@@ -48,7 +48,8 @@ umount /mnt
 # mounting the subvolumes and partititons
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@ /dev/mapper/root /mnt
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/home /dev/mapper/root /mnt/home
-mkdir -p /mnt/{boot,.win}
+mkdir /mnt/home/.snapshots
+mkdir -p /mnt/{boot,.win,.snapshots}
 mkdir -p /mnt/.win/{ssd,hdd,ehdd,usb,iso}
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/root /dev/mapper/root /mnt/root
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/opt /dev/mapper/root /mnt/opt
@@ -69,12 +70,13 @@ mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subv
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/lib/mysql /dev/mapper/root /mnt/var/lib/mysql
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/lib/pgqsl /dev/mapper/root /mnt/var/lib/pgqsl
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/usr/local /dev/mapper/root /mnt/usr/local
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/.snapshots /dev/mapper/root /mnt/.snapshots
-mount /dev/mapper/esp /mnt/boot
+mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/snapshots/root /dev/mapper/root /mnt/.snapshots
+mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/snapshots/home /dev/mapper/root /mnt/home/.snapshots
+mount /dev/mapper/boot /mnt/boot
 mkdir /mnt/boot/efi
 mount /dev/sda1 /mnt/boot/efi
-mount -o defaults,uid=1000,gid=998 /dev/sda6 /mnt/.win/ssd
-mount -o defaults,uid=1000,gid=998 /dev/sdb2 /mnt/.win/hdd
+mount -o defaults /dev/sda6 /mnt/.win/ssd
+mount -o defaults /dev/sdb2 /mnt/.win/hdd
 chmod 750 /mnt/root
 chmod 1777 /mnt/var/tmp
 
@@ -90,9 +92,9 @@ chattr +C /mnt/.swap/swapfile
 dd if=/dev/zero of=/mnt/.swap/swapfile bs=1M count=24576 status=progress # edit count value to change swap's size
 chmod 600 /mnt/.swap/swapfile
 mkswap /mnt/.swap/swapfile
-swapon -p 40 /mnt/.swap/swapfile # edit -p value to set different priority per requirements
+swapon -p 0 /mnt/.swap/swapfile # edit -p value to set different priority per requirements
 
 # installing base system and some neccessities
-pacstrap /mnt base linux-zen linux-firmware nano intel-ucode reflector git
+pacstrap /mnt base linux-zen linux-firmware nano intel-ucode reflector
 genfstab -U /mnt >> /mnt/etc/fstab
 lsblk -f
