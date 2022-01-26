@@ -44,7 +44,7 @@ chmod 750 /.snapshots
 # modify initcpio modules, binaries, hooks etc
 sed -i '7s/.*/MODULES=(crc32c-intel btrfs)/' /etc/mkinitcpio.conf
 sed -i '14s/.*/BINARIES=(dosfsck btrfsck)/' /etc/mkinitcpio.conf
-sed -i '19s/.*/FILES=(\/root\/.keys\/espkey.bin \/root\/.keys\/rootkey.bin)/' /etc/mkinitcpio.conf
+sed -i '19s/.*/FILES=(\/root\/.keys\/bootkey.bin \/root\/.keys\/rootkey.bin)/' /etc/mkinitcpio.conf
 sed -i '52s/.*/HOOKS=(base udev autodetect keyboard keymap modconf block encryptesp encrypt resume usr fsck shutdown)/' /etc/mkinitcpio.conf
 sed -i '57s/#//' /etc/mkinitcpio.conf
 
@@ -78,6 +78,7 @@ ROOT="$(blkid -s UUID -o value /dev/sda3)"
 
 # edit grub config and grubd to make btrfs decide the default subvolume
 sed -i '66,78 {s/^/#/}' /etc/grub.d/10_linux
+sed -i '74,86 {s/^/#/}' /etc/grub.d/20_linux_xen
 sed -i '4s/5/8/' /etc/default/grub
 sed -i '13s/#//' /etc/default/grub
 sed -i '54s/#//' /etc/default/grub
@@ -99,8 +100,6 @@ echo >> /etc/fstab
 echo '/dev/zram3		none		swap		defaults,pri=4000	0 0' >> /etc/fstab
 
 # set default btrfs subvolume for snapper and install grub, gen init and grub config
-btrfs su set-default 256 /
 mkinitcpio -p linux-zen
-mkinitcpio -p linux
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id="Arch Linux x64"
 grub-mkconfig -o /boot/grub/grub.cfg
