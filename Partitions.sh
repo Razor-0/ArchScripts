@@ -57,14 +57,6 @@ echo '  <description>Original Root Filesystem</description>' >> /mnt/@/snapshots
 echo '</snapshot>' >> /mnt/@/snapshots/root/1/info.xml
 btrfs su set-default $(btrfs su li /mnt | grep "@/snapshots/root/1/snapshot" | grep -oP'(?<=ID)[0-9]+') /mnt
 btrfs quota enable /mnt
-chattr +C /mnt/var/lib/libvirt/images
-chattr +C /mnt/var/lib/mariadb
-chattr +C /mnt/var/lib/mysql
-chattr +C /mnt/var/lib/pgqsl
-chattr +C /mnt/var/cache
-chattr +C /mnt/var/log
-chattr +C /mnt/var/spool
-chattr +C /mnt/var/tmp
 umount /mnt
 
 # mounting the subvolumes and partititons
@@ -101,6 +93,16 @@ mount -o defaults /dev/sda6 /mnt/.win/ssd
 mount -o defaults /dev/sdb2 /mnt/.win/hdd
 chmod 750 /mnt/root
 chmod 1777 /mnt/var/tmp
+
+# disabling copy-on-write for performance
+chattr +C /mnt/var/lib/libvirt/images
+chattr +C /mnt/var/lib/mariadb
+chattr +C /mnt/var/lib/mysql
+chattr +C /mnt/var/lib/pgqsl
+chattr +C /mnt/var/cache
+chattr +C /mnt/var/log
+chattr +C /mnt/var/spool
+chattr +C /mnt/var/tmp
 
 # creating and disabling cow on the swapfile
 truncate -s 0 /mnt/.swap/swapfile
