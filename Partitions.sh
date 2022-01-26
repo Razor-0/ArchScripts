@@ -23,7 +23,9 @@ btrfs su cr /mnt/@/root
 btrfs su cr /mnt/@/opt
 btrfs su cr /mnt/@/srv
 btrfs su cr /mnt/@/.swap
-btrfs su cr /mnt/@/.snapshots
+btrfs su cr /mnt/@/snapshots
+btrfs su cr /mnt/@/snapshots/root
+btrfs su cr /mnt/@/snapshots/home
 mkdir -p /mnt/@/var/lib/libvirt
 mkdir /mnt/@/usr
 btrfs su cr /mnt/@/var/cache
