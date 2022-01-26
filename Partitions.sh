@@ -63,6 +63,10 @@ mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2 /dev
 mkdir -p /mnt/var/{cache,crash,log,opt,spool,tmp,lib}
 mkdir -p /mnt/var/lib/{libvirt/images,machines,portables,mailman,named,mariadb,mysql,pgqsl}
 mkdir -p /mnt/{boot,.windows,.snapshots,home,srv,opt,.swap,root,usr/local}
+mount /dev/mapper/boot /mnt/boot
+mkdir -p /mnt/boot/{efi,grub}
+mount /dev/sda1 /mnt/boot/efi
+mount -o default,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/boot/grub /dev/mapper/root /mnt/boot/grub
 mount -o default,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/.windows /dev/mapper/root /mnt/.windows
 mkdir -p /mnt/.windows/{ssd,hdd,ehdd,usb,iso}
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/home /dev/mapper/root /mnt/home
@@ -86,9 +90,6 @@ mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,noda
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,nodatacow,subvol=@/var/lib/pgqsl /dev/mapper/root /mnt/var/lib/pgqsl
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/usr/local /dev/mapper/root /mnt/usr/local
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/.snapshots /dev/mapper/root /mnt/.snapshots
-mount /dev/mapper/boot /mnt/boot
-mkdir /mnt/boot/efi
-mount /dev/sda1 /mnt/boot/efi
 mount -o defaults /dev/sda6 /mnt/.windows/ssd
 mount -o defaults /dev/sdb2 /mnt/.windows/hdd
 chmod 750 /mnt/root
