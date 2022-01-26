@@ -44,7 +44,7 @@ chmod 750 /.snapshots
 sed -i '7s/.*/MODULES=(crc32c-intel btrfs)/' /etc/mkinitcpio.conf
 sed -i '14s/.*/BINARIES=(dosfsck btrfsck)/' /etc/mkinitcpio.conf
 sed -i '19s/.*/FILES=(\/root\/.keys\/bootkey.bin \/root\/.keys\/rootkey.bin)/' /etc/mkinitcpio.conf
-sed -i '52s/.*/HOOKS=(base udev autodetect keyboard keymap modconf block encryptesp encrypt resume usr fsck shutdown)/' /etc/mkinitcpio.conf
+sed -i '52s/.*/HOOKS=(base udev autodetect keyboard keymap modconf block encryptboot encrypt resume usr fsck shutdown)/' /etc/mkinitcpio.conf
 sed -i '57s/#//' /etc/mkinitcpio.conf
 
 # enable 2GB zram pages per physical core on 4C/8T
