@@ -45,6 +45,7 @@ btrfs su cr /mnt/@/var/lib/mysql
 btrfs su cr /mnt/@/var/lib/pgqsl
 btrfs su cr /mnt/@/usr/local
 btrfs su cr /mnt/@/.snapshots/1/snapshot
+btrfs su cr /mnt/@/.windows
 echo '<?xml version="1."?>' >> /mnt/@/.snapshots/1/info.xml
 echo '<snapshot>' >> /mnt/@/.snapshots/1/info.xml
 echo '  <type>single</type>' >> /mnt/@/.snapshots/1/info.xml
@@ -61,8 +62,9 @@ umount /mnt
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2 /dev/mapper/root /mnt
 mkdir -p /mnt/var/{cache,crash,log,opt,spool,tmp,lib}
 mkdir -p /mnt/var/lib/{libvirt/images,machines,portables,mailman,named,mariadb,mysql,pgqsl}
-mkdir -p /mnt/{boot,.win,.snapshots,home,srv,opt,.swap,root,usr/local}
-mkdir -p /mnt/.win/{ssd,hdd,ehdd,usb,iso}
+mkdir -p /mnt/{boot,.windows,.snapshots,home,srv,opt,.swap,root,usr/local}
+mount -o default,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/.windows /dev/mapper/root /mnt/.windows
+mkdir -p /mnt/.windows/{ssd,hdd,ehdd,usb,iso}
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/home /dev/mapper/root /mnt/home
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/root /dev/mapper/root /mnt/root
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/opt /dev/mapper/root /mnt/opt
