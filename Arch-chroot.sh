@@ -82,7 +82,7 @@ sed -i '4s/5/8/' /etc/default/grub
 sed -i '13s/#//' /etc/default/grub
 sed -i '54s/#//' /etc/default/grub
 sed -i '/above./a GRUB_DEFAULT=saved' /etc/default/grub
-echo '$BOOT','$BTRFS' | sed -i "6s/.*/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 cryptboot=UUID=$BOOT:boot cryptbootkey=rootfs:\/root\/.keys\/bootkey.bin cryptdevice=UUID=$ROOT:root cryptkey=rootfs:\/root\/.keys\/rootkey.bin root=\/dev\/mapper\/root rw resume=\/dev\/mapper\/root resume_offset=16400\"/" /etc/default/grub
+echo '$BOOT','$ROOT' | sed -i "6s/.*/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 cryptboot=UUID=$BOOT:boot cryptbootkey=rootfs:\/root\/.keys\/bootkey.bin cryptdevice=UUID=$ROOT:root cryptkey=rootfs:\/root\/.keys\/rootkey.bin root=\/dev\/mapper\/root rw resume=\/dev\/mapper\/root resume_offset=16400\"/" /etc/default/grub
 
 # add sudo and doas privileges to the user
 echo 'permit persist razor as root' >> /etc/doas.conf # change razor to your user or uncomment this and remove doas from the pacman part if you don't need doas
