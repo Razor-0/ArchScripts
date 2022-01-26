@@ -89,8 +89,8 @@ mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subv
 mount /dev/mapper/boot /mnt/boot
 mkdir /mnt/boot/efi
 mount /dev/sda1 /mnt/boot/efi
-mount -o defaults /dev/sda6 /mnt/.win/ssd
-mount -o defaults /dev/sdb2 /mnt/.win/hdd
+mount -o defaults /dev/sda6 /mnt/.windows/ssd
+mount -o defaults /dev/sdb2 /mnt/.windows/hdd
 chmod 750 /mnt/root
 chmod 1777 /mnt/var/tmp
 
