@@ -22,7 +22,7 @@ btrfs su cr /mnt/@/home
 btrfs su cr /mnt/@/root
 btrfs su cr /mnt/@/opt
 btrfs su cr /mnt/@/srv
-btrfs su cr /mnt/@/.swap
+btrfs su cr /mnt/@/swap
 btrfs su cr /mnt/@/snapshots
 btrfs su cr /mnt/@/snapshots/root
 btrfs su cr /mnt/@/snapshots/home
@@ -61,14 +61,16 @@ umount /mnt
 
 # mounting the subvolumes and partititons
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2 /dev/mapper/root /mnt
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/home /dev/mapper/root /mnt/home
-mkdir /mnt/home/.snapshots
-mkdir -p /mnt/{.win,.snapshots}
+mkdir -p /mnt/var/{cache,crash,log,opt,spool,tmp,lib}
+mkdir -p /mnt/var/lib/{libvirt/images,machines,portables,mailman,named,mariadb,mysql,pgqsl}
+mkdir -p /mnt/{boot,.win,.snapshots,home,srv,opt,.swap,root,usr}
 mkdir -p /mnt/.win/{ssd,hdd,ehdd,usb,iso}
+mkdir /mnt/home/.snapshots
+mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/home /dev/mapper/root /mnt/home
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/root /dev/mapper/root /mnt/root
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/opt /dev/mapper/root /mnt/opt
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/srv /dev/mapper/root /mnt/srv
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,swap,subvol=@/.swap /dev/mapper/root /mnt/.swap
+mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,swap,subvol=@/swap /dev/mapper/root /mnt/.swap
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,nodatacow,subvol=@/var/cache /dev/mapper/root /mnt/var/cache
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/crash /dev/mapper/root /mnt/var/crash
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,nodatacow,subvol=@/var/log /dev/mapper/root /mnt/var/log
