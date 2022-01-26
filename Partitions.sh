@@ -66,6 +66,7 @@ mkdir -p /mnt/var/lib/{libvirt/images,machines,portables,mailman,named,mariadb,m
 mkdir -p /mnt/{boot,.win,.snapshots,home,srv,opt,.swap,root,usr}
 mkdir -p /mnt/.win/{ssd,hdd,ehdd,usb,iso}
 mkdir /mnt/home/.snapshots
+mkdir /mnt/usr/local
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/home /dev/mapper/root /mnt/home
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/root /dev/mapper/root /mnt/root
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/opt /dev/mapper/root /mnt/opt
