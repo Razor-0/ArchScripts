@@ -21,7 +21,7 @@ btrfs su cr /mnt/@/home
 btrfs su cr /mnt/@/root
 btrfs su cr /mnt/@/opt
 btrfs su cr /mnt/@/srv
-btrfs su cr /mnt/@/swap
+btrfs su cr /mnt/@/.swap
 btrfs su cr /mnt/@/.snapshots
 mkdir -p /mnt/@/var/lib/libvirt
 mkdir /mnt/@/usr
@@ -41,6 +41,7 @@ btrfs su cr /mnt/@/var/lib/mariadb
 btrfs su cr /mnt/@/var/lib/mysql
 btrfs su cr /mnt/@/var/lib/pgqsl
 btrfs su cr /mnt/@/usr/local
+btrfs su cr /mnt/@/.windows
 btrfs su cr /mnt/@/.snapshots/1/snapshot
 echo '<?xml version="1."?>' >> /mnt/@/.snapshots/1/info.xml
 echo '<snapshot>' >> /mnt/@/.snapshots/1/info.xml
@@ -62,12 +63,13 @@ mkdir -p /mnt/{boot,.windows,.snapshots,home,srv,opt,.swap,root,usr/local}
 mount /dev/mapper/boot /mnt/boot
 mkdir /mnt/boot/efi
 mount /dev/sda1 /mnt/boot/efi
+mount -o default,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/.windows /dev/mapper/root /mnt/.windows
 mkdir -p /mnt/.windows/{ssd,hdd,ehdd,usb,iso}
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/home /dev/mapper/root /mnt/home
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/root /dev/mapper/root /mnt/root
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/opt /dev/mapper/root /mnt/opt
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/srv /dev/mapper/root /mnt/srv
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,swap,subvol=@/swap /dev/mapper/root /mnt/.swap
+mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,swap,subvol=@/.swap /dev/mapper/root /mnt/.swap
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/cache /dev/mapper/root /mnt/var/cache
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/crash /dev/mapper/root /mnt/var/crash
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/log /dev/mapper/root /mnt/var/log
