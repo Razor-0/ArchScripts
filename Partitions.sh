@@ -26,9 +26,7 @@ btrfs su cr /mnt/@/swap
 btrfs su cr /mnt/@/.snapshots
 mkdir -p /mnt/@/var/lib/libvirt
 mkdir /mnt/@/usr
-mkdir /mnt/@/boot
 mkdir /mnt/@/.snapshots/1
-btrfs su cr /mnt/@/boot/grub
 btrfs su cr /mnt/@/var/cache
 btrfs su cr /mnt/@/var/crash
 btrfs su cr /mnt/@/var/log
@@ -64,9 +62,8 @@ mkdir -p /mnt/var/{cache,crash,log,opt,spool,tmp,lib}
 mkdir -p /mnt/var/lib/{libvirt/images,machines,portables,mailman,named,mariadb,mysql,pgqsl}
 mkdir -p /mnt/{boot,.windows,.snapshots,home,srv,opt,.swap,root,usr/local}
 mount /dev/mapper/boot /mnt/boot
-mkdir -p /mnt/boot/{efi,grub}
+mkdir /mnt/boot/efi
 mount /dev/sda1 /mnt/boot/efi
-mount -o default,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/boot/grub /dev/mapper/root /mnt/boot/grub
 mount -o default,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/.windows /dev/mapper/root /mnt/.windows
 mkdir -p /mnt/.windows/{ssd,hdd,ehdd,usb,iso}
 mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/home /dev/mapper/root /mnt/home
@@ -96,16 +93,14 @@ chmod 750 /mnt/root
 chmod 1777 /mnt/var/tmp
 
 # disabling copy-on-write for performance
-chattr +C /mnt/var/lib/libvirt/images
 chattr +C /mnt/var/lib/mariadb
 chattr +C /mnt/var/lib/mysql
 chattr +C /mnt/var/lib/pgqsl
+chattr +C /mnt/var/lib/libvirt/images
 chattr +C /mnt/var/cache
 chattr +C /mnt/var/log
 chattr +C /mnt/var/spool
 chattr +C /mnt/var/tmp
-chattr +C /mnt/boot/grub
-chattr +C /mnt/.windows
 
 # creating and disabling cow on the swapfile
 truncate -s 0 /mnt/.swap/swapfile
