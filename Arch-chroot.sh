@@ -55,13 +55,13 @@ echo 'KERNEL=="zram1", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram1", 
 echo 'KERNEL=="zram2", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram2", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
 echo 'KERNEL=="zram3", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram3", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
 
-# create hook to decrypt esp at boot
+# create hook to decrypt boot
 cp /usr/lib/initcpio/install/encrypt /etc/initcpio/install/encryptboot
 cp /usr/lib/initcpio/hooks/encrypt /etc/initcpio/hooks/encryptboot
 sed -i 's/cryptdevice/cryptboot/' /etc/initcpio/hooks/encryptboot
 sed -i 's/cryptkey/cryptbootkey/' /etc/initcpio/hooks/encryptboot
 
-# create keys to unlock esp and root at boot
+# create keys to unlock boot and root
 mkdir /root/.keys
 chmod 700 /root/.keys
 head -c 64 /dev/urandom >> /root/.keys/bootkey.bin
