@@ -23,7 +23,7 @@ echo razor:PASSWORD | chpasswd # same here for the user's PASSWORD
 # edit as you see fit alongside the systemctl commands
 reflector --country Netherlands --latest 6 --protocol https --sort rate --verbose --save /etc/pacman.d/mirrorlist
 pacman -Syyu --noconfirm
-pacman -S --noconfirm grub efibootmgr os-prober btrfs-progs ntfs-3g dosfstools linux-zen-headers base-devel xdg-user-dirs alsa-utils xdg-utils networkmanager wpa_supplicant bluez bluez-utils tlp acpi acpi_call-dkms acpid rsync snapper doas xorg-server xf86-video-intel xf86-input-synaptics plasma sddm konsole dolphin pipewire pipewire-pulse pipewire-alsa kate chromium openssh zsh zsh-syntax-highlighting zsh-autosuggestions
+pacman -S --noconfirm grub efibootmgr os-prober-btrfs btrfs-progs ntfs-3g mtools dosfstools linux-zen-headers base-devel xdg-user-dirs alsa-utils xdg-utils networkmanager wpa_supplicant bluez bluez-utils tlp acpi acpi_call-dkms acpid rsync snapper doas xorg-server xf86-video-intel xf86-input-synaptics plasma sddm konsole dolphin pipewire pipewire-pulse pipewire-alsa kate chromium openssh zsh zsh-syntax-highlighting zsh-autosuggestions
 
 # enable neccessities like Network, BT etc at boot
 systemctl enable NetworkManager
