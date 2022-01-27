@@ -100,5 +100,5 @@ echo '/dev/zram3		none		swap		defaults,pri=4000	0 0' >> /etc/fstab
 
 # set default btrfs subvolume for snapper and install grub, gen init and grub config
 mkinitcpio -p linux-zen
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id="Arch Linux x64"
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id="Arch Linux x64" --verbose --recheck
 grub-mkconfig -o /boot/grub/grub.cfg
