@@ -4,7 +4,6 @@ set -eu
 # basic configurations for the system (edit as needed for locale, hostname etc)
 ln -sf /usr/share/zoneinfo/Europe/Budapest /etc/localtime
 hwclock --systohc
-timedatectl set-ntp true
 sed -i '160s/#//' /etc/locale.gen # change the 160 to your locale's line number
 locale-gen
 sed -i '93s/#//' /etc/pacman.conf # comment this and the next command to not enable multilib
