@@ -1,7 +1,9 @@
 #!/bin/bash
 set -eu
 
-# set pacman mirrors with reflector
+# set time and refresh pacman mirrors with reflector
+timedatectl set-ntp true
+timedatectl status
 reflector --country Netherlands --latest 6 --protocol https --sort rate --verbose --save /etc/pacman.d/mirrorlist
 
 # change the PASSWORD in all 4 of these lines (first to create then to open said LuKs part)
@@ -111,7 +113,7 @@ mkswap /mnt/.swap/swapfile
 swapon -p 0 /mnt/.swap/swapfile
 
 # installing base system and some neccessities
-pacstrap /mnt base linux-zen linux-firmware nano intel-ucode
+pacstrap /mnt base linux-zen linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab
 sed -i 's/,subvolid=278,subvol=\/@\/.snapshots\/1\/snapshot//' /mnt/etc/fstab
 lsblk -f
