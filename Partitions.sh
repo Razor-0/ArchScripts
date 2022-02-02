@@ -105,10 +105,10 @@ chattr +C /mnt/var/tmp
 # creating and disabling cow on the swapfile
 truncate -s 0 /mnt/.swap/swapfile
 chattr +C /mnt/.swap/swapfile
-dd if=/dev/zero of=/mnt/.swap/swapfile bs=1M count=24576 status=progress # edit count value to change swap's size
+dd if=/dev/zero of=/mnt/.swap/swapfile bs=1M count=24576 status=progress
 chmod 600 /mnt/.swap/swapfile
 mkswap /mnt/.swap/swapfile
-swapon -p 0 /mnt/.swap/swapfile # edit -p value to set different priority per requirements
+swapon -p 0 /mnt/.swap/swapfile
 
 # installing base system and some neccessities
 pacstrap /mnt base linux-zen linux-firmware nano intel-ucode

@@ -6,21 +6,22 @@ ln -sf /usr/share/zoneinfo/Europe/Budapest /etc/localtime
 hwclock --systohc
 timedatectl set-local-rtc 1 --adjust-system-clock
 timedatectl set-ntp true
-sed -i '160s/#//' /etc/locale.gen # change the 160 to your locale's line number
+sed -i '160s/#//' /etc/locale.gen
 locale-gen
-sed -i '93s/#//' /etc/pacman.conf # comment this and the next command to not enable multilib
+sed -i '93s/#//' /etc/pacman.conf
 sed -i '94s/#//' /etc/pacman.conf
 
-echo 'lenarch' >> /etc/hostname # edit lenarch to whatever name you want for your PC
+echo 'lenarch' >> /etc/hostname
 echo '127.0.0.1	localhost' >> /etc/hosts
 echo '::1		localhost' >> /etc/hosts
-echo '127.0.1.1	lenarch.localdomain lenarch' >> /etc/hosts # change lenarch to the same name as your hostname
-echo 'LANG=en_GB.UTF-8' >> /etc/locale.conf # edit en_GB with your locale from the locale.gen part
-echo 'KEYMAP=hu' >> /etc/vconsole.conf # change hu to your keymap
+echo '127.0.1.1	lenarch.localdomain lenarch' >> /etc/hosts
+echo 'LANG=en_GB.UTF-8' >> /etc/locale.conf
+echo 'KEYMAP=hu' >> /etc/vconsole.conf
 
-echo root:PASSWORD | chpasswd # change PASSWORD with your root's password
-useradd -m -G wheel -c "Shown Name" user0 # change user0 to your own username
-echo razor:PASSWORD | chpasswd # same here for the user's PASSWORD
+# change password and username as needed
+echo root:PASSWORD | chpasswd
+useradd -m -G wheel -c "Kosa Mark" razor
+echo razor:PASSWORD | chpasswd
 
 # edit as you see fit alongside the systemctl commands
 pacman -Syyu --noconfirm
@@ -30,16 +31,7 @@ pacman -S --noconfirm grub efibootmgr os-prober btrfs-progs ntfs-3g mtools dosfs
 systemctl enable NetworkManager
 systemctl enable bluetooth
 systemctl enable tlp
-systemctl enable reflector.timer
 systemctl enable acpid
-
-umount /.snapshots
-rm -r /.snapshots
-snapper --no-dbus -c root create-config /
-btrfs su de /.snapshots
-mkdir /.snapshots
-mount -a
-chmod 750 /.snapshots
 
 # modify initcpio modules, binaries, hooks etc
 sed -i '7s/.*/MODULES=(crc32c-intel btrfs)/' /etc/mkinitcpio.conf
@@ -69,8 +61,8 @@ head -c 64 /dev/urandom >> /root/.keys/bootkey.bin
 head -c 64 /dev/urandom >> /root/.keys/rootkey.bin
 chmod 600 /root/.keys/bootkey.bin
 chmod 600 /root/.keys/rootkey.bin
-echo "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/sda2 /root/.keys/bootkey.bin # edit PASSWORD
-echo "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/sda3 /root/.keys/rootkey.bin # same here
+echo "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/sda2 /root/.keys/bootkey.bin
+echo "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/sda3 /root/.keys/rootkey.bin
 
 # set temp environment value to include in grub config
 BOOT="$(blkid -s UUID -o value /dev/sda2)"
@@ -85,9 +77,9 @@ sed -i '54s/#//' /etc/default/grub
 sed -i '/above./a GRUB_DEFAULT=saved' /etc/default/grub
 echo '$BOOT','$ROOT' | sed -i "6s/.*/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 cryptboot=UUID=$BOOT:boot cryptbootkey=rootfs:\/root\/.keys\/bootkey.bin cryptdevice=UUID=$ROOT:root cryptkey=rootfs:\/root\/.keys\/rootkey.bin root=\/dev\/mapper\/root rw resume=\/dev\/mapper\/root resume_offset=16400\"/" /etc/default/grub
 
-# add sudo and doas privileges to the user
-echo 'permit persist razor as root' >> /etc/doas.conf # change razor to your user or uncomment this and remove doas from the pacman part if you don't need doas
-echo 'razor ALL=(ALL) ALL' | EDITOR=tee visudo /etc/sudoers.d/rootusers # change razor with your username
+# add sudo privileges to the user
+echo 'razor ALL=(ALL) ALL' | EDITOR=tee visudo /etc/sudoers.d/rootusers
+visudo -c /etc/sudoers.d/rootusers
 
 # edit fstab for btrfs and add zram to automount
 sed -i 's/,subvolid=278,subvol=\/@\/.snapshots\/1\/snapshot//' /etc/fstab
