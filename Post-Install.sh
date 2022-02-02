@@ -1,6 +1,10 @@
 #!/bin/bash
 set -eu
 
+# syncing time and fixing time for dual boot
+timedatectl set-local-rtc 1 --adjust-system-clock
+timedatectl set-ntp true
+
 # refreshing reflector and installing kde
 sudo pacman -Syyu --noconfirm
 sudo pacman -S snapper xorg-server xf86-video-intel xf86-input-synaptics plasma sddm konsole dolphin pipewire pipewire-pulse pipewire-alsa kate chromium

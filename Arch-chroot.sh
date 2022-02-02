@@ -4,8 +4,6 @@ set -eu
 # basic configurations for the system (edit as needed for locale, hostname etc)
 ln -sf /usr/share/zoneinfo/Europe/Budapest /etc/localtime
 hwclock --systohc
-timedatectl set-local-rtc 1 --adjust-system-clock
-timedatectl set-ntp true
 sed -i '160s/#//' /etc/locale.gen
 locale-gen
 sed -i '93s/#//' /etc/pacman.conf
