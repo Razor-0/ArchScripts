@@ -1,6 +1,9 @@
 #!/bin/bash
 set -eu
 
+# set pacman mirrors with reflector
+reflector --country Netherlands --latest 6 --protocol https --sort rate --verbose --save /etc/pacman.d/mirrorlist
+
 # change the PASSWORD in all 4 of these lines (first to create then to open said LuKs part)
 echo "PASSWORD" | cryptsetup -q luksFormat --type luks1 --use-urandom -h sha256 -i 1000 /dev/sda2
 echo "PASSWORD" | cryptsetup luksOpen /dev/sda2 boot
@@ -11,7 +14,7 @@ echo "PASSWORD" | cryptsetup luksOpen /dev/sda3 root
 # formatting partitions with the following filesystems
 mkfs.vfat -F32 /dev/sda1
 fatlabel /dev/sda1 Bootloaders
-mkfs.reiserfs -l Kernels /dev/mapper/boot
+mkfs.reiserfs -q -l Kernels /dev/mapper/boot
 mkfs.btrfs -L 'Btrfs Root' /dev/mapper/root
 
 # creating btrfs subvols for snapshots
@@ -55,7 +58,7 @@ btrfs quota enable /mnt
 umount /mnt
 
 # mounting the subvolumes and partititons
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2 /dev/mapper/root /mnt
+mount -o defaults,autodefrag,discard=async,noatime,compress=zstd:5,space_cache=v2 /dev/mapper/root /mnt
 mkdir -p /mnt/var/{cache,crash,log,opt,spool,tmp,lib}
 mkdir -p /mnt/var/lib/{libvirt/images,machines,portables,mailman,named,mariadb,mysql,pgqsl}
 mkdir -p /mnt/{boot,.windows,.snapshots,home,srv,opt,.swap,root,usr/local}
@@ -63,27 +66,27 @@ mount /dev/mapper/boot /mnt/boot
 mkdir /mnt/boot/efi
 mount /dev/sda1 /mnt/boot/efi
 mkdir -p /mnt/.windows/{ssd,hdd,ehdd,usb,iso}
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/home /dev/mapper/root /mnt/home
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/root /dev/mapper/root /mnt/root
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/opt /dev/mapper/root /mnt/opt
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/srv /dev/mapper/root /mnt/srv
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,swap,subvol=@/.swap /dev/mapper/root /mnt/.swap
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/cache /dev/mapper/root /mnt/var/cache
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/crash /dev/mapper/root /mnt/var/crash
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/log /dev/mapper/root /mnt/var/log
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/opt /dev/mapper/root /mnt/var/opt
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/spool /dev/mapper/root /mnt/var/spool
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/tmp /dev/mapper/root /mnt/var/tmp
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/lib/libvirt/images /dev/mapper/root /mnt/var/lib/libvirt/images
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/lib/machines /dev/mapper/root /mnt/var/lib/machines
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/lib/portables /dev/mapper/root /mnt/var/lib/portables
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/lib/mailman /dev/mapper/root /mnt/var/lib/mailman
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/lib/named /dev/mapper/root /mnt/var/lib/named
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/lib/mariadb /dev/mapper/root /mnt/var/lib/mariadb
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/lib/mysql /dev/mapper/root /mnt/var/lib/mysql
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/lib/pgqsl /dev/mapper/root /mnt/var/lib/pgqsl
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/usr/local /dev/mapper/root /mnt/usr/local
-mount -o defaults,autodefrag,discard,noatime,compress=zstd:5,space_cache=v2,subvol=@/.snapshots /dev/mapper/root /mnt/.snapshots
+mount -o defaults,autodefrag,discard=async,noatime,compress=zstd:5,space_cache=v2,subvol=@/home /dev/mapper/root /mnt/home
+mount -o defaults,autodefrag,discard=async,noatime,compress=zstd:5,space_cache=v2,subvol=@/root /dev/mapper/root /mnt/root
+mount -o defaults,autodefrag,discard=async,noatime,compress=zstd:5,space_cache=v2,subvol=@/opt /dev/mapper/root /mnt/opt
+mount -o defaults,autodefrag,discard=async,noatime,compress=zstd:5,space_cache=v2,subvol=@/srv /dev/mapper/root /mnt/srv
+mount -o defaults,autodefrag,discard=async,noatime,compress=zstd:5,space_cache=v2,swap,subvol=@/.swap /dev/mapper/root /mnt/.swap
+mount -o defaults,autodefrag,discard=async,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/cache /dev/mapper/root /mnt/var/cache
+mount -o defaults,autodefrag,discard=async,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/crash /dev/mapper/root /mnt/var/crash
+mount -o defaults,autodefrag,discard=async,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/log /dev/mapper/root /mnt/var/log
+mount -o defaults,autodefrag,discard=async,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/opt /dev/mapper/root /mnt/var/opt
+mount -o defaults,autodefrag,discard=async,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/spool /dev/mapper/root /mnt/var/spool
+mount -o defaults,autodefrag,discard=async,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/tmp /dev/mapper/root /mnt/var/tmp
+mount -o defaults,autodefrag,discard=async,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/lib/libvirt/images /dev/mapper/root /mnt/var/lib/libvirt/images
+mount -o defaults,autodefrag,discard=async,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/lib/machines /dev/mapper/root /mnt/var/lib/machines
+mount -o defaults,autodefrag,discard=async,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/lib/portables /dev/mapper/root /mnt/var/lib/portables
+mount -o defaults,autodefrag,discard=async,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/lib/mailman /dev/mapper/root /mnt/var/lib/mailman
+mount -o defaults,autodefrag,discard=async,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/lib/named /dev/mapper/root /mnt/var/lib/named
+mount -o defaults,autodefrag,discard=async,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/lib/mariadb /dev/mapper/root /mnt/var/lib/mariadb
+mount -o defaults,autodefrag,discard=async,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/lib/mysql /dev/mapper/root /mnt/var/lib/mysql
+mount -o defaults,autodefrag,discard=async,noatime,compress=zstd:5,space_cache=v2,subvol=@/var/lib/pgqsl /dev/mapper/root /mnt/var/lib/pgqsl
+mount -o defaults,autodefrag,discard=async,noatime,compress=zstd:5,space_cache=v2,subvol=@/usr/local /dev/mapper/root /mnt/usr/local
+mount -o defaults,autodefrag,discard=async,noatime,compress=zstd:5,space_cache=v2,subvol=@/.snapshots /dev/mapper/root /mnt/.snapshots
 mount -o defaults /dev/sda6 /mnt/.windows/ssd
 mount -o defaults /dev/sdb2 /mnt/.windows/hdd
 chmod 750 /mnt/root
@@ -108,6 +111,6 @@ mkswap /mnt/.swap/swapfile
 swapon -p 0 /mnt/.swap/swapfile # edit -p value to set different priority per requirements
 
 # installing base system and some neccessities
-pacstrap /mnt base linux-zen linux-firmware nano intel-ucode reflector
+pacstrap /mnt base linux-zen linux-firmware nano intel-ucode
 genfstab -U /mnt >> /mnt/etc/fstab
 lsblk -f
