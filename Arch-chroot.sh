@@ -25,13 +25,11 @@ echo razor:PASSWORD | chpasswd
 
 # edit as you see fit alongside the systemctl commands
 pacman -Syyu --noconfirm
-pacman -S --noconfirm grub efibootmgr os-prober btrfs-progs ntfs-3g mtools dosfstools linux-zen-headers base-devel xdg-user-dirs alsa-utils xdg-utils networkmanager wpa_supplicant bluez bluez-utils tlp acpi acpi_call-dkms acpid
+pacman -S --noconfirm grub efibootmgr os-prober btrfs-progs ntfs-3g mtools dosfstools linux-zen-headers base-devel xdg-user-dirs alsa-utils xdg-utils networkmanager wpa_supplicant bluez bluez-utils tlp acpi acpi_call-dkms acpid reflector
 
 # enable neccessities like Network, BT etc at boot
 systemctl enable NetworkManager
 systemctl enable bluetooth
-systemctl enable tlp
-systemctl enable acpid
 
 # modify initcpio modules, binaries, hooks etc
 sed -i '7s/.*/MODULES=(crc32c-intel btrfs)/' /etc/mkinitcpio.conf
