@@ -7,7 +7,7 @@ sudo timedatectl set-ntp true
 
 # refreshing reflector and installing kde
 sudo pacman -Syyu --noconfirm
-sudo pacman -S snapper xorg-server xf86-video-intel xf86-input-synaptics plasma sddm konsole dolphin pipewire pipewire-pulse pipewire-alsa kate chromium micro xclip
+sudo pacman -S --noconfirm snapper xorg-server xf86-video-intel xf86-input-synaptics plasma sddm konsole dolphin pipewire pipewire-pulse pipewire-alsa kate chromium micro xclip
 sudo systemctl enable sddm
 
 # creating snappers config
