@@ -70,15 +70,6 @@ echo '$BOOT','$ROOT' | sed -i "6s/.*/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 cry
 echo 'razor ALL=(ALL) ALL' | EDITOR=tee visudo /etc/sudoers.d/rootusers
 visudo -c /etc/sudoers.d/rootusers
 
-# edit fstab for btrfs and add zram to automount
-echo '/dev/zram0		none		swap		defaults,pri=4000	0 0' >> /etc/fstab
-echo >> /etc/fstab
-echo '/dev/zram1		none		swap		defaults,pri=8000	0 0' >> /etc/fstab
-echo >> /etc/fstab
-echo '/dev/zram2		none		swap		defaults,pri=16000	0 0' >> /etc/fstab
-echo >> /etc/fstab
-echo '/dev/zram3		none		swap		defaults,pri=32000	0 0' >> /etc/fstab
-
 # set default btrfs subvolume for snapper and install grub, gen init and grub config
 mkinitcpio -p linux-zen
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id="Arch Linux x64"
