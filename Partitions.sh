@@ -16,7 +16,7 @@ echo "PASSWORD" | cryptsetup luksOpen /dev/sda3 root
 mkfs.vfat -F32 /dev/sda1
 fatlabel /dev/sda1 Bootloaders
 echo 'y' | mkfs.reiserfs -l Kernels /dev/mapper/boot
-mkfs.btrfs -L 'Btrfs Root' -R free-space-tree /dev/mapper/root
+mkfs.btrfs -L 'Btrfs Root' -O extref skinny-metadata no-holes -R free-space-tree quota -m dup /dev/mapper/root
 
 # creating btrfs subvols for snapshots
 mount /dev/mapper/root /mnt
@@ -55,7 +55,6 @@ echo '$DATE' | sed -i "5s//<date>$DATE<\/date>/" /mnt/@/.snapshots/1/info.xml
 echo '  <description>Original Root Filesystem</description>' >> /mnt/@/.snapshots/1/info.xml
 echo '</snapshot>' >> /mnt/@/.snapshots/1/info.xml
 btrfs su set-default $(btrfs su li /mnt | grep "@/.snapshots/1/snapshot" | grep -oP '(?<=ID )[0-9]+') /mnt
-btrfs quota enable /mnt
 umount /mnt
 
 # mounting the subvolumes and partititons
