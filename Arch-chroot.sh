@@ -9,6 +9,7 @@ locale-gen
 sed -i '93s/#//' /etc/pacman.conf
 sed -i '94s/#//' /etc/pacman.conf
 
+# host file and keyboard configuration
 echo 'lenarch' >> /etc/hostname
 echo '127.0.0.1	localhost' >> /etc/hosts
 echo '::1		localhost' >> /etc/hosts
