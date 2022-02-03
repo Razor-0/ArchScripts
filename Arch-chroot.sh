@@ -37,14 +37,6 @@ sed -i '19s/.*/FILES=(\/root\/.keys\/bootkey.bin \/root\/.keys\/rootkey.bin)/' /
 sed -i '52s/.*/HOOKS=(base udev autodetect keyboard keymap modconf block encryptboot encrypt resume usr fsck shutdown)/' /etc/mkinitcpio.conf
 sed -i '57s/#//' /etc/mkinitcpio.conf
 
-# enable 2GB zram pages per physical core on 4C/8T
-echo 'zram' >> /etc/modules-load.d/zram.conf
-echo 'options zram num_devices=4' >> /etc/modprobe.d/zram.conf
-echo 'KERNEL=="zram0", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram0", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
-echo 'KERNEL=="zram1", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram1", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
-echo 'KERNEL=="zram2", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram2", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
-echo 'KERNEL=="zram3", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram3", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
-
 # create hook to decrypt boot
 cp /usr/lib/initcpio/install/encrypt /etc/initcpio/install/encryptboot
 cp /usr/lib/initcpio/hooks/encrypt /etc/initcpio/hooks/encryptboot

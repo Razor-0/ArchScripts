@@ -2,8 +2,8 @@
 set -eu
 
 # syncing time and fixing time for dual boot
-timedatectl set-local-rtc 1 --adjust-system-clock
-timedatectl set-ntp true
+sudo timedatectl set-local-rtc 1 --adjust-system-clock
+sudo timedatectl set-ntp true
 
 # refreshing reflector and installing kde
 sudo pacman -Syyu --noconfirm
@@ -18,3 +18,11 @@ sudo btrfs su de /.snapshots
 sudo mkdir /.snapshots
 sudo mount -a
 sudo chmod 750 /.snapshots
+
+# enable 2GB zram pages per physical core on 4C/8T
+sudo echo 'zram' >> /etc/modules-load.d/zram.conf
+sudo echo 'options zram num_devices=4' >> /etc/modprobe.d/zram.conf
+sudo echo 'KERNEL=="zram0", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram0", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
+sudo echo 'KERNEL=="zram1", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram1", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
+sudo echo 'KERNEL=="zram2", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram2", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
+sudo echo 'KERNEL=="zram3", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram3", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
