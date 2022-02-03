@@ -4,6 +4,7 @@ set -eu
 # syncing time and fixing time for dual boot
 sudo timedatectl set-local-rtc 1 --adjust-system-clock
 sudo timedatectl set-ntp true
+timedatectl status
 
 # refreshing reflector and installing kde
 sudo pacman -Syyu --noconfirm
