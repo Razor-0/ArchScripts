@@ -2,7 +2,6 @@
 set -eu
 
 # set time and refresh pacman mirrors with reflector
-timedatectl set-ntp true
 timedatectl status
 reflector --country Netherlands --latest 6 --protocol https --sort rate --verbose --save /etc/pacman.d/mirrorlist
 
