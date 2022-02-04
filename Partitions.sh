@@ -1,10 +1,6 @@
 #!/bin/bash
 set -eu
 
-# set time and refresh pacman mirrors with reflector
-timedatectl status
-reflector --country Netherlands --latest 6 --protocol https --sort rate --verbose --save /etc/pacman.d/mirrorlist
-
 # change the PASSWORD in all 4 of these lines (first to create then to open said LuKs part)
 echo "PASSWORD" | cryptsetup -q luksFormat --type luks1 --use-urandom -h sha256 -i 1000 /dev/sda2
 echo "PASSWORD" | cryptsetup luksOpen /dev/sda2 boot
