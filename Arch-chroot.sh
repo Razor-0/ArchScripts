@@ -24,7 +24,7 @@ echo razor:PASSWORD | chpasswd
 
 # edit as you see fit alongside the systemctl commands
 pacman -Syyu --noconfirm
-pacman -S --noconfirm grub efibootmgr os-prober btrfs-progs ntfs-3g mtools dosfstools linux-zen-headers base-devel xdg-user-dirs xdg-utils networkmanager wpa_supplicant bluez bluez-utils
+pacman -S --noconfirm grub efibootmgr os-prober btrfs-progs ntfs-3g linux-zen-headers base-devel networkmanager wpa_supplicant bluez bluez-utils
 
 # enable neccessities like Network, BT etc at boot
 systemctl enable NetworkManager
