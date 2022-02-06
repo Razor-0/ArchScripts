@@ -47,7 +47,7 @@ echo '<snapshot>' >> /mnt/@/.snapshots/1/info.xml
 echo '  <type>single</type>' >> /mnt/@/.snapshots/1/info.xml
 echo '  <num>1</num>' >> /mnt/@/.snapshots/1/info.xml
 DATE="$(date +"%Y-%m-%d %H:%M:%S")"
-echo '$DATE' | sed -i "5s//<date>$DATE<\/date>/" /mnt/@/.snapshots/1/info.xml
+echo '$DATE' | sed -i "/<\/num>/a <date>$DATE<\/date>/" /mnt/@/.snapshots/1/info.xml
 echo '  <description>Original Root Filesystem</description>' >> /mnt/@/.snapshots/1/info.xml
 echo '</snapshot>' >> /mnt/@/.snapshots/1/info.xml
 btrfs su set-default $(btrfs su li /mnt | grep "@/.snapshots/1/snapshot" | grep -oP '(?<=ID )[0-9]+') /mnt
