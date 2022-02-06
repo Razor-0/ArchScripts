@@ -2,13 +2,16 @@
 set -eu
 
 # change the PASSWORD in all 4 of these lines (first to create then to open said LuKs part)
+echo "PASSWORD" | cryptsetup -q luksFormat --type luks1 --use-urandom -h sha256 -i 1000 /dev/sda2
+echo "PASSWORD" | cryptsetup luksOpen /dev/sda2 boot
+
 echo "PASSWORD" | cryptsetup -q luksFormat --type luks1 --use-urandom -h sha256 -i 1000 /dev/sda3
 echo "PASSWORD" | cryptsetup luksOpen /dev/sda3 root
 
 # formatting partitions with the following filesystems
 mkfs.vfat -F32 /dev/sda1
 fatlabel /dev/sda1 Bootloaders
-echo 'y' | mkfs.reiserfs -l Kernels /dev/sda2
+echo 'y' | mkfs.reiserfs -l Kernels /dev/mapper/boot
 mkfs.btrfs -L 'Btrfs Root' -O extref,skinny-metadata,no-holes -R free-space-tree,quota -m dup /dev/mapper/root
 
 # creating btrfs subvols for snapshots
@@ -54,10 +57,9 @@ umount /mnt
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2 /dev/mapper/root /mnt
 mkdir -p /mnt/var/{cache,crash,log,opt,spool,tmp,lib}
 mkdir -p /mnt/var/lib/{libvirt/images,machines,portables,mailman,named,mariadb,mysql,pgqsl}
-mkdir -p /mnt/{boot,.windows,.snapshots,home,srv,opt,.swap,root,usr/local}
-mount /dev/sda2 /mnt/boot
-mkdir /mnt/boot/EFI
-mount /dev/sda1 /mnt/boot/EFI
+mkdir -p /mnt/{boot,EFI,.windows,.snapshots,home,srv,opt,.swap,root,usr/local}
+mount /dev/mapper/boot /mnt/boot
+mount /dev/sda1 /mnt/EFI
 mkdir -p /mnt/.windows/{ssd,hdd,ehdd,usb,iso}
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/home /dev/mapper/root /mnt/home
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/root /dev/mapper/root /mnt/root

@@ -37,6 +37,11 @@ sed -i '19s/.*/FILES=(\/root\/.keys\/bootkey.bin \/root\/.keys\/rootkey.bin)/' /
 sed -i '52s/.*/HOOKS=(base udev keyboard keymap modconf block encrypt resume usr fsck shutdown)/' /etc/mkinitcpio.conf
 sed -i '57s/#//' /etc/mkinitcpio.conf
 
+cp /usr/lib/initcpio/install/encrypt /etc/initcpio/install/cryptboot
+cp /usr/lib/initcpio/hooks/encrypt  /etc/initcpio/hooks/cryptboot
+sed -i "s/cryptdevice/cryptbootdev/" /etc/initcpio/hooks/cryptboot
+sed -i "s/cryptkey/cryptbootkey/" /etc/initcpio/hooks/cryptboot
+
 # create keys to unlock boot and root
 mkdir /root/.keys
 chmod 700 /root/.keys
@@ -44,9 +49,11 @@ head -c 64 /dev/urandom >> /root/.keys/bootkey.bin
 head -c 64 /dev/urandom >> /root/.keys/rootkey.bin
 chmod 600 /root/.keys/bootkey.bin
 chmod 600 /root/.keys/rootkey.bin
+echo "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/sda2 /root/.keys/bootkey.bin
 echo "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/sda3 /root/.keys/rootkey.bin
 
 # edit grub config and grubd to make btrfs decide the default subvolume
+BOOT="$(blkid -s UUID -o value /dev/sda2)"
 ROOT="$(blkid -s UUID -o value /dev/sda3)"
 sed -i '66,78 {s/^/#/}' /etc/grub.d/10_linux
 sed -i '74,86 {s/^/#/}' /etc/grub.d/20_linux_xen
@@ -54,7 +61,7 @@ sed -i '4s/5/8/' /etc/default/grub
 sed -i '13s/#//' /etc/default/grub
 sed -i '54s/#//' /etc/default/grub
 sed -i '/above./a GRUB_DEFAULT=saved' /etc/default/grub
-echo '$ROOT' | sed -i "6s/.*/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 cryptdevice=UUID=$ROOT:root cryptkey=rootfs:\/root\/.keys\/rootkey.bin root=\/dev\/mapper\/root rw resume=\/dev\/mapper\/root resume_offset=16400\"/" /etc/default/grub
+echo 'BOOT','$ROOT' | sed -i "6s/.*/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 cryptbootdev=UUID=$BOOT:boot cryptbootkey=rootfs:\/root\/.keys\/bootkey.bin cryptdevice=UUID=$ROOT:root cryptkey=rootfs:\/root\/.keys\/rootkey.bin root=\/dev\/mapper\/root rw resume=\/dev\/mapper\/root resume_offset=16400\"/" /etc/default/grub
 
 # enable 2GB zram pages per physical core on 4C/8T
 sudo echo 'zram' >> /etc/modules-load.d/zram.conf
