@@ -81,8 +81,8 @@ mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,r
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/var/lib/pgqsl /dev/mapper/root /mnt/var/lib/pgqsl
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/usr/local /dev/mapper/root /mnt/usr/local
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/.snapshots /dev/mapper/root /mnt/.snapshots
-# mount -o defaults /dev/sda6 /mnt/.windows/ssd
-# mount -o defaults /dev/sdb2 /mnt/.windows/hdd
+mount -o defaults /dev/sda6 /mnt/.windows/ssd
+mount -o defaults /dev/sdb2 /mnt/.windows/hdd
 chmod 750 /mnt/root
 chmod 1777 /mnt/var/tmp
 
@@ -99,7 +99,7 @@ chattr +C /mnt/var/tmp
 # creating and disabling cow on the swapfile
 truncate -s 0 /mnt/.swap/swapfile
 chattr +C /mnt/.swap/swapfile
-dd if=/dev/zero of=/mnt/.swap/swapfile bs=1M count=2048 status=progress
+dd if=/dev/zero of=/mnt/.swap/swapfile bs=1M count=24576 status=progress
 chmod 600 /mnt/.swap/swapfile
 mkswap /mnt/.swap/swapfile
 swapon -p 0 /mnt/.swap/swapfile
