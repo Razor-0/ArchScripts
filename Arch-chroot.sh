@@ -79,5 +79,5 @@ visudo -c /etc/sudoers.d/rootusers
 
 # set default btrfs subvolume for snapper and install grub, gen init and grub config
 mkinitcpio -p linux-zen
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id="Arch Linux x64"
+grub-install --target=x86_64-efi --efi-directory=/boot/EFI --bootloader-id="Arch Linux x64"
 grub-mkconfig -o /boot/grub/grub.cfg
