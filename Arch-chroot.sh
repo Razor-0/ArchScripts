@@ -34,7 +34,7 @@ systemctl enable bluetooth
 sed -i '7s/.*/MODULES=(crc32c-intel btrfs)/' /etc/mkinitcpio.conf
 sed -i '14s/.*/BINARIES=(dosfsck btrfsck)/' /etc/mkinitcpio.conf
 sed -i '19s/.*/FILES=(\/root\/.keys\/bootkey.bin \/root\/.keys\/rootkey.bin)/' /etc/mkinitcpio.conf
-sed -i '52s/.*/HOOKS=(base udev keyboard keymap modconf block encrypt resume usr fsck shutdown)/' /etc/mkinitcpio.conf
+sed -i '52s/.*/HOOKS=(base udev keyboard keymap modconf block cryptboot encrypt resume usr fsck shutdown)/' /etc/mkinitcpio.conf
 sed -i '57s/#//' /etc/mkinitcpio.conf
 
 cp /usr/lib/initcpio/install/encrypt /etc/initcpio/install/cryptboot
