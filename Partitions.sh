@@ -54,7 +54,9 @@ umount /mnt
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2 /dev/mapper/root /mnt
 mkdir -p /mnt/var/{cache,crash,log,opt,spool,tmp,lib}
 mkdir -p /mnt/var/lib/{libvirt/images,machines,portables,mailman,named,mariadb,mysql,pgqsl}
-mkdir -p /mnt/{boot/EFI,.windows,.snapshots,home,srv,opt,.swap,root,usr/local}
+mkdir -p /mnt/{boot,.windows,.snapshots,home,srv,opt,.swap,root,usr/local}
+mount /dev/sda2 /mnt/boot
+mkdir /mnt/boot/EFI
 mount /dev/sda1 /mnt/boot/EFI
 mkdir -p /mnt/.windows/{ssd,hdd,ehdd,usb,iso}
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/home /dev/mapper/root /mnt/home
