@@ -44,10 +44,10 @@ head -c 64 /dev/urandom >> /root/.keys/bootkey.bin
 head -c 64 /dev/urandom >> /root/.keys/rootkey.bin
 chmod 600 /root/.keys/bootkey.bin
 chmod 600 /root/.keys/rootkey.bin
-echo "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/sda2 /root/.keys/rootkey.bin
+echo "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/sda3 /root/.keys/rootkey.bin
 
 # edit grub config and grubd to make btrfs decide the default subvolume
-ROOT="$(blkid -s UUID -o value /dev/sda2)"
+ROOT="$(blkid -s UUID -o value /dev/sda3)"
 sed -i '66,78 {s/^/#/}' /etc/grub.d/10_linux
 sed -i '74,86 {s/^/#/}' /etc/grub.d/20_linux_xen
 sed -i '4s/5/8/' /etc/default/grub
