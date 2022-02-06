@@ -25,8 +25,6 @@ echo razor:PASSWORD | chpasswd
 # edit as you see fit alongside the systemctl commands
 pacman -Syyu --noconfirm
 pacman -S --noconfirm grub efibootmgr os-prober btrfs-progs ntfs-3g linux-zen-headers base-devel networkmanager bluez bluez-utils dosfstools xdg-user-dirs xdg-utils wpa_supplicant
-
-# enable neccessities like Network, BT etc at boot
 systemctl enable NetworkManager
 systemctl enable bluetooth
 
@@ -68,13 +66,10 @@ sudo echo 'KERNEL=="zram2", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zra
 sudo echo 'KERNEL=="zram3", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram3", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
 
 # edit fstab for btrfs and add zram to automount
-echo '/dev/zram0		none		swap		defaults,pri=4000	0 0' >> /etc/fstab
-echo >> /etc/fstab
-echo '/dev/zram1		none		swap		defaults,pri=8000	0 0' >> /etc/fstab
-echo >> /etc/fstab
-echo '/dev/zram2		none		swap		defaults,pri=16000	0 0' >> /etc/fstab
-echo >> /etc/fstab
-echo '/dev/zram3		none		swap		defaults,pri=32000	0 0' >> /etc/fstab
+echo -e "/dev/zram0     none        swap        defaults,pri=4000   0 0 \n" >> /etc/fstab
+echo -e "/dev/zram1     none        swap        defaults,pri=8000   0 0 \n" >> /etc/fstab
+echo -e "/dev/zram2     none        swap        defaults,pri=16000  0 0 \n" >> /etc/fstab
+echo -e "/dev/zram3     none        swap        defaults,pri=32000  0 0 \n" >> /etc/fstab
 
 # add sudo privileges to the user
 echo 'razor ALL=(ALL) ALL' | EDITOR=tee visudo /etc/sudoers.d/rootusers
