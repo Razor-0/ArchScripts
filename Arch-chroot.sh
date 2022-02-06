@@ -58,12 +58,12 @@ echo '$BOOT' | sed -i "/none/a boot UUID=$BOOT  /root/.keys/bootkey.bin" /etc/cr
 echo '$ROOT' | sed -i "6s/.*/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 cryptdevice=UUID=$ROOT:root cryptkey=rootfs:\/root\/.keys\/rootkey.bin root=\/dev\/mapper\/root rw resume=\/dev\/mapper\/root resume_offset=16400\"/" /etc/default/grub
 
 # enable 2GB zram pages per physical core on 4C/8T
-sudo echo 'zram' >> /etc/modules-load.d/zram.conf
-sudo echo 'options zram num_devices=4' >> /etc/modprobe.d/zram.conf
-sudo echo 'KERNEL=="zram0", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram0", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
-sudo echo 'KERNEL=="zram1", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram1", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
-sudo echo 'KERNEL=="zram2", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram2", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
-sudo echo 'KERNEL=="zram3", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram3", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
+echo 'zram' >> /etc/modules-load.d/zram.conf
+echo 'options zram num_devices=4' >> /etc/modprobe.d/zram.conf
+echo -e 'KERNEL=="zram0", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram0", TAG+="systemd" \n' >> /etc/udev/rules.d/99-zram.rules
+echo -e 'KERNEL=="zram1", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram1", TAG+="systemd" \n' >> /etc/udev/rules.d/99-zram.rules
+echo -e 'KERNEL=="zram2", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram2", TAG+="systemd" \n' >> /etc/udev/rules.d/99-zram.rules
+echo -e 'KERNEL=="zram3", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram3", TAG+="systemd" \n' >> /etc/udev/rules.d/99-zram.rules
 
 # edit fstab for btrfs and add zram to automount
 echo -e "/dev/zram0     none        swap        defaults,pri=4000   0 0 \n" >> /etc/fstab
