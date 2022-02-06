@@ -7,8 +7,8 @@ echo "PASSWORD" | cryptsetup luksOpen /dev/sda3 root
 
 # formatting partitions with the following filesystems
 mkfs.vfat -F32 /dev/sda1
-echo 'y' | mkfs.reiserfs -l Kernels /dev/sda2
 fatlabel /dev/sda1 Bootloaders
+echo 'y' | mkfs.reiserfs -l Kernels /dev/sda2
 mkfs.btrfs -L 'Btrfs Root' -O extref,skinny-metadata,no-holes -R free-space-tree,quota -m dup /dev/mapper/root
 
 # creating btrfs subvols for snapshots
