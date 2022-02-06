@@ -36,8 +36,6 @@ sed -i '14s/.*/BINARIES=(dosfsck btrfsck)/' /etc/mkinitcpio.conf
 sed -i '19s/.*/FILES=(\/root\/.keys\/bootkey.bin \/root\/.keys\/rootkey.bin)/' /etc/mkinitcpio.conf
 sed -i '52s/.*/HOOKS=(base udev keyboard keymap modconf block encrypt resume usr fsck shutdown)/' /etc/mkinitcpio.conf
 sed -i '57s/#//' /etc/mkinitcpio.conf
-BOOT="$(blkid -s UUID -o value /dev/sda2)"
-echo 'BOOT' | sed -i "/none/a boot  UUID=$BOOT  /root/.keys/bootkey.bin"
 
 # create keys to unlock boot and root
 mkdir /root/.keys
@@ -50,6 +48,7 @@ echo "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/sda2 /root/.keys/bootkey.bi
 echo "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/sda3 /root/.keys/rootkey.bin
 
 # edit grub config and grubd to make btrfs decide the default subvolume
+BOOT="$(blkid -s UUID -o value /dev/sda2)"
 ROOT="$(blkid -s UUID -o value /dev/sda3)"
 sed -i '66,78 {s/^/#/}' /etc/grub.d/10_linux
 sed -i '74,86 {s/^/#/}' /etc/grub.d/20_linux_xen
@@ -57,6 +56,7 @@ sed -i '4s/5/8/' /etc/default/grub
 sed -i '13s/#//' /etc/default/grub
 sed -i '54s/#//' /etc/default/grub
 sed -i '/above./a GRUB_DEFAULT=saved' /etc/default/grub
+echo '$BOOT' | sed -i "/none/a boot  UUID=$BOOT  /root/.keys/bootkey.bin"
 echo '$ROOT' | sed -i "6s/.*/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 cryptdevice=UUID=$ROOT:root cryptkey=rootfs:\/root\/.keys\/rootkey.bin root=\/dev\/mapper\/root rw resume=\/dev\/mapper\/root resume_offset=16400\"/" /etc/default/grub
 
 # enable 2GB zram pages per physical core on 4C/8T
