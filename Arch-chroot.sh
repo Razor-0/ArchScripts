@@ -56,7 +56,7 @@ sed -i '4s/5/8/' /etc/default/grub
 sed -i '13s/#//' /etc/default/grub
 sed -i '54s/#//' /etc/default/grub
 sed -i '/above./a GRUB_DEFAULT=saved' /etc/default/grub
-echo '$BOOT' | sed -i "/none/a boot  UUID=$BOOT" /root/.keys/bootkey.bin
+echo '$BOOT' | sed -i "/none/a boot  UUID=$BOOT  /root/.keys/bootkey.bin" /etc/crypttab
 echo '$ROOT' | sed -i "6s/.*/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 cryptdevice=UUID=$ROOT:root cryptkey=rootfs:\/root\/.keys\/rootkey.bin root=\/dev\/mapper\/root rw resume=\/dev\/mapper\/root resume_offset=16400\"/" /etc/default/grub
 
 # enable 2GB zram pages per physical core on 4C/8T
