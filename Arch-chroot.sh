@@ -11,9 +11,9 @@ sed -i '94s/#//' /etc/pacman.conf
 
 # host file and keyboard configuration
 echo 'lenarch' >> /etc/hostname
-echo '127.0.0.1     localhost' >> /etc/hosts
-echo '::1           localhost' >> /etc/hosts
-echo '127.0.1.1     lenarch.localdomain lenarch' >> /etc/hosts
+echo '127.0.0.1	localhost' >> /etc/hosts
+echo '::1		localhost' >> /etc/hosts
+echo '127.0.1.1	lenarch.localdomain lenarch' >> /etc/hosts
 echo 'LANG=en_GB.UTF-8' >> /etc/locale.conf
 echo 'KEYMAP=hu' >> /etc/vconsole.conf
 
@@ -64,13 +64,13 @@ echo 'options zram num_devices=4' >> /etc/modprobe.d/zram.conf
 echo -e 'KERNEL=="zram0", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram0", TAG+="systemd" \n' >> /etc/udev/rules.d/99-zram.rules
 echo -e 'KERNEL=="zram1", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram1", TAG+="systemd" \n' >> /etc/udev/rules.d/99-zram.rules
 echo -e 'KERNEL=="zram2", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram2", TAG+="systemd" \n' >> /etc/udev/rules.d/99-zram.rules
-echo -e 'KERNEL=="zram3", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram3", TAG+="systemd" \n' >> /etc/udev/rules.d/99-zram.rules
+echo 'KERNEL=="zram3", ATTR{disksize}="2048M" RUN="/usr/bin/mkswap /dev/zram3", TAG+="systemd"' >> /etc/udev/rules.d/99-zram.rules
 
 # edit fstab for btrfs and add zram to automount
-echo -e "/dev/zram0     none        swap        defaults,pri=4000   0 0 \n" >> /etc/fstab
-echo -e "/dev/zram1     none        swap        defaults,pri=8000   0 0 \n" >> /etc/fstab
-echo -e "/dev/zram2     none        swap        defaults,pri=16000  0 0 \n" >> /etc/fstab
-echo -e "/dev/zram3     none        swap        defaults,pri=32000  0 0 \n" >> /etc/fstab
+echo -e "/dev/zram0	none	swap	defaults,pri=4000	0 0 \n" >> /etc/fstab
+echo -e "/dev/zram1	none	swap	defaults,pri=8000	0 0 \n" >> /etc/fstab
+echo -e "/dev/zram2	none	swap	defaults,pri=16000	0 0 \n" >> /etc/fstab
+echo "/dev/zram3	none	swap	defaults,pri=32000	0 0" >> /etc/fstab
 
 # add sudo privileges to the user
 echo 'razor ALL=(ALL) ALL' | EDITOR=tee visudo /etc/sudoers.d/rootusers

@@ -43,11 +43,11 @@ btrfs su cr /mnt/@/usr/local
 btrfs su cr /mnt/@/.snapshots/1/snapshot
 echo '<?xml version="1.0"?>' >> /mnt/@/.snapshots/1/info.xml
 echo '<snapshot>' >> /mnt/@/.snapshots/1/info.xml
-echo '  <type>single</type>' >> /mnt/@/.snapshots/1/info.xml
-echo -e '  <num>1</num> \n' >> /mnt/@/.snapshots/1/info.xml
+echo '	<type>single</type>' >> /mnt/@/.snapshots/1/info.xml
+echo -e '	<num>1</num> \n' >> /mnt/@/.snapshots/1/info.xml
 DATE="$(date +"%Y-%m-%d %H:%M:%S")"
 echo '$DATE' | sed -i "5s/.*/  <date>$DATE<\/date>/" /mnt/@/.snapshots/1/info.xml
-echo '  <description>Original Root Filesystem</description>' >> /mnt/@/.snapshots/1/info.xml
+echo '	<description>Original Root Filesystem</description>' >> /mnt/@/.snapshots/1/info.xml
 echo '</snapshot>' >> /mnt/@/.snapshots/1/info.xml
 btrfs su set-default $(btrfs su li /mnt | grep "@/.snapshots/1/snapshot" | grep -oP '(?<=ID )[0-9]+') /mnt
 umount /mnt
