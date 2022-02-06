@@ -42,7 +42,7 @@ btrfs su cr /mnt/@/var/lib/mysql
 btrfs su cr /mnt/@/var/lib/pgqsl
 btrfs su cr /mnt/@/usr/local
 btrfs su cr /mnt/@/.snapshots/1/snapshot
-echo '<?xml version="1."?>' >> /mnt/@/.snapshots/1/info.xml
+echo '<?xml version="1.0"?>' >> /mnt/@/.snapshots/1/info.xml
 echo '<snapshot>' >> /mnt/@/.snapshots/1/info.xml
 echo '  <type>single</type>' >> /mnt/@/.snapshots/1/info.xml
 echo '  <num>1</num>' >> /mnt/@/.snapshots/1/info.xml
