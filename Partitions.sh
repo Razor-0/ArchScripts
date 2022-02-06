@@ -2,11 +2,12 @@
 set -eu
 
 # change the PASSWORD in all 4 of these lines (first to create then to open said LuKs part)
-echo "PASSWORD" | cryptsetup -q luksFormat --type luks1 --use-urandom -h sha256 -i 1000 /dev/sda2
-echo "PASSWORD" | cryptsetup luksOpen /dev/sda2 root
+echo "PASSWORD" | cryptsetup -q luksFormat --type luks1 --use-urandom -h sha256 -i 1000 /dev/sda3
+echo "PASSWORD" | cryptsetup luksOpen /dev/sda3 root
 
 # formatting partitions with the following filesystems
 mkfs.vfat -F32 /dev/sda1
+echo 'y' | mkfs.reiserfs -l Kernels /dev/sda2
 fatlabel /dev/sda1 Bootloaders
 mkfs.btrfs -L 'Btrfs Root' -O extref,skinny-metadata,no-holes -R free-space-tree,quota -m dup /dev/mapper/root
 
