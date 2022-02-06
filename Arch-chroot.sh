@@ -11,9 +11,9 @@ sed -i '94s/#//' /etc/pacman.conf
 
 # host file and keyboard configuration
 echo 'lenarch' >> /etc/hostname
-echo '127.0.0.1	localhost' >> /etc/hosts
-echo '::1		localhost' >> /etc/hosts
-echo '127.0.1.1	lenarch.localdomain lenarch' >> /etc/hosts
+echo '127.0.0.1 localhost' >> /etc/hosts
+echo '::1       localhost' >> /etc/hosts
+echo '127.0.1.1 lenarch.localdomain lenarch' >> /etc/hosts
 echo 'LANG=en_GB.UTF-8' >> /etc/locale.conf
 echo 'KEYMAP=hu' >> /etc/vconsole.conf
 
@@ -33,7 +33,7 @@ systemctl enable bluetooth
 # modify initcpio modules, binaries, hooks etc
 sed -i '7s/.*/MODULES=(crc32c-intel btrfs)/' /etc/mkinitcpio.conf
 sed -i '14s/.*/BINARIES=(dosfsck btrfsck)/' /etc/mkinitcpio.conf
-sed -i '19s/.*/FILES=(\/root\/.keys\/bootkey.bin \/root\/.keys\/rootkey.bin)/' /etc/mkinitcpio.conf
+sed -i '19s/.*/FILES=(\/root\/.keys\/rootkey.bin)/' /etc/mkinitcpio.conf
 sed -i '52s/.*/HOOKS=(base udev keyboard keymap modconf block encrypt resume usr fsck shutdown)/' /etc/mkinitcpio.conf
 sed -i '57s/#//' /etc/mkinitcpio.conf
 
@@ -56,7 +56,7 @@ sed -i '4s/5/8/' /etc/default/grub
 sed -i '13s/#//' /etc/default/grub
 sed -i '54s/#//' /etc/default/grub
 sed -i '/above./a GRUB_DEFAULT=saved' /etc/default/grub
-echo '$BOOT' | sed -i "/none/a boot	UUID=$BOOT	/root/.keys/bootkey.bin" /etc/crypttab
+echo '$BOOT' | sed -i "/none/a boot UUID=$BOOT  /root/.keys/bootkey.bin" /etc/crypttab
 echo '$ROOT' | sed -i "6s/.*/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 cryptdevice=UUID=$ROOT:root cryptkey=rootfs:\/root\/.keys\/rootkey.bin root=\/dev\/mapper\/root rw resume=\/dev\/mapper\/root resume_offset=16400\"/" /etc/default/grub
 
 # enable 2GB zram pages per physical core on 4C/8T
