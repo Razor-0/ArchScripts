@@ -56,9 +56,9 @@ umount /mnt
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2 /dev/mapper/root /mnt
 mkdir -p /mnt/var/{cache,crash,log,opt,spool,tmp,lib}
 mkdir -p /mnt/var/lib/{libvirt/images,machines,portables,mailman,named,mariadb,mysql,pgqsl}
-mkdir -p /mnt/{boot,ESP,.storages/winssd,.snapshots,home,srv,opt,.swap,root,usr/local}
+mkdir -p /mnt/{boot,EFI,.storages/winssd,.snapshots,home,srv,opt,.swap,root,usr/local}
 mount -o defaults /dev/mapper/boot /mnt/boot
-mount -o defaults /dev/sda1 /mnt/ESP
+mount -o defaults /dev/sda1 /mnt/EFI
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/home /dev/mapper/root /mnt/home
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/root /dev/mapper/root /mnt/root
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/opt /dev/mapper/root /mnt/opt
@@ -103,7 +103,7 @@ mkswap /mnt/.swap/swapfile
 swapon -p 0 /mnt/.swap/swapfile
 
 # installing base system and some neccessities
-pacstrap /mnt base linux-zen linux-firmware
+pacstrap /mnt base linux-zen linux-firmware intel-ucode
 genfstab -U /mnt >> /mnt/etc/fstab
 sed -i 's/,subvolid=278,subvol=\/@\/.snapshots\/1\/snapshot//' /mnt/etc/fstab
 lsblk -f
