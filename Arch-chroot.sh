@@ -24,7 +24,7 @@ echo razor:PASSWORD | chpasswd
 
 # edit as you see fit alongside the systemctl commands
 pacman -Syyu --noconfirm
-pacman -S --noconfirm grub efibootmgr os-prober btrfs-progs ntfs-3g linux-zen-headers base-devel networkmanager bluez bluez-utils dosfstools xdg-user-dirs xdg-utils wpa_supplicant
+pacman -S --noconfirm grub efibootmgr os-prober btrfs-progs ntfs-3g linux-zen-headers base-devel networkmanager bluez bluez-utils dosfstools xdg-user-dirs xdg-utils wpa_supplicant udisks2
 systemctl enable NetworkManager
 systemctl enable bluetooth
 
