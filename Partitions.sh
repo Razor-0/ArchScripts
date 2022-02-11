@@ -81,7 +81,7 @@ mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,r
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/var/lib/pgqsl /dev/mapper/root /mnt/var/lib/pgqsl
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/usr/local /dev/mapper/root /mnt/usr/local
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/.snapshots /dev/mapper/root /mnt/.snapshots
-mount -o defaults /dev/sda6 /.windows/ssd
+mount -o defaults /dev/sda6 /mnt/.windows/ssd
 chmod 750 /mnt/root
 chmod 1777 /mnt/var/tmp
 
