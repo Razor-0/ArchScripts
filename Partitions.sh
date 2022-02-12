@@ -12,6 +12,7 @@ mkfs.vfat -F32 /dev/sda1
 fatlabel /dev/sda1 Bootloaders
 echo 'y' | mkfs.reiserfs -l Kernels /dev/mapper/boot
 mkfs.btrfs -L 'Btrfs Root' -R free-space-tree,quota /dev/mapper/root
+mkfs.btrfs -L 'Btrfs Storage' -R free-space-tree,quota /dev/sdb1
 
 # creating btrfs subvols for snapshots
 mount /dev/mapper/root /mnt
@@ -56,8 +57,8 @@ umount /mnt
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2 /dev/mapper/root /mnt
 mkdir -p /mnt/var/{cache,crash,log,opt,spool,tmp,lib}
 mkdir -p /mnt/var/lib/{libvirt/images,machines,portables,mailman,named,mariadb,mysql,pgqsl}
-mkdir -p /mnt/{boot,EFI,.windows,.snapshots,home,srv,opt,.swap,root,usr/local}
-mkdir -p /mnt/.windows/{ssd,hdd}
+mkdir -p /mnt/{boot,EFI,.drives,.snapshots,home,srv,opt,.swap,root,usr/local}
+mkdir -p /mnt/.drives/{winssd,winhdd,linuxhdd}
 mount -o defaults /dev/mapper/boot /mnt/boot
 mount -o defaults /dev/sda1 /mnt/EFI
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/home /dev/mapper/root /mnt/home
@@ -81,7 +82,9 @@ mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,r
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/var/lib/pgqsl /dev/mapper/root /mnt/var/lib/pgqsl
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/usr/local /dev/mapper/root /mnt/usr/local
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/.snapshots /dev/mapper/root /mnt/.snapshots
-mount -o defaults /dev/sda5 /mnt/.windows/ssd
+mount -o defaults,commit=240,flushoncommit,autodefrag,discard=async,relatime,compress=zstd:5,space_cache=v2 /dev/sdb1 /mnt/.drives/linuxhdd
+mount -o defaults /dev/sda5 /mnt/.drives/winssd
+mount -o defaults /dev/sdb3 /mnt/.drives/winhdd
 chmod 750 /mnt/root
 chmod 1777 /mnt/var/tmp
 
