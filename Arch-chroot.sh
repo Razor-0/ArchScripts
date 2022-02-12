@@ -12,7 +12,7 @@ sed -i '94s/#//' /etc/pacman.conf
 # host file and keyboard configuration
 echo 'lenarch' >> /etc/hostname
 echo '127.0.0.1	localhost' >> /etc/hosts
-echo '::1		localhost' >> /etc/hosts
+echo '::1	localhost' >> /etc/hosts
 echo '127.0.1.1	lenarch.localdomain	lenarch' >> /etc/hosts
 echo 'LANG=en_GB.UTF-8' >> /etc/locale.conf
 echo 'KEYMAP=hu' >> /etc/vconsole.conf
