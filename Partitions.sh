@@ -75,7 +75,9 @@ mkdir -p /mnt/{boot,EFI,.drives,.snapshots,home,srv,opt,.swap,root,usr/local}
 mkdir -p /mnt/.drives/{winssd,winhdd,linuxhdd}
 mount -o defaults /dev/mapper/boot /mnt/boot
 mount -o defaults /dev/sda1 /mnt/EFI
-mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/home /dev/mapper/root /mnt/home
+mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/home/.snapshots/1/snapshot /dev/mapper/root /mnt/home
+mkdir /mnt/home/.snapshots
+mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/home/.snapshots /dev/mapper/root /mnt/home/.snapshots
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/root /dev/mapper/root /mnt/root
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/opt /dev/mapper/root /mnt/opt
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/srv /dev/mapper/root /mnt/srv
