@@ -13,9 +13,6 @@ fatlabel /dev/sda1 Bootloaders
 echo 'y' | mkfs.reiserfs -l Kernels /dev/mapper/boot
 mkfs.btrfs -L 'Btrfs Root' -R free-space-tree,quota /dev/mapper/root
 mkfs.btrfs -L 'Btrfs Storage' -R free-space-tree,quota /dev/sdb1
-mkfs.ntfs -Q /dev/sda5
-mkfs.ntfs -Q /dev/sda6
-mkfs.ntfs -Q /dev/sdb3
 
 # creating btrfs subvols for snapshots
 mount /dev/mapper/root /mnt
