@@ -46,8 +46,8 @@ btrfs su cr /mnt/@/var/lib/mysql
 btrfs su cr /mnt/@/var/lib/pgqsl
 mkdir /mnt/@/usr
 btrfs su cr /mnt/@/usr/local
-btrfs su cr /mnt/@/home/.snapshots/1/snapshot
 btrfs su cr /mnt/@/.snapshots/1/snapshot
+btrfs su cr /mnt/@/home/.snapshots/1/snapshot
 
 # create origin snapshot of system
 echo '<?xml version="1.0"?>' >> /mnt/@/.snapshots/1/info.xml
@@ -131,5 +131,5 @@ swapon -p 0 /mnt/.swap/swapfile
 # installing base system and some neccessities
 pacstrap /mnt base linux-zen linux-firmware intel-ucode nano
 genfstab -U /mnt >> /mnt/etc/fstab
-sed -i 's/,subvolid=279,subvol=\/@\/.snapshots\/1\/snapshot//' /mnt/etc/fstab
+sed -i 's/,subvolid=278,subvol=\/@\/.snapshots\/1\/snapshot//' /mnt/etc/fstab
 lsblk -f
