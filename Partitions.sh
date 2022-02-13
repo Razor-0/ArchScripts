@@ -22,7 +22,7 @@ mount /dev/mapper/root /mnt
 btrfs su cr /mnt/@
 btrfs su cr /mnt/@/.snapshots
 mkdir /mnt/@/.snapshots/1
-btrfs su cr /mnt/@/home
+mkdir /mnt/@/home
 btrfs su cr /mnt/@/home/.snapshots
 mkdir /mnt/@/home/.snapshots/1
 btrfs su cr /mnt/@/root
@@ -131,5 +131,5 @@ swapon -p 0 /mnt/.swap/swapfile
 # installing base system and some neccessities
 pacstrap /mnt base linux-zen linux-firmware intel-ucode nano
 genfstab -U /mnt >> /mnt/etc/fstab
-sed -i 's/,subvolid=280,subvol=\/@\/.snapshots\/1\/snapshot//' /mnt/etc/fstab
+sed -i 's/,subvolid=279,subvol=\/@\/.snapshots\/1\/snapshot//' /mnt/etc/fstab
 lsblk -f
