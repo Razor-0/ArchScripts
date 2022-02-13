@@ -17,15 +17,16 @@ mkfs.btrfs -L 'Btrfs Storage' -R free-space-tree,quota /dev/sdb1
 # creating btrfs subvols for snapshots
 mount /dev/mapper/root /mnt
 btrfs su cr /mnt/@
+btrfs su cr /mnt/@/.snapshots
+mkdir /mnt/@/.snapshots/1
 btrfs su cr /mnt/@/home
+btrfs su cr /mnt/@/home/.snapshots
+mkdir /mnt/@/home/.snapshots/1
 btrfs su cr /mnt/@/root
 btrfs su cr /mnt/@/opt
 btrfs su cr /mnt/@/srv
 btrfs su cr /mnt/@/.swap
-btrfs su cr /mnt/@/.snapshots
 mkdir -p /mnt/@/var/lib/libvirt
-mkdir /mnt/@/usr
-mkdir /mnt/@/.snapshots/1
 btrfs su cr /mnt/@/var/cache
 btrfs su cr /mnt/@/var/crash
 btrfs su cr /mnt/@/var/log
@@ -40,8 +41,12 @@ btrfs su cr /mnt/@/var/lib/named
 btrfs su cr /mnt/@/var/lib/mariadb
 btrfs su cr /mnt/@/var/lib/mysql
 btrfs su cr /mnt/@/var/lib/pgqsl
+mkdir /mnt/@/usr
 btrfs su cr /mnt/@/usr/local
 btrfs su cr /mnt/@/.snapshots/1/snapshot
+btrfs su cr /mnt/@/home/.snapshots/1/snapshot
+
+# create origin snapshot of system
 echo '<?xml version="1.0"?>' >> /mnt/@/.snapshots/1/info.xml
 echo '<snapshot>' >> /mnt/@/.snapshots/1/info.xml
 echo '	<type>single</type>' >> /mnt/@/.snapshots/1/info.xml
@@ -51,6 +56,15 @@ echo '$DATE' | sed -i "5s/.*/	<date>$DATE<\/date>/" /mnt/@/.snapshots/1/info.xml
 echo '	<description>Original Root Filesystem</description>' >> /mnt/@/.snapshots/1/info.xml
 echo '</snapshot>' >> /mnt/@/.snapshots/1/info.xml
 btrfs su set-default $(btrfs su li /mnt | grep "@/.snapshots/1/snapshot" | grep -oP '(?<=ID )[0-9]+') /mnt
+
+echo '<?xml version="1.0"?>' >> /mnt/@/home/.snapshots/1/info.xml
+echo '<snapshot>' >> /mnt/@/home/.snapshots/1/info.xml
+echo '	<type>single</type>' >> /mnt/@/home/.snapshots/1/info.xml
+echo -e '	<num>1</num> \n' >> /mnt/@/home/.snapshots/1/info.xml
+DATE2="$(date +"%Y-%m-%d %H:%M:%S")"
+echo '$DATE2' | sed -i "5s/.*/	<date>$DATE2<\/date>/" /mnt/@/home/.snapshots/1/info.xml
+echo '	<description>Original Home Filesystem</description>' >> /mnt/@/home/.snapshots/1/info.xml
+echo '</snapshot>' >> /mnt/@/home/.snapshots/1/info.xml
 umount /mnt
 
 # mounting the subvolumes and partititons
