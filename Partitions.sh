@@ -68,7 +68,7 @@ echo '</snapshot>' >> /mnt/@/home/.snapshots/1/info.xml
 umount /mnt
 
 # mounting the subvolumes and partititons
-mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2 /dev/mapper/root /mnt
+mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/.snapshots/1/snapshot /dev/mapper/root /mnt
 mkdir -p /mnt/var/{cache,crash,log,opt,spool,tmp,lib}
 mkdir -p /mnt/var/lib/{libvirt/images,machines,portables,mailman,named,mariadb,mysql,pgqsl}
 mkdir -p /mnt/{boot,EFI,.drives,.snapshots,home,srv,opt,.swap,root,usr/local}
