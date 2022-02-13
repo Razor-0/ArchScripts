@@ -23,7 +23,7 @@ sudo chmod 750 /home/.snapshots
 # install paru pacman wrapper for AUR packages
 git clone https://aur.archlinux.org/paru.git ~/Downloads/tmpParu
 cd ~/Downloads/tmpParu
-makepkg -sic PKGBUILD
+makepkg -sic PKGBUILD --noconfirm
 
 mkdir ~/Downloads/Telegram
 cd ~/Downloads/Telegram
