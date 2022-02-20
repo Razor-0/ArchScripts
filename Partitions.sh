@@ -115,7 +115,7 @@ chattr +C /mnt/var/cache
 chattr +C /mnt/var/log
 chattr +C /mnt/var/spool
 chattr +C /mnt/var/tmp
-chattr +C /mnt/var/docker
+chattr +C /mnt/var/lib/docker
 
 # creating and disabling cow on the swapfile
 truncate -s 0 /mnt/.swap/swapfile
