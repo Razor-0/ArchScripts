@@ -41,10 +41,11 @@ btrfs su cr /mnt/@/var/lib/named
 btrfs su cr /mnt/@/var/lib/mariadb
 btrfs su cr /mnt/@/var/lib/mysql
 btrfs su cr /mnt/@/var/lib/pgqsl
+btrfs su cr /mnt/@/var/lib/docker
 mkdir /mnt/@/usr
 btrfs su cr /mnt/@/usr/local
-btrfs su cr /mnt/@/.snapshots/1/snapshot
 btrfs su cr /mnt/@/home/.snapshots/1/snapshot
+btrfs su cr /mnt/@/.snapshots/1/snapshot
 
 # create origin snapshot of system
 echo '<?xml version="1.0"?>' >> /mnt/@/.snapshots/1/info.xml
@@ -70,14 +71,14 @@ umount /mnt
 # mounting the subvolumes and partititons
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/.snapshots/1/snapshot /dev/mapper/root /mnt
 mkdir -p /mnt/var/{cache,crash,log,opt,spool,tmp,lib}
-mkdir -p /mnt/var/lib/{libvirt/images,machines,portables,mailman,named,mariadb,mysql,pgqsl}
-mkdir -p /mnt/{boot,EFI,.drives,.snapshots,home,srv,opt,.swap,root,usr/local}
-mkdir -p /mnt/.drives/{winssd,winhdd,linuxhdd}
+mkdir -p /mnt/var/lib/{libvirt/images,machines,portables,mailman,named,mariadb,mysql,pgqsl,docker}
+mkdir -p /mnt/{boot,.grub/EFI,.drives,.snapshots,home,srv,opt,.swap,root,storage,usr/local}
 mount -o defaults /dev/mapper/boot /mnt/boot
-mount -o defaults /dev/sda1 /mnt/EFI
+mount -o defaults /dev/sda1 /mnt/.grub/EFI
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/home/.snapshots/1/snapshot /dev/mapper/root /mnt/home
 mkdir /mnt/home/.snapshots
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/home/.snapshots /dev/mapper/root /mnt/home/.snapshots
+mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/var/lib/docker /dev/mapper/root /mnt/var/lib/docker
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/root /dev/mapper/root /mnt/root
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/opt /dev/mapper/root /mnt/opt
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/srv /dev/mapper/root /mnt/srv
@@ -102,8 +103,6 @@ mount /dev/sdb1 /mnt/.drives/linuxhdd
 btrfs su cr /mnt/.drives/linuxhdd/@
 umount /mnt/.drives/linuxhdd
 mount -o defaults,commit=240,flushoncommit,autodefrag,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@ /dev/sdb1 /mnt/.drives/linuxhdd
-mount -o defaults /dev/sda5 /mnt/.drives/winssd
-mount -o defaults /dev/sdb3 /mnt/.drives/winhdd
 chmod 750 /mnt/root
 chmod 1777 /mnt/var/tmp
 
@@ -116,6 +115,7 @@ chattr +C /mnt/var/cache
 chattr +C /mnt/var/log
 chattr +C /mnt/var/spool
 chattr +C /mnt/var/tmp
+chattr +C /mnt/var/docker
 
 # creating and disabling cow on the swapfile
 truncate -s 0 /mnt/.swap/swapfile
@@ -128,5 +128,5 @@ swapon -p 0 /mnt/.swap/swapfile
 # installing base system and some neccessities
 pacstrap /mnt base linux-zen linux-firmware intel-ucode nano
 genfstab -U /mnt >> /mnt/etc/fstab
-sed -i 's/,subvolid=278,subvol=\/@\/.snapshots\/1\/snapshot//' /mnt/etc/fstab
+sed -i 's/,subvolid=280,subvol=\/@\/.snapshots\/1\/snapshot//' /mnt/etc/fstab
 lsblk -f
