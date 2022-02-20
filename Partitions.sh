@@ -9,7 +9,7 @@ echo "PASSWORD" | cryptsetup luksOpen /dev/sda3 root
 
 # formatting partitions with the following filesystems
 mkfs.vfat -F12 /dev/sda1
-fatlabel /dev/sda1 Bootloaders
+fatlabel /dev/sda1 Bootloader
 echo 'y' | mkfs.reiserfs -l Kernels /dev/mapper/boot
 mkfs.btrfs -L 'Btrfs Root' -R free-space-tree,quota /dev/mapper/root
 mkfs.btrfs -L 'Btrfs Storage' -R free-space-tree,quota /dev/sdb1
