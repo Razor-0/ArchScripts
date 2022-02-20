@@ -8,7 +8,7 @@ echo "PASSWORD" | cryptsetup -q luksFormat --type luks2 --use-urandom -h sha512 
 echo "PASSWORD" | cryptsetup luksOpen /dev/sda3 root
 
 # formatting partitions with the following filesystems
-mkfs.vfat -F32 /dev/sda1
+mkfs.vfat -F12 /dev/sda1
 fatlabel /dev/sda1 Bootloaders
 echo 'y' | mkfs.reiserfs -l Kernels /dev/mapper/boot
 mkfs.btrfs -L 'Btrfs Root' -R free-space-tree,quota /dev/mapper/root
