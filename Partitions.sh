@@ -99,10 +99,10 @@ mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,r
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/var/lib/pgqsl /dev/mapper/root /mnt/var/lib/pgqsl
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/usr/local /dev/mapper/root /mnt/usr/local
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/.snapshots /dev/mapper/root /mnt/.snapshots
-mount /dev/sdb1 /mnt/.drives/linuxhdd
-btrfs su cr /mnt/.drives/linuxhdd/@
-umount /mnt/.drives/linuxhdd
-mount -o defaults,commit=240,flushoncommit,autodefrag,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@ /dev/sdb1 /mnt/.drives/linuxhdd
+mount /dev/sdb1 /mnt/storage
+btrfs su cr /mnt/storage/@
+umount /mnt/storage
+mount -o defaults,commit=240,flushoncommit,autodefrag,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@ /dev/sdb1 /mnt/storage
 chmod 750 /mnt/root
 chmod 1777 /mnt/var/tmp
 
