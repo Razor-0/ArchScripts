@@ -19,17 +19,17 @@ echo 'KEYMAP=hu' >> /etc/vconsole.conf
 
 # change password and username as needed
 echo root:PASSWORD | chpasswd
-useradd -m -G wheel -c "Kosa Mark" razor
+useradd -m -G wheel razor
 echo razor:PASSWORD | chpasswd
 
 # edit as you see fit alongside the systemctl commands
 pacman -Syyu --noconfirm
-pacman -S --noconfirm grub efibootmgr os-prober btrfs-progs ntfs-3g linux-zen-headers base-devel networkmanager bluez bluez-utils dosfstools xdg-user-dirs xdg-utils wpa_supplicant udisks2 nvidia-lts nvidia-dkms nvidia-settings nvidia-prime
+pacman -S --noconfirm grub efibootmgr os-prober btrfs-progs ntfs-3g linux-zen-headers base-devel networkmanager bluez bluez-utils dosfstools xdg-user-dirs xdg-utils wpa_supplicant udisks2 nvidia-lts nvidia-dkms nvidia-settings nvidia-prime linux-lts-headers xf86-video-intel
 systemctl enable NetworkManager
 systemctl enable bluetooth
 
 # modify initcpio modules, binaries, hooks etc
-sed -i '7s/.*/MODULES=(crc32c-intel reiserfs btrfs)/' /etc/mkinitcpio.conf
+sed -i '7s/.*/MODULES=(i915 crc32c-intel reiserfs btrfs)/' /etc/mkinitcpio.conf
 sed -i '14s/.*/BINARIES=(dosfsck btrfsck)/' /etc/mkinitcpio.conf
 sed -i '19s/.*/FILES=(\/root\/.keys\/rootkey.bin)/' /etc/mkinitcpio.conf
 sed -i '52s/.*/HOOKS=(base udev keyboard keymap modconf block encrypt resume usr fsck shutdown)/' /etc/mkinitcpio.conf
@@ -78,5 +78,5 @@ visudo -c /etc/sudoers.d/rootusers
 
 # set default btrfs subvolume for snapper and install grub, gen init and grub config
 mkinitcpio -p linux-zen
-grub-install --target=x86_64-efi --efi-directory=/EFI --bootloader-id="Arch Linux x64"
+grub-install --target=x86_64-efi --efi-directory=/.grub/EFI --bootloader-id="Arch Linux x64"
 grub-mkconfig -o /boot/grub/grub.cfg
