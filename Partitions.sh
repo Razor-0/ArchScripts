@@ -104,8 +104,16 @@ mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,r
 mount /dev/mapper/storage /mnt/storage
 btrfs su cr /mnt/storage/@
 btrfs su cr /mnt/storage/@/.snapshots
+echo '<?xml version="1.0"?>' >> /mnt/storage/@/.snapshots/1/info.xml
+echo '<snapshot>' >> /mnt/storage/@/.snapshots/1/info.xml
+echo '	<type>single</type>' >> /mnt/storage/@/.snapshots/1/info.xml
+echo -e '	<num>1</num> \n' >> /mnt/storage/@/.snapshots/1/info.xml
+DATE3="$(date +"%Y-%m-%d %H:%M:%S")"
+echo '$DATE3' | sed -i "5s/.*/	<date>$DATE3<\/date>/" /mnt/storage/@/.snapshots/1/info.xml
+echo '	<description>Original Storage Filesystem</description>' >> /mnt/storage/@/.snapshots/1/info.xml
+echo '</snapshot>' >> /mnt/storage/@/.snapshots/1/info.xml
 umount /mnt/storage
-mount -o defaults,commit=240,flushoncommit,autodefrag,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@ /dev/mapper/storage /mnt/storage
+mount -o defaults,commit=240,flushoncommit,autodefrag,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/.snapshots/1/snapshot /dev/mapper/storage /mnt/storage
 mount -o defaults,commit=240,flushoncommit,autodefrag,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/.snapshots /dev/mapper/storage /mnt/storage/.snapshots
 chmod 750 /mnt/root
 chmod 1777 /mnt/var/tmp
