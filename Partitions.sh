@@ -116,6 +116,7 @@ echo '	<description>Original Storage Filesystem</description>' >> /mnt/storage/@
 echo '</snapshot>' >> /mnt/storage/@/.snapshots/1/info.xml
 umount /mnt/storage
 mount -o defaults,commit=240,flushoncommit,autodefrag,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/.snapshots/1/snapshot /dev/mapper/storage /mnt/storage
+mkdir /mnt/storage/.snapshots
 mount -o defaults,commit=240,flushoncommit,autodefrag,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/.snapshots /dev/mapper/storage /mnt/storage/.snapshots
 chmod 750 /mnt/root
 chmod 1777 /mnt/var/tmp
