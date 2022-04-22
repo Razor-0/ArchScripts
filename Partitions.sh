@@ -104,6 +104,8 @@ mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,r
 mount /dev/mapper/storage /mnt/storage
 btrfs su cr /mnt/storage/@
 btrfs su cr /mnt/storage/@/.snapshots
+mkdir /mnt/storage/@/.snapshots/1
+btrfs su cr /mnt/storage/@/.snapshots/1/snapshot
 echo '<?xml version="1.0"?>' >> /mnt/storage/@/.snapshots/1/info.xml
 echo '<snapshot>' >> /mnt/storage/@/.snapshots/1/info.xml
 echo '	<type>single</type>' >> /mnt/storage/@/.snapshots/1/info.xml
