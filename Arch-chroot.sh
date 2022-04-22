@@ -4,7 +4,7 @@ set -eu
 # basic configurations for the system (edit as needed for locale, hostname etc)
 ln -sf /usr/share/zoneinfo/Europe/Budapest /etc/localtime
 hwclock --systohc
-sed -i '160s/#//' /etc/locale.gen
+sed -i '178s/#//' /etc/locale.gen
 locale-gen
 sed -i '93s/#//' /etc/pacman.conf
 sed -i '94s/#//' /etc/pacman.conf
@@ -14,7 +14,7 @@ echo 'lenarch' >> /etc/hostname
 echo '127.0.0.1	localhost' >> /etc/hosts
 echo '::1	localhost' >> /etc/hosts
 echo '127.0.1.1	lenarch.localdomain	lenarch' >> /etc/hosts
-echo 'LANG=en_GB.UTF-8' >> /etc/locale.conf
+echo 'LANG=en_US.UTF-8' >> /etc/locale.conf
 echo 'KEYMAP=hu' >> /etc/vconsole.conf
 
 # change password and username as needed
@@ -24,7 +24,7 @@ echo razor:PASSWORD | chpasswd
 
 # edit as you see fit alongside the systemctl commands
 pacman -Syyu --noconfirm
-pacman -S --noconfirm grub efibootmgr os-prober btrfs-progs ntfs-3g linux-zen-headers base-devel networkmanager bluez bluez-utils dosfstools xdg-user-dirs xdg-utils wpa_supplicant udisks2 nvidia-lts nvidia-dkms nvidia-settings nvidia-prime linux-lts-headers xf86-video-intel
+pacman -S --noconfirm grub efibootmgr os-prober btrfs-progs ntfs-3g linux-zen-headers base-devel networkmanager bluez bluez-utils dosfstools xdg-user-dirs xdg-utils wpa_supplicant udisks2 nvidia-lts nvidia-dkms nvidia-settings nvidia-prime linux-lts-headers xf86-video-intel snapper
 systemctl enable NetworkManager
 systemctl enable bluetooth
 

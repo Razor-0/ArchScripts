@@ -3,7 +3,7 @@ set -eu
 
 # refreshing reflector and installing kde
 sudo pacman -Syyu --noconfirm
-sudo pacman -S --noconfirm snapper xorg-server xf86-input-synaptics plasma sddm konsole dolphin pipewire pipewire-pulse pipewire-alsa kate chromium git curl wget sh neofetch ttf-opensans micro xclip code zsh-autosuggestions zsh-syntax-highlighting
+sudo pacman -S --noconfirm xorg-server xf86-input-synaptics plasma sddm konsole dolphin pipewire pipewire-pulse pipewire-alsa kate chromium git curl wget sh neofetch ttf-opensans micro xclip code zsh-autosuggestions zsh-syntax-highlighting
 
 # creating snapper configs
 sudo umount /.snapshots

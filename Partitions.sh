@@ -141,7 +141,7 @@ mkswap /mnt/.swap/swapfile
 swapon -p 0 /mnt/.swap/swapfile
 
 # installing base system and some neccessities
-pacstrap /mnt base linux-zen linux-firmware intel-ucode
+pacstrap /mnt base linux-zen linux-firmware intel-ucode nano
 genfstab -U /mnt >> /mnt/etc/fstab
 sed -i 's/,subvolid=280,subvol=\/@\/.snapshots\/1\/snapshot//' /mnt/etc/fstab
 lsblk -f
