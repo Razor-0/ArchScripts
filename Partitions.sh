@@ -6,13 +6,15 @@ echo "PASSWORD" | cryptsetup -q luksFormat --type luks1 --use-urandom -h sha256 
 echo "PASSWORD" | cryptsetup luksOpen /dev/sda2 boot
 echo "PASSWORD" | cryptsetup -q luksFormat --type luks2 --use-urandom -h sha512 -i 1000 /dev/sda3
 echo "PASSWORD" | cryptsetup luksOpen /dev/sda3 root
+echo "PASSWORD" | cryptsetup -q luksFormat --type luks2 --use-urandom -h sha512 -i 1000 /dev/sdb1
+echo "PASSWORD" | cryptsetup luksOpen /dev/sdb1 storage
 
 # formatting partitions with the following filesystems
 mkfs.vfat -F12 /dev/sda1
 fatlabel /dev/sda1 Bootloader
 echo 'y' | mkfs.reiserfs -l Kernels /dev/mapper/boot
 mkfs.btrfs -L 'Btrfs Root' -R free-space-tree,quota /dev/mapper/root
-mkfs.btrfs -L 'Btrfs Storage' -R free-space-tree,quota /dev/sdb1
+mkfs.btrfs -L 'Btrfs Storage' -R free-space-tree,quota /dev/mapper/storage
 
 # creating btrfs subvols for snapshots
 mount /dev/mapper/root /mnt
@@ -99,10 +101,12 @@ mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,r
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/var/lib/pgqsl /dev/mapper/root /mnt/var/lib/pgqsl
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/usr/local /dev/mapper/root /mnt/usr/local
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/.snapshots /dev/mapper/root /mnt/.snapshots
-mount /dev/sdb1 /mnt/storage
+mount /dev/mapper/storage /mnt/storage
 btrfs su cr /mnt/storage/@
+btrfs su cr /mnt/storage/@/.snapshots
 umount /mnt/storage
-mount -o defaults,commit=240,flushoncommit,autodefrag,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@ /dev/sdb1 /mnt/storage
+mount -o defaults,commit=240,flushoncommit,autodefrag,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@ /dev/mapper/storage /mnt/storage
+mount -o defaults,commit=240,flushoncommit,autodefrag,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/.snapshots /dev/mapper/storage /mnt/storage/.snapshots
 chmod 750 /mnt/root
 chmod 1777 /mnt/var/tmp
 

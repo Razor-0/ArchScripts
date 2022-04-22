@@ -40,14 +40,18 @@ mkdir /root/.keys
 chmod 700 /root/.keys
 head -c 64 /dev/urandom >> /root/.keys/bootkey.bin
 head -c 64 /dev/urandom >> /root/.keys/rootkey.bin
+head -c 64 /dev/urandom >> /root/.keys/storagekey.bin
 chmod 600 /root/.keys/bootkey.bin
 chmod 600 /root/.keys/rootkey.bin
+chmod 600 /root/.keys/storagekey.bin
 echo "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/sda2 /root/.keys/bootkey.bin
 echo "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/sda3 /root/.keys/rootkey.bin
+echo "PASSWORD" | cryptsetup -v luksAddKey -i 1 /dev/sdb1 /root/.keys/storagekey.bin
 
 # edit grub config and grubd to make btrfs decide the default subvolume
 BOOT="$(blkid -s UUID -o value /dev/sda2)"
 ROOT="$(blkid -s UUID -o value /dev/sda3)"
+STORAGE="$(blkid -s UUID -o value /dev/sdb1)"
 sed -i '66,78 {s/^/#/}' /etc/grub.d/10_linux
 sed -i '74,86 {s/^/#/}' /etc/grub.d/20_linux_xen
 sed -i '4s/5/8/' /etc/default/grub
@@ -56,6 +60,7 @@ sed -i '54s/#//' /etc/default/grub
 sed -i '63s/#//' /etc/default/grub
 sed -i '/above./a GRUB_DEFAULT=saved' /etc/default/grub
 echo '$BOOT' | sed -i "/none/a boot	UUID=$BOOT	/root/.keys/bootkey.bin" /etc/crypttab
+echo '$STORAGE' | sed -i "/.bin/a storage	UUID=$STORAGE	/root/.keys/storagekey.bin" /etc/crypttab
 echo '$ROOT' | sed -i "6s/.*/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 cryptdevice=UUID=$ROOT:root cryptkey=rootfs:\/root\/.keys\/rootkey.bin root=\/dev\/mapper\/root rw resume=\/dev\/mapper\/root resume_offset=16400\"/" /etc/default/grub
 
 # enable 2GB zram pages per physical core on 4C/8T
