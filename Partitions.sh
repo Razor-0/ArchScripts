@@ -10,11 +10,14 @@ echo "PASSWORD" | cryptsetup -q luksFormat --type luks2 --use-urandom -h sha512 
 echo "PASSWORD" | cryptsetup luksOpen /dev/sdb1 storage
 
 # formatting partitions with the following filesystems
-mkfs.vfat -F12 /dev/sda1
+mkfs.vfat -F32 /dev/sda1
 fatlabel /dev/sda1 Bootloader
 echo 'y' | mkfs.reiserfs -l Kernels /dev/mapper/boot
 mkfs.btrfs -L 'Btrfs Root' -R free-space-tree,quota /dev/mapper/root
 mkfs.btrfs -L 'Btrfs Storage' -R free-space-tree,quota /dev/mapper/storage
+mkfs.ntfs -Q /dev/sda4
+mkfs.ntfs -Q /dev/sda6
+mkfs.ntfs -Q /dev/sdb2
 
 # creating btrfs subvols for snapshots
 mount /dev/mapper/root /mnt
@@ -74,7 +77,8 @@ umount /mnt
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/.snapshots/1/snapshot /dev/mapper/root /mnt
 mkdir -p /mnt/var/{cache,crash,log,opt,spool,tmp,lib}
 mkdir -p /mnt/var/lib/{libvirt/images,machines,portables,mailman,named,mariadb,mysql,pgqsl,docker}
-mkdir -p /mnt/{boot,.grub/EFI,.drives,.snapshots,home,srv,opt,.swap,root,storage,usr/local}
+mkdir -p /mnt/{boot,.grub/EFI,.drives,.snapshots,home,srv,opt,.swap,root,storage,.windows,usr/local}
+mkdir -p /mnt/.windows/{System,Storage}
 mount -o defaults /dev/mapper/boot /mnt/boot
 mount -o defaults /dev/sda1 /mnt/.grub/EFI
 mount -o defaults,commit=240,flushoncommit,autodefrag,ssd_spread,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/home/.snapshots/1/snapshot /dev/mapper/root /mnt/home
@@ -118,6 +122,8 @@ umount /mnt/storage
 mount -o defaults,commit=240,flushoncommit,autodefrag,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/.snapshots/1/snapshot /dev/mapper/storage /mnt/storage
 mkdir /mnt/storage/.snapshots
 mount -o defaults,commit=240,flushoncommit,autodefrag,discard=async,relatime,compress=zstd:5,space_cache=v2,subvol=@/.snapshots /dev/mapper/storage /mnt/storage/.snapshots
+mount -o defaults /dev/sda6 /mnt/.windows/System
+mount -o defaults /dev/sdb2 /mnt/.windows/Storage
 chmod 750 /mnt/root
 chmod 1777 /mnt/var/tmp
 
